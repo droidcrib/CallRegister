@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Call Register</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="missed">Missed</string>
+
+    <string name="access_contacts">You need to allow access to Contacts</string>
+    <string name="access_phone_state">You need to allow access to get phone calls info</string>
+    <string name="conversation_result">Conversation result:</string>
+    <string name="press_back_to_exit">Please click BACK again to exit</string>
+
+
+
+</resources>
