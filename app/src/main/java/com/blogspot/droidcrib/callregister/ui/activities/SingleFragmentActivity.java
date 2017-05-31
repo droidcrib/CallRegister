@@ -1,5 +1,17 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
+// TODO: NavigationDrawer с настройками (какие звонки обрабатывать, для всех юзеров, из контакт листа, или не из листа )
+// TODO: Цветоваяя схема
+// TODO: Окно - панель для выбора действия по результату звонка (отмена, заметка, напоминание). Пропущенные звонки - в нотификейшене
+// TODO: Переделать экран детализации
+// TODO: Отработка разрешений в реальном времени - сделать правильно
+// TODO: Напоминалка
+// TODO: Переделать окно списка звонков: добавить юзерфото + значок заметки и/или напоминалки
+
+
+
+
+
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,7 +38,7 @@ import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
 /**
- * Created by Andrey Bulanov on 04.10.2016.
+ *
  */
 public class SingleFragmentActivity extends AppCompatActivity {
 
