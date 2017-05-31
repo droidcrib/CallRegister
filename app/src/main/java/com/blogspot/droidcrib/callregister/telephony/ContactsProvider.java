@@ -33,7 +33,7 @@ public class ContactsProvider {
             String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             cur.close();
 
-            Log.d(TAG, "ContactsProvider -- return name;");
+            Log.d(TAG, "ContactsProvider -- return name " + name);
             return name;
         } else {
             Log.d(TAG, "ContactsProvider -- return parseAllContacts;");
@@ -69,6 +69,8 @@ public class ContactsProvider {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
                         String queriedNumber = parseLastTenDigits(phoneNo);
+                        Log.d(TAG, "ContactsProvider -- phoneNo " + phoneNo);
+                        Log.d(TAG, "ContactsProvider -- queriedNumber " + queriedNumber);
                         if(queriedNumber.equals(sampleNumber)) {
                             return name;
                         }
@@ -81,8 +83,8 @@ public class ContactsProvider {
     }
 
     private static String parseLastTenDigits(String phoneNumber){
-        //Remove all spaces in number
-        String nospaceNumber = phoneNumber.replaceAll("\\s+","");
+        //Remove all non numeric symbols in number
+        String nospaceNumber = phoneNumber.replaceAll("\\D+","");
         // Get last 10 digits of phone number
         return nospaceNumber.length() > 10
                 ? nospaceNumber.substring(nospaceNumber.length() - 10)

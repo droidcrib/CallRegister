@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Date;
 
 /**
- * Created by Andrey Bulanov on 05.10.2016.
+ *
  */
 public class CallReceiver extends PhonecallReceiver {
 
