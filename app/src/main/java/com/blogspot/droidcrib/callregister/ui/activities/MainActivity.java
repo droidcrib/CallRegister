@@ -1,5 +1,13 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
+// TODO: Окно - панель для выбора действия по результату звонка (отмена, заметка, напоминание). Пропущенные звонки - в нотификейшене
+// TODO: Переделать экран детализации
+// TODO: Отработка разрешений в реальном времени - сделать правильно
+// TODO: Напоминалка
+// TODO: Переделать окно списка звонков: добавить юзерфото + значок заметки и/или напоминалки
+
+
+
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -96,24 +104,22 @@ public class MainActivity extends AppCompatActivity
         isCatchOutgoings = mPrefs.getBoolean(IS_CATCH_OUTGOINGS, true);
         isCatchMissed = mPrefs.getBoolean(IS_CATCH_MISSED, true);
 
+        // Setup textboxes
         mCheckBoxIncoming.setChecked(isCatchIncomings);
         mCheckBoxOutgoing.setChecked(isCatchOutgoings);
         mCheckBoxMissed.setChecked(isCatchMissed);
-
         mCheckBoxIncoming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mPrefs.edit().putBoolean(IS_CATCH_INCOMINGS, isChecked).apply();
             }
         });
-
         mCheckBoxOutgoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mPrefs.edit().putBoolean(IS_CATCH_OUTGOINGS, isChecked).apply();
             }
         });
-
         mCheckBoxMissed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -2,6 +2,7 @@ package com.blogspot.droidcrib.callregister.telephony;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.blogspot.droidcrib.callregister.contract.Constants;
@@ -12,6 +13,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.SHARED_PREFS;
+
 /**
  *
  */
@@ -20,6 +26,7 @@ public class CallReceiver extends PhonecallReceiver {
 
 
     private static final String TAG = "CallReceiver";
+
 
 
 
@@ -38,8 +45,13 @@ public class CallReceiver extends PhonecallReceiver {
     @Override
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
         //
-        Log.d(TAG, "Incoming call ended " + number);
-        requestCallMemoDialog(ctx, number, start, Constants.INCOMING_CALL);
+
+        Boolean isCatchCall = ctx.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE).getBoolean(IS_CATCH_INCOMINGS,true);
+        Log.d(TAG, "Incoming call ended " + number + " " + isCatchCall);
+        if(isCatchCall) {
+            Log.d(TAG, "catch Call Incoming " + number);
+            requestCallMemoDialog(ctx, number, start, Constants.INCOMING_CALL);
+        }
     }
 
     @Override
@@ -51,15 +63,25 @@ public class CallReceiver extends PhonecallReceiver {
     @Override
     protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end) {
         //
-        Log.d(TAG, "Outgoing call ended " + number);
-        requestCallMemoDialog(ctx, number, start, Constants.OUTGOING_CALL);
+
+        Boolean isCatchCall = ctx.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE).getBoolean(IS_CATCH_OUTGOINGS,true);
+        Log.d(TAG, "Outgoing call ended " + number + " " + isCatchCall);
+        if(isCatchCall) {
+            Log.d(TAG, "catch Call Outgoing " + number);
+            requestCallMemoDialog(ctx, number, start, Constants.OUTGOING_CALL);
+        }
     }
 
     @Override
     protected void onMissedCall(Context ctx, String number, Date start) {
         //
-        Log.d(TAG, "Call missed " + number);
-        requestCallMemoDialog(ctx, number, start, Constants.MISSED_CALL);
+
+        Boolean isCatchCall = ctx.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE).getBoolean(IS_CATCH_MISSED,true);
+        Log.d(TAG, "Call missed " + number + " " + isCatchCall);
+        if(isCatchCall) {
+            Log.d(TAG, "catch Call missed " + number);
+            requestCallMemoDialog(ctx, number, start, Constants.MISSED_CALL);
+        }
     }
 
     private void requestCallMemoDialog(Context context, String phoneNumber, Date callDate, String callType) {
