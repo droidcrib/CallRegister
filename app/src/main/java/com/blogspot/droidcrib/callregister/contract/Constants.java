@@ -1,7 +1,7 @@
 package com.blogspot.droidcrib.callregister.contract;
 
 /**
- * Created by Andrey Bulanov  on 06.10.2016.
+ *
  */
 public class Constants {
 
@@ -15,5 +15,10 @@ public class Constants {
     public static final String EXTRA_DATE = "com.blogspot.droidcrib.callregister.EXTRA_DATE";
     public static final String EXTRA_CALL_TYPE = "com.blogspot.droidcrib.callregister.EXTRA_CALL_TYPE";
     public static final String EXTRA_RECORD_ID = "com.blogspot.droidcrib.callregister.EXTRA_RECORD_ID";
+
+    public static final String SHARED_PREFS = "com.blogspot.droidcrib.callregister.SHARED_PREFS";
+    public static final String IS_CATCH_INCOMINGS = "com.blogspot.droidcrib.callregister.IS_CATCH_INCOMINGS";
+    public static final String IS_CATCH_OUTGOINGS = "com.blogspot.droidcrib.callregister.IS_CATCH_OUTGOINGS";
+    public static final String IS_CATCH_MISSED = "com.blogspot.droidcrib.callregister.IS_CATCH_MISSED";
 
 }

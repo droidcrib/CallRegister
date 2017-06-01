@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -24,18 +26,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
+import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.SHARED_PREFS;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager mFragmentManager;
     private Fragment mFragment;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
+    private CheckBox mCheckBoxIncoming;
+    private CheckBox mCheckBoxOutgoing;
+    private CheckBox mCheckBoxMissed;
+    private MenuItem mCheckBoxItemIncoming;
+    private MenuItem mCheckBoxItemOutgoing;
+    private MenuItem mCheckBoxItemMissed;
+    private Boolean isCatchIncomings;
+    private Boolean isCatchOutgoings;
+    private Boolean isCatchMissed;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +80,50 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+        nav.setNavigationItemSelectedListener(this);
 
+        // Get elements of navigation view
+        mCheckBoxItemIncoming = nav.getMenu().findItem(R.id.nav_incoming);
+        mCheckBoxItemOutgoing = nav.getMenu().findItem(R.id.nav_outgoing);
+        mCheckBoxItemMissed = nav.getMenu().findItem(R.id.nav_missed);
+        mCheckBoxIncoming = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemIncoming);
+        mCheckBoxOutgoing = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemOutgoing);
+        mCheckBoxMissed = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemMissed);
 
-        /**
-         *  Moved from SingleFragmentActivity
-         */
+        //TODO: get here checkbox values from shared prefs and apply to views
+        isCatchIncomings = mPrefs.getBoolean(IS_CATCH_INCOMINGS, true);
+        isCatchOutgoings = mPrefs.getBoolean(IS_CATCH_OUTGOINGS, true);
+        isCatchMissed = mPrefs.getBoolean(IS_CATCH_MISSED, true);
+
+        mCheckBoxIncoming.setChecked(isCatchIncomings);
+        mCheckBoxOutgoing.setChecked(isCatchOutgoings);
+        mCheckBoxMissed.setChecked(isCatchMissed);
+
+        mCheckBoxIncoming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //TODO: save new value to shared prefs
+                mPrefs.edit().putBoolean(IS_CATCH_INCOMINGS, isChecked).apply();
+            }
+        });
+
+        mCheckBoxOutgoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //TODO: save new value to shared prefs
+                mPrefs.edit().putBoolean(IS_CATCH_OUTGOINGS, isChecked).apply();
+            }
+        });
+
+        mCheckBoxMissed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mPrefs.edit().putBoolean(IS_CATCH_MISSED, isChecked).apply();
+            }
+        });
+
+        //Setup list fragment
         // Explicitly call to get permission in Android 6
         readPhoneStateWrapper();
         mFragmentManager = getSupportFragmentManager();
@@ -76,6 +134,7 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.id_fragment_container, mFragment)
                     .commit();
         }
+
 
     }
 
