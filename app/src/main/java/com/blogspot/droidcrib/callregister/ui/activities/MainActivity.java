@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         mCheckBoxOutgoing = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemOutgoing);
         mCheckBoxMissed = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemMissed);
 
-        //TODO: get here checkbox values from shared prefs and apply to views
+        //Get here checkbox values from shared prefs and apply to views
         isCatchIncomings = mPrefs.getBoolean(IS_CATCH_INCOMINGS, true);
         isCatchOutgoings = mPrefs.getBoolean(IS_CATCH_OUTGOINGS, true);
         isCatchMissed = mPrefs.getBoolean(IS_CATCH_MISSED, true);
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity
         mCheckBoxIncoming.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //TODO: save new value to shared prefs
                 mPrefs.edit().putBoolean(IS_CATCH_INCOMINGS, isChecked).apply();
             }
         });
@@ -111,7 +110,6 @@ public class MainActivity extends AppCompatActivity
         mCheckBoxOutgoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //TODO: save new value to shared prefs
                 mPrefs.edit().putBoolean(IS_CATCH_OUTGOINGS, isChecked).apply();
             }
         });
@@ -134,8 +132,6 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.id_fragment_container, mFragment)
                     .commit();
         }
-
-
     }
 
     @Override
