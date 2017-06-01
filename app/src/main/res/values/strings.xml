@@ -12,7 +12,12 @@
     <string name="access_phone_state">You need to allow access to get phone calls info</string>
     <string name="conversation_result">Conversation result:</string>
     <string name="press_back_to_exit">Please click BACK again to exit</string>
+    <string name="title_activity_main">MainActivity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

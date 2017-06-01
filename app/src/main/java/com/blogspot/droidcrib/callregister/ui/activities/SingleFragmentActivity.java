@@ -54,17 +54,17 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_single_fragment);
 
-        // Explicitly call to get permission in Android 6
-        readPhoneStateWrapper();
-
-        mFragmentManager = getSupportFragmentManager();
-        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
-        if (mFragment == null) {
-            mFragment = CallsListFragment.getInstance();
-            mFragmentManager.beginTransaction()
-                    .add(R.id.id_fragment_container, mFragment)
-                    .commit();
-        }
+//        // Explicitly call to get permission in Android 6
+//        readPhoneStateWrapper();
+//
+//        mFragmentManager = getSupportFragmentManager();
+//        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
+//        if (mFragment == null) {
+//            mFragment = CallsListFragment.getInstance();
+//            mFragmentManager.beginTransaction()
+//                    .add(R.id.id_fragment_container, mFragment)
+//                    .commit();
+//        }
 
         // Toolbar setup
         mToolbar = (Toolbar) findViewById(R.id.id_toolbar);
@@ -82,29 +82,29 @@ public class SingleFragmentActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        // Go back to calls list
-        Object f = mFragmentManager.findFragmentById(R.id.id_fragment_container);
-        if (f instanceof CallDetailsFragment) {
-            setListFragment();
-            return;
-        }
-
-        // Exit program on second click
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, R.string.press_back_to_exit, Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+//        // Go back to calls list
+//        Object f = mFragmentManager.findFragmentById(R.id.id_fragment_container);
+//        if (f instanceof CallDetailsFragment) {
+//            setListFragment();
+//            return;
+//        }
+//
+//        // Exit program on second click
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, R.string.press_back_to_exit, Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce = false;
+//            }
+//        }, 2000);
     }
 
 

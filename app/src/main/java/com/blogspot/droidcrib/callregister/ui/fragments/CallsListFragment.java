@@ -16,6 +16,7 @@ import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.CallsListAdapter;
 
@@ -80,14 +81,13 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SingleFragmentActivity activity = (SingleFragmentActivity) getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 activity.setDetailsFragment(id);
             }
         });
         // Set text to Toolbar header
-        SingleFragmentActivity activity = (SingleFragmentActivity) getActivity();
+        MainActivity activity = (MainActivity) getActivity();
         mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
-        activity.setToolbarTextHeader(mToolbarTextHeader);
     }
 
     @Override
