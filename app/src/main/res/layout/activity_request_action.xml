@@ -13,7 +13,7 @@
 
 
         <ImageView
-            android:id="@+id/id_image_view_avatar"
+            android:id="@+id/id_dialog_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -35,7 +35,7 @@
             android:paddingLeft="72dp">
 
             <TextView
-                android:id="@+id/id_text_view_person_name"
+                android:id="@+id/id_dialog_person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
@@ -50,7 +50,7 @@
 
 
         <ImageView
-            android:id="@+id/id_image_view_details"
+            android:id="@+id/id_dialog_call_type"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
@@ -71,7 +71,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/id_button_note"
+            android:id="@+id/id_dialog_button_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
@@ -82,13 +82,13 @@
             />
 
         <Button
-            android:id="@+id/id_button_dialog_reminder"
+            android:id="@+id/id_dialog_button_reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_gravity="center"
-            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:focusable="true"
             android:text="Reminder"
@@ -97,16 +97,14 @@
             />
 
         <Button
-            android:id="@+id/id_button_dialog_cancel"
+            android:id="@+id/id_dialog_button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:focusable="true"
-            android:text="Cancel"
-
-            />
+            android:text="Cancel"/>
 
 
     </LinearLayout>

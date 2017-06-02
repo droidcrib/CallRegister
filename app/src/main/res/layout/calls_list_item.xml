@@ -79,7 +79,8 @@
         android:alpha="0.5"
         android:clickable="true"
         android:padding="4dp"
-        android:src="@drawable/ic_navigate_next_black_48dp" />
+        android:src="@drawable/ic_comment_black_48dp"
+        android:visibility="invisible"/>
 
 
     <ImageView
