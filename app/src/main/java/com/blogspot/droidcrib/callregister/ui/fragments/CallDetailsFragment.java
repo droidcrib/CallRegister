@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 
 import java.text.SimpleDateFormat;
@@ -88,8 +89,8 @@ public class CallDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SingleFragmentActivity activity = (SingleFragmentActivity) getActivity();
-        activity.setToolbarTextHeader(mToolbarTextHeader);
+//        MainActivity activity = (MainActivity) getActivity();
+//        activity.setToolbarTextHeader(mToolbarTextHeader);
     }
 
 
