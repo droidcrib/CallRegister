@@ -2,14 +2,10 @@ package com.blogspot.droidcrib.callregister.telephony;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.blogspot.droidcrib.callregister.contract.Constants;
-import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
-import com.blogspot.droidcrib.callregister.ui.dialogs.CallMemoDialogActivity;
-
-import org.greenrobot.eventbus.EventBus;
+import com.blogspot.droidcrib.callregister.ui.activities.CallMemoDialogActivity;
 
 import java.util.Date;
 

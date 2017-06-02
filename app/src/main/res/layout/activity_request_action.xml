@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingTop="8dp">
+
+
+        <ImageView
+            android:id="@+id/id_image_view_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:alpha="0.2"
+            android:maxHeight="42dp"
+            android:maxWidth="42dp"
+            android:minHeight="42dp"
+            android:minWidth="42dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_person_black_48dp" />
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingLeft="72dp">
+
+            <TextView
+                android:id="@+id/id_text_view_person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:hint="Person Name"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/id_image_view_details"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:alpha="0.5"
+            android:clickable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_call_missed_black_48dp" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/id_button_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:text="Note"
+
+            />
+
+        <Button
+            android:id="@+id/id_button_dialog_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:text="Reminder"
+
+
+            />
+
+        <Button
+            android:id="@+id/id_button_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:text="Cancel"
+
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,6 +9,6 @@
     android:fontFamily="sans-serif"
     android:gravity="center_vertical"
     android:hint="Date"
-    android:background="@color/accent"
+    android:background="@color/primary_light"
     android:clickable="false"
     android:textSize="16sp" />

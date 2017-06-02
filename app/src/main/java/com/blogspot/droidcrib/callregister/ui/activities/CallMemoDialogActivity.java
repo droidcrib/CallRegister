@@ -1,4 +1,4 @@
-package com.blogspot.droidcrib.callregister.ui.dialogs;
+package com.blogspot.droidcrib.callregister.ui.activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -8,10 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,7 +46,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_call_memo_dialog);
+        setContentView(R.layout.activity_request_action);
 
         this.setFinishOnTouchOutside(false);
 
@@ -65,12 +62,12 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mCallType, mCallDate);
         EventBus.getDefault().post(new NewCallEvent());
 
-        mDisplayName = (TextView) findViewById(R.id.id_text_view_dialog_person_name);
-        mDisplayCallType = (ImageView) findViewById(R.id.id_image_view_dialog_call_type);
-        mDisplayCallTime = (TextView) findViewById(R.id.id_text_view_dialog_call_time);
-        mCallMemo = (EditText) findViewById(R.id.id_edit_text_dialog_call_memo);
-        mSkipButton = (Button) findViewById(R.id.id_button_dialog_skip);
-        mSaveButton = (Button) findViewById(R.id.id_button_dialog_save);
+//        mDisplayName = (TextView) findViewById(R.id.id_text_view_dialog_person_name);
+//        mDisplayCallType = (ImageView) findViewById(R.id.id_image_view_dialog_call_type);
+//        mDisplayCallTime = (TextView) findViewById(R.id.id_text_view_dialog_call_time);
+//        mCallMemo = (EditText) findViewById(R.id.id_edit_text_dialog_call_memo);
+//        mSkipButton = (Button) findViewById(R.id.id_button_dialog_skip);
+//        mSaveButton = (Button) findViewById(R.id.id_button_dialog_save);
 
     }
 
@@ -79,43 +76,43 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Setup views
-        mDisplayName.setText(mContactName);
-
-        switch (mCallType) {
-            case Constants.INCOMING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
-                break;
-
-            case Constants.OUTGOING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
-                break;
-
-            case Constants.MISSED_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
-                break;
-        }
-
-        String callTime = new SimpleDateFormat("HH:mm").format(mCallDate);
-        mDisplayCallTime.setText(callTime);
-
-        mSkipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CallMemoDialogActivity.this.finish();
-            }
-        });
-
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get text from memo EditText field and save it to database record
-                String memo = mCallMemo.getText().toString();
-                CallRecord.updateMemo(mRecordId, memo);
-                CallMemoDialogActivity.this.finish();
-
-            }
-        });
+//        // Setup views
+//        mDisplayName.setText(mContactName);
+//
+//        switch (mCallType) {
+//            case Constants.INCOMING_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
+//                break;
+//
+//            case Constants.OUTGOING_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
+//                break;
+//
+//            case Constants.MISSED_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
+//                break;
+//        }
+//
+//        String callTime = new SimpleDateFormat("HH:mm").format(mCallDate);
+//        mDisplayCallTime.setText(callTime);
+//
+//        mSkipButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                CallMemoDialogActivity.this.finish();
+//            }
+//        });
+//
+//        mSaveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Get text from memo EditText field and save it to database record
+//                String memo = mCallMemo.getText().toString();
+//                CallRecord.updateMemo(mRecordId, memo);
+//                CallMemoDialogActivity.this.finish();
+//
+//            }
+//        });
 
 
     }
