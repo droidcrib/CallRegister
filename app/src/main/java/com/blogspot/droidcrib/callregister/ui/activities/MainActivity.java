@@ -5,7 +5,9 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 // TODO: Отработка разрешений в реальном времени - сделать правильно
 // TODO: Напоминалка
 // TODO: Переделать окно списка звонков: добавить юзерфото + значок заметки и/или напоминалки
-
+// TODO: Заголовок в навигешн дравере
+// TODO: Градиент в навигейшн двавере
+// TODO: при срабаптывании нотификейшена для контакта - позвонить ему прямо из приложения
 
 
 import android.Manifest;
@@ -204,10 +206,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_incoming) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_outgoing) {
 
         } else if (id == R.id.nav_missed) {
+
+        } else if (id == R.id.nav_note) {
+
+        } else if (id == R.id.nav_alarm) {
 
         }
 
