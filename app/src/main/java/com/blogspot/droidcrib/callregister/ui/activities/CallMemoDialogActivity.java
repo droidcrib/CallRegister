@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,7 @@ import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.model.ContactCard;
 import com.blogspot.droidcrib.callregister.telephony.ContactsProvider;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +45,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private Button mNoteButton;
     private Button mReminderButton;
     private Button mCancelButton;
+    private Bitmap mAvatarBitmap;
 
 
     private static final String TAG = "CallMemoDialogActivity";
@@ -59,7 +62,8 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         long dateMilliseconds = getIntent().getLongExtra(Constants.EXTRA_DATE, -1);
         mCallDate.setTime(dateMilliseconds);
         mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
-        mContactName = readContactsWrapper(mPhoneNumber);
+        mContactName = readContactsWrapper(mPhoneNumber).getName();
+        mAvatarBitmap = readContactsWrapper(mPhoneNumber).getAavatar();
 
         // Insert new call record
         mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mCallType, mCallDate);
@@ -81,7 +85,11 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
         // Setup views
         mDisplayName.setText(mContactName);
-
+        if (mAvatarBitmap != null) {
+              mDisplayAvatar.setImageBitmap(mAvatarBitmap);
+        } else {
+            mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+        }
         switch (mCallType) {
             case Constants.INCOMING_CALL:
                 mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
@@ -137,7 +145,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         });
     }
 
-    private String readContactsWrapper(String phoneNumber) {
+    private ContactCard readContactsWrapper(String phoneNumber) {
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS);
         // Check permission
@@ -154,12 +162,12 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                                         111);
                             }
                         });
-                return phoneNumber;
+                return new ContactCard(phoneNumber);
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     111);
-            return phoneNumber;
+            return  new ContactCard(phoneNumber);
         }
         // PERMISSION_GRANTED. Do action here
         return ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber);
