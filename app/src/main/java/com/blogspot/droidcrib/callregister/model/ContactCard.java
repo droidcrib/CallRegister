@@ -19,6 +19,15 @@ public class ContactCard {
 
     private String mName;
     private Bitmap mAavatar;
+    private String mAvatarUri;
+
+    public String getAvatarUri() {
+        return mAvatarUri;
+    }
+
+    public void setAvatarUri(String mAvatarUri) {
+        this.mAvatarUri = mAvatarUri;
+    }
 
     public String getName() {
         return mName;

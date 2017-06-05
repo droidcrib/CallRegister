@@ -120,23 +120,4 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
-
-    private void insertDummyCallRecords() {
-
-        Date today = new Date(System.currentTimeMillis());
-
-        CallRecord.insert("Linda Wilson", "111 22 33", Constants.INCOMING_CALL, new Date(today.getTime() - (1 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("John Doe", "555 34 34 ", Constants.INCOMING_CALL, new Date(today.getTime() - (2 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("Barak Obama", "555 55 55", Constants.INCOMING_CALL, new Date(today.getTime() - (3 * 24 * 60 * 60 * 1000)));
-
-        CallRecord.insert("Linda Wilson", "111 22 33", Constants.OUTGOING_CALL, new Date(today.getTime() - (1 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("John Doe", "555 34 34 ", Constants.OUTGOING_CALL, new Date(today.getTime() - (2 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("Barak Obama", "555 55 55", Constants.OUTGOING_CALL, new Date(today.getTime() - (3 * 24 * 60 * 60 * 1000)));
-
-        CallRecord.insert("Linda Wilson", "111 22 33", Constants.MISSED_CALL, new Date(today.getTime() - (1 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("John Doe", "555 34 34 ", Constants.MISSED_CALL, new Date(today.getTime() - (2 * 24 * 60 * 60 * 1000)));
-        CallRecord.insert("Barak Obama", "555 55 55", Constants.MISSED_CALL, new Date(today.getTime() - (3 * 24 * 60 * 60 * 1000)));
-    }
-
-
 }

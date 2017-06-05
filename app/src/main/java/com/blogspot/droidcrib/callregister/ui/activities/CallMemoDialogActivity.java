@@ -46,6 +46,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private Button mReminderButton;
     private Button mCancelButton;
     private Bitmap mAvatarBitmap;
+    private String mAvatarUri;
 
 
     private static final String TAG = "CallMemoDialogActivity";
@@ -62,11 +63,13 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         long dateMilliseconds = getIntent().getLongExtra(Constants.EXTRA_DATE, -1);
         mCallDate.setTime(dateMilliseconds);
         mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
-        mContactName = readContactsWrapper(mPhoneNumber).getName();
-        mAvatarBitmap = readContactsWrapper(mPhoneNumber).getAavatar();
+        ContactCard contactCard = readContactsWrapper(mPhoneNumber);
+        mContactName = contactCard.getName();
+        mAvatarBitmap = contactCard.getAavatar();
+        mAvatarUri = contactCard.getAvatarUri();
 
-        // Insert new call record
-        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mCallType, mCallDate);
+        // Insert new call record,
+        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
         EventBus.getDefault().post(new NewCallEvent());
 
         mDisplayName = (TextView) findViewById(R.id.id_dialog_person_name);

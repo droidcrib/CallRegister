@@ -20,6 +20,9 @@ public class CallRecord extends Model {
     @Column(name = "phone")
     public String phone;
 
+    @Column(name = "avatarUri")
+    public String avatarUri;
+
     @Column(name = "callType")
     public String callType;
 
@@ -33,12 +36,13 @@ public class CallRecord extends Model {
     public long callDateId;
 
     // add new record
-    public static long insert(String contactName, String contactPhone,
+    public static long insert(String contactName, String contactPhone, String avatarUri,
                               String callType, Date callTime) {
 
         CallRecord record = new CallRecord();
         record.name = contactName;
         record.phone = contactPhone;
+        record.avatarUri = avatarUri;
         record.callType = callType;
         record.callStartTime = callTime;
         record.memoText = "";

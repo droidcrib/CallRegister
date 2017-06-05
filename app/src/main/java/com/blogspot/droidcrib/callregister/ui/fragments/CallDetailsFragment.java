@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ public class CallDetailsFragment extends Fragment {
     private ImageView mDisplayCallType;
     private TextView mDisplayCallTime;
     private TextView mDisplayCallMemo;
+    private ImageView mDisplayAvatar;
 
 
     // Fragment instance
@@ -63,6 +65,7 @@ public class CallDetailsFragment extends Fragment {
 
         mDisplayName.setText(mCallRecord.name);
         mDisplayCallMemo.setText(mCallRecord.memoText);
+        mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
 
         String convertedTime = new SimpleDateFormat("HH:mm").format(mCallRecord.callStartTime);
         mDisplayCallTime.setText(convertedTime);
