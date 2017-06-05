@@ -3,11 +3,17 @@ package com.blogspot.droidcrib.callregister.telephony;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
- * Created by Andrey Bulanov on 05.10.2016.
+ *
  */
 public class ContactsProvider {
 
@@ -31,6 +37,21 @@ public class ContactsProvider {
 
             cur.moveToFirst();
             String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            // Getting image
+            String image_uri = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+            if (image_uri != null) {
+                System.out.println(Uri.parse(image_uri));
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(image_uri));
+                    Log.d(TAG, "\n getNameByPhoneNumber -- Image in Bitmap:" + bitmap);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             cur.close();
 
             Log.d(TAG, "ContactsProvider -- return name " + name);
@@ -69,9 +90,26 @@ public class ContactsProvider {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
                         String queriedNumber = parseLastTenDigits(phoneNo);
-                        Log.d(TAG, "ContactsProvider -- phoneNo " + phoneNo);
-                        Log.d(TAG, "ContactsProvider -- queriedNumber " + queriedNumber);
+
                         if(queriedNumber.equals(sampleNumber)) {
+                            // Getting image
+                            String image_uri = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                            Log.d(TAG, "ContactsProvider -- image uri " + image_uri);
+                            if (image_uri != null) {
+                                System.out.println(Uri.parse(image_uri));
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(image_uri));
+                                    Log.d(TAG, "\n parseAllContacts -- Image in Bitmap:" + bitmap);
+                                } catch (FileNotFoundException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                            Log.d(TAG, "ContactsProvider -- phoneNo " + phoneNo);
+                            Log.d(TAG, "ContactsProvider -- queriedNumber " + queriedNumber);
                             return name;
                         }
                     }
