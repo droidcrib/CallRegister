@@ -1,9 +1,13 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,10 @@ import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by Andrey on 04.10.2016.
@@ -31,6 +38,8 @@ public class CallDetailsFragment extends Fragment {
     private TextView mDisplayCallTime;
     private TextView mDisplayCallMemo;
     private ImageView mDisplayAvatar;
+
+    private static final String TAG = "CallDetailsFragment";
 
 
     // Fragment instance
@@ -62,10 +71,18 @@ public class CallDetailsFragment extends Fragment {
         mDisplayCallType = (ImageView) v.findViewById(R.id.id_image_view_details_call_type);
         mDisplayCallTime = (TextView) v.findViewById(R.id.id_text_view_details_call_time);
         mDisplayCallMemo = (TextView) v.findViewById(R.id.id_text_view_details_memo);
+        mDisplayAvatar = (ImageView) v.findViewById(R.id.id_details_fragment_avatar);
+
 
         mDisplayName.setText(mCallRecord.name);
         mDisplayCallMemo.setText(mCallRecord.memoText);
-        mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
+        Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
+        if (mCallRecord.avatarUri != null) {
+            mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
+        } else {
+            mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+        }
+
 
         String convertedTime = new SimpleDateFormat("HH:mm").format(mCallRecord.callStartTime);
         mDisplayCallTime.setText(convertedTime);

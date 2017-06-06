@@ -24,6 +24,10 @@ public class ContactsProvider {
 
     public static ContactCard getNameByPhoneNumber(Context context, String phoneNumber) {
 
+        mContactCard.setName(null);
+        mContactCard.setAavatar(null);
+        mContactCard.setAvatarUri(null);
+
         ContentResolver contentResolver = context.getContentResolver();
         String lastTenDigitsNumber = parseLastTenDigits(phoneNumber);
 
@@ -44,11 +48,11 @@ public class ContactsProvider {
             // Getting image
             String image_uri = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
             if (image_uri != null) {
-                System.out.println(Uri.parse(image_uri));
                 try {
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(image_uri));
                     mContactCard.setAavatar(bitmap);
+                    mContactCard.setAvatarUri(image_uri);
                     Log.d(TAG, "\n getNameByPhoneNumber -- Image in Bitmap:" + bitmap);
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -104,10 +108,10 @@ public class ContactsProvider {
                             String image_uri = cur.getString(cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                             Log.d(TAG, "ContactsProvider -- image uri " + image_uri);
                             if (image_uri != null) {
-                                System.out.println(Uri.parse(image_uri));
                                 try {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(image_uri));
                                     mContactCard.setAavatar(bitmap);
+                                    mContactCard.setAvatarUri(image_uri);
                                     Log.d(TAG, "\n parseAllContacts -- Image in Bitmap:" + bitmap);
                                 } catch (FileNotFoundException e) {
                                     e.printStackTrace();
