@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -59,7 +60,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
             holder.callTime =(TextView) convertView.findViewById(R.id.id_text_view_call_time);
             holder.comment = (ImageView) convertView.findViewById(R.id.id_image_view_comment);
             holder.callType = (ImageView) convertView.findViewById(R.id.id_image_view_call_type);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.id_image_view_photo);
+            holder.avatar = (SimpleDraweeView ) convertView.findViewById(R.id.id_image_view_photo);
 
             convertView.setTag(holder);
 
@@ -140,7 +141,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         TextView callTime;
         ImageView comment;
         ImageView callType;
-        ImageView avatar;
+        SimpleDraweeView avatar;
     }
 
 }
