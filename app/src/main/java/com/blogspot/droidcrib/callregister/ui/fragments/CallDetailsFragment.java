@@ -3,9 +3,12 @@ package com.blogspot.droidcrib.callregister.ui.fragments;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,11 +36,13 @@ public class CallDetailsFragment extends Fragment {
     private CallRecord mCallRecord;
     private String mToolbarTextHeader;
 
-    private TextView mDisplayName;
-    private ImageView mDisplayCallType;
-    private TextView mDisplayCallTime;
-    private TextView mDisplayCallMemo;
+//    private TextView mDisplayName;
+//    private ImageView mDisplayCallType;
+//    private TextView mDisplayCallTime;
+//    private TextView mDisplayCallMemo;
     private ImageView mDisplayAvatar;
+    private ImageView mBackdrop;
+    private FloatingActionButton mFab;
 
     private static final String TAG = "CallDetailsFragment";
 
@@ -65,17 +70,19 @@ public class CallDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View v = inflater.inflate(R.layout.fragment_call_details, container, false);
+        View v = inflater.inflate(R.layout.fragment_call_notes, container, false);
 
-        mDisplayName = (TextView) v.findViewById(R.id.id_text_view_details_person_name);
-        mDisplayCallType = (ImageView) v.findViewById(R.id.id_image_view_details_call_type);
-        mDisplayCallTime = (TextView) v.findViewById(R.id.id_text_view_details_call_time);
-        mDisplayCallMemo = (TextView) v.findViewById(R.id.id_text_view_details_memo);
-        mDisplayAvatar = (ImageView) v.findViewById(R.id.id_details_fragment_avatar);
+//        mDisplayName = (TextView) v.findViewById(R.id.id_text_view_details_person_name);
+//        mDisplayCallType = (ImageView) v.findViewById(R.id.id_image_view_details_call_type);
+//        mDisplayCallTime = (TextView) v.findViewById(R.id.id_text_view_details_call_time);
+//        mDisplayCallMemo = (TextView) v.findViewById(R.id.id_text_view_details_memo);
+        mDisplayAvatar = (ImageView) v.findViewById(R.id.avatar_backdrop);
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(mCallRecord.name);
 
 
-        mDisplayName.setText(mCallRecord.name);
-        mDisplayCallMemo.setText(mCallRecord.memoText);
+//        mDisplayName.setText(mCallRecord.name);
+//        mDisplayCallMemo.setText(mCallRecord.memoText);
         Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
         if (mCallRecord.avatarUri != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
@@ -85,23 +92,23 @@ public class CallDetailsFragment extends Fragment {
 
 
         String convertedTime = new SimpleDateFormat("HH:mm").format(mCallRecord.callStartTime);
-        mDisplayCallTime.setText(convertedTime);
+//        mDisplayCallTime.setText(convertedTime);
 
-        //setup call type text
-        switch (mCallRecord.callType) {
-            case Constants.INCOMING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
-                mToolbarTextHeader = getActivity().getResources().getString(R.string.incoming);
-                break;
-            case Constants.OUTGOING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
-                mToolbarTextHeader = getActivity().getResources().getString(R.string.outgoing);
-                break;
-            case Constants.MISSED_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
-                mToolbarTextHeader = getActivity().getResources().getString(R.string.missed);
-                break;
-        }
+//        //setup call type text
+//        switch (mCallRecord.callType) {
+//            case Constants.INCOMING_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
+//                mToolbarTextHeader = getActivity().getResources().getString(R.string.incoming);
+//                break;
+//            case Constants.OUTGOING_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
+//                mToolbarTextHeader = getActivity().getResources().getString(R.string.outgoing);
+//                break;
+//            case Constants.MISSED_CALL:
+//                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
+//                mToolbarTextHeader = getActivity().getResources().getString(R.string.missed);
+//                break;
+//        }
 
         return v;
     }
