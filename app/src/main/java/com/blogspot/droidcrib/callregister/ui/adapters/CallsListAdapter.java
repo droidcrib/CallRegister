@@ -1,6 +1,7 @@
 package com.blogspot.droidcrib.callregister.ui.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
             holder.callTime =(TextView) convertView.findViewById(R.id.id_text_view_call_time);
             holder.comment = (ImageView) convertView.findViewById(R.id.id_image_view_comment);
             holder.callType = (ImageView) convertView.findViewById(R.id.id_image_view_call_type);
+            holder.avatar = (ImageView) convertView.findViewById(R.id.id_image_view_photo);
 
             convertView.setTag(holder);
 
@@ -76,6 +78,12 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         if (!record.memoText.equals("")) {
             holder.comment.setVisibility(View.VISIBLE);
         }
+        // Set avatar
+        if(record.avatarUri != null){
+            holder.avatar.setImageURI(Uri.parse(record.avatarUri));
+        }
+
+
         // Set call type icon
         //setup call type icon basing on record.callType value
         switch (record.callType) {
@@ -132,6 +140,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         TextView callTime;
         ImageView comment;
         ImageView callType;
+        ImageView avatar;
     }
 
 }

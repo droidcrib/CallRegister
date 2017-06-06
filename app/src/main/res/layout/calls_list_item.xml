@@ -11,13 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:alpha="0.2"
         android:maxHeight="42dp"
         android:maxWidth="42dp"
         android:minHeight="42dp"
         android:minWidth="42dp"
         android:layout_marginLeft="16dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_person_black_48dp" />
 
 
