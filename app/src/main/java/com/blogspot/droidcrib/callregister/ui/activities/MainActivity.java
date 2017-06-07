@@ -1,13 +1,11 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
-// TODO: Таймпикер в диалоге
+// TODO: Таймпикер в диалоге: дата + время в таб лейауте
 // TODO: Пропущенные звонки - в нотификейшене (id нотификейшена - номер телефона)
 // TODO: Переделать экран детализации под материал дизайн с координатор лейаутом + две фаб: позвонить, сообщение (смс, вайбер етс)
 // TODO: Отработка разрешений в реальном времени - сделать правильно
 // TODO: Напоминалка
 // TODO: Переделать окно списка звонков: добавить юзерфото + значок заметки и/или напоминалки
-// TODO: Заголовок в навигейшн дравере
-// TODO: Градиент в навигейшн двавере
 // TODO: при срабаптывании нотификейшена для контакта - позвонить ему прямо из приложения
 
 
@@ -76,14 +74,14 @@ public class MainActivity extends AppCompatActivity
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

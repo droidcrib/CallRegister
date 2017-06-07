@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:paddingTop="8dp">
 
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -33,13 +34,13 @@
                 android:id="@+id/id_dialog_person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_weight="50"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
                 android:hint="Person Name"
                 android:lines="1"
-                android:layout_marginLeft="8dp"
                 android:scrollHorizontally="true"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -60,13 +61,13 @@
 
     </RelativeLayout>
 
+
     <EditText
         android:id="@+id/id_dialog_note"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:hint="Note will be saved automatically"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 
     <LinearLayout
@@ -76,9 +77,9 @@
 
         <Button
             android:id="@+id/id_dialog_button_note"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_gravity="left"
             android:layout_weight="1"
             android:text="Note"
@@ -87,12 +88,12 @@
 
         <Button
             android:id="@+id/id_dialog_button_reminder"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:focusable="true"
             android:text="Reminder"
@@ -102,15 +103,17 @@
 
         <Button
             android:id="@+id/id_dialog_button_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:focusable="true"
-            android:text="Close"/>
+            android:text="Close" />
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>
