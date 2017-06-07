@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
     private Boolean isCatchOutgoings;
     private Boolean isCatchMissed;
     private SharedPreferences mPrefs;
-    private ViewPager mViewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,49 +96,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
 
-        //
-        //  Setup TabLayout
-        //
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Date"));
-        tabLayout.addTab(tabLayout.newTab().setText("Time"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        //
-        //  Setup ViewPager
-        //
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        final TabsPagerAdapter adapter = new TabsPagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        mViewPager.setAdapter(adapter);
-
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                if (position == 0) {
-                    // do something with content
-                }
-                if (position == 1) {
-                    // do something with content
-                }
-            }
-        });
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
 
 
         // Get elements of navigation view

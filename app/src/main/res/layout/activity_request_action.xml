@@ -61,15 +61,34 @@
 
     </RelativeLayout>
 
-
-    <EditText
-        android:id="@+id/id_dialog_note"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:hint="Note will be saved automatically"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <include layout="@layout/include_picker_tablayout"/>
+        <EditText
+            android:id="@+id/id_dialog_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Note will be saved automatically"
+            android:visibility="gone" />
+
+        <!--<include layout="@layout/include_picker_tablayout"/>-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="6dp"
+            android:minHeight="?attr/actionBarSize" />
+
+        <view
+            android:id="@+id/pager"
+            class="com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -115,7 +134,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>
