@@ -18,11 +18,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -40,6 +42,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private Boolean isCatchOutgoings;
     private Boolean isCatchMissed;
     private SharedPreferences mPrefs;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,51 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
+
+        //
+        //  Setup TabLayout
+        //
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Date"));
+        tabLayout.addTab(tabLayout.newTab().setText("Time"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        //
+        //  Setup ViewPager
+        //
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        final TabsPagerAdapter adapter = new TabsPagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        mViewPager.setAdapter(adapter);
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (position == 0) {
+                    // do something with content
+                }
+                if (position == 1) {
+                    // do something with content
+                }
+            }
+        });
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
 
         // Get elements of navigation view
         mCheckBoxItemIncoming = nav.getMenu().findItem(R.id.nav_incoming);
