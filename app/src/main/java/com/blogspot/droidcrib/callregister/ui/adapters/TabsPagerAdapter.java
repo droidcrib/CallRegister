@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,14 +59,25 @@ public class TabsPagerAdapter extends PagerAdapter {
 //        imageView.setImageBitmap(FsHelper.decodeSampledBitmapFromUri(mFiles[position].getAbsolutePath(), 160, 160));
 
         if (position == 0) {
-            View debugLayout = mLayoutInflater.inflate(R.layout.test, frameLayout, false);
-            frameLayout.addView(debugLayout);
-        } else {
 //            View debugLayout = mLayoutInflater.inflate(R.layout.test, frameLayout, false);
 //            frameLayout.addView(debugLayout);
 
+            DatePicker datePicker = new DatePicker(mContext);
+            datePicker.setCalendarViewShown(false);
+            frameLayout.addView(datePicker, 0);
+
+
+        } else {
             TimePicker timePicker = new TimePicker(mContext);
             frameLayout.addView(timePicker, 0);
+
+            timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                @Override
+                public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                    Log.d(TAG, "hourOfDay = " + hourOfDay + " minute " + minute);
+                }
+            });
+
         }
 
 
