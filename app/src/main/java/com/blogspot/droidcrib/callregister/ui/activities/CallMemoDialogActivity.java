@@ -1,7 +1,10 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -38,7 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CallMemoDialogActivity extends AppCompatActivity{
+public class CallMemoDialogActivity extends AppCompatActivity {
 
     private String mPhoneNumber;
     private Date mCallDate = new Date();
@@ -66,12 +69,17 @@ public class CallMemoDialogActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        boolean flag = getIntent().getBooleanExtra("qaz", false);
+        if (flag){
+           setTheme(R.style.AppTheme);
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_action);
 
         this.setFinishOnTouchOutside(false);
-
-
 
 
         //
@@ -80,6 +88,7 @@ public class CallMemoDialogActivity extends AppCompatActivity{
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Date"));
         tabLayout.addTab(tabLayout.newTab().setText("Time"));
+        tabLayout.addTab(tabLayout.newTab().setText("Memo"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //
@@ -142,6 +151,10 @@ public class CallMemoDialogActivity extends AppCompatActivity{
         mRootLinear = (LinearLayout) findViewById(R.id.root_linear);
         mButtonsHolder = (LinearLayout) findViewById(R.id.buttons_holder);
         mPickerMainLayout = (RelativeLayout) findViewById(R.id.picker_main_layout);
+
+        if (flag){
+            mPickerMainLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -152,7 +165,7 @@ public class CallMemoDialogActivity extends AppCompatActivity{
         // Setup views
         mDisplayName.setText(mContactName);
         if (mAvatarBitmap != null) {
-              mDisplayAvatar.setImageBitmap(mAvatarBitmap);
+            mDisplayAvatar.setImageBitmap(mAvatarBitmap);
         } else {
             mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
         }
@@ -182,9 +195,21 @@ public class CallMemoDialogActivity extends AppCompatActivity{
         mReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: expand view with timer
-                mPickerMainLayout.setVisibility(View.VISIBLE);
-                mNote.setVisibility(View.GONE);
+
+                // TODO: start another activity with almost same layout to handle big datepicker
+                // TODO: replace buttons at the bottom with FAB "Done"
+                long dateMilliseconds = mCallDate.getTime();
+                Intent intent = new Intent(CallMemoDialogActivity.this, CallMemoDialogActivity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Constants.EXTRA_PHONE_NUMBER, mPhoneNumber);
+                intent.putExtra(Constants.EXTRA_DATE, dateMilliseconds);
+                intent.putExtra(Constants.EXTRA_CALL_TYPE, mCallType);
+                intent.putExtra("qaz", true);
+                CallMemoDialogActivity.this.startActivity(intent);
+                finish();
+
+//                mPickerMainLayout.setVisibility(View.VISIBLE);
+//                mNote.setVisibility(View.GONE);
             }
         });
 
@@ -246,7 +271,7 @@ public class CallMemoDialogActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     111);
-            return  new ContactCard(phoneNumber);
+            return new ContactCard(phoneNumber);
         }
         // PERMISSION_GRANTED. Do action here
         return ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber);

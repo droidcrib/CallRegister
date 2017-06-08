@@ -60,6 +60,7 @@ public class TabsPagerAdapter extends PagerAdapter {
         FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.view_pick_pager_item);
 //        imageView.setImageBitmap(FsHelper.decodeSampledBitmapFromUri(mFiles[position].getAbsolutePath(), 160, 160));
 
+        // TODO: change to switch-case
         if (position == 0) {
 //            View debugLayout = mLayoutInflater.inflate(R.layout.test, frameLayout, false);
 //            frameLayout.addView(debugLayout);
