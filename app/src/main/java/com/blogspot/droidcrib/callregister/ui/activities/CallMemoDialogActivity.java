@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -15,9 +16,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
@@ -34,7 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CallMemoDialogActivity extends AppCompatActivity {
+public class CallMemoDialogActivity extends AppCompatActivity{
 
     private String mPhoneNumber;
     private Date mCallDate = new Date();
@@ -52,6 +56,10 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private Bitmap mAvatarBitmap;
     private String mAvatarUri;
     private MeasuredViewPager mViewPager;
+    private LinearLayout mRootLinear;
+    private LinearLayout mButtonsHolder;
+    private RelativeLayout mPickerMainLayout;
+    ViewTreeObserver vto;
 
 
     private static final String TAG = "CallMemoDialogActivity";
@@ -62,6 +70,9 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_request_action);
 
         this.setFinishOnTouchOutside(false);
+
+
+
 
         //
         //  Setup TabLayout
@@ -128,6 +139,9 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
         mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
         mNote = (EditText) findViewById(R.id.id_dialog_note);
+        mRootLinear = (LinearLayout) findViewById(R.id.root_linear);
+        mButtonsHolder = (LinearLayout) findViewById(R.id.buttons_holder);
+        mPickerMainLayout = (RelativeLayout) findViewById(R.id.picker_main_layout);
     }
 
 
@@ -160,8 +174,8 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: expand view with edittext
                 mNote.setVisibility(View.VISIBLE);
+                mPickerMainLayout.setVisibility(View.GONE);
             }
         });
 
@@ -169,6 +183,8 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: expand view with timer
+                mPickerMainLayout.setVisibility(View.VISIBLE);
+                mNote.setVisibility(View.GONE);
             }
         });
 
@@ -190,11 +206,22 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO: save note to DB here
                 CallRecord.updateMemo(mRecordId, s.toString());
                 Log.d(TAG, "afterTextChanged: " + s.toString());
             }
         });
+
+        // TODO: fix issue with hidden buttons. Probably basing on android versions
+
+//        Rect scrollBounds = new Rect();
+//        mRootLinear.getDrawingRect(scrollBounds);
+//        if (mButtonsHolder.getLocalVisibleRect(scrollBounds)) {
+//            // imageView is within the visible window
+//            Log.d(TAG, "Button is within the visible window");
+//        } else {
+//            // imageView is not within the visible window
+//            Log.d(TAG, "Button is NOT within the visible window");
+//        }
     }
 
     private ContactCard readContactsWrapper(String phoneNumber) {
@@ -234,4 +261,5 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
+
 }
