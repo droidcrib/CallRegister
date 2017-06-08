@@ -18,6 +18,8 @@ import android.widget.TimePicker;
 
 import com.blogspot.droidcrib.callregister.R;
 
+import java.util.Calendar;
+
 
 /**
  * Created by Andrey Bulanov on 1/23/2017.
@@ -66,9 +68,21 @@ public class TabsPagerAdapter extends PagerAdapter {
             datePicker.setCalendarViewShown(false);
             frameLayout.addView(datePicker, 0);
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+
+                @Override
+                public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                    Log.d(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
+
+                }
+            });
+
 
         } else {
             TimePicker timePicker = new TimePicker(mContext);
+            timePicker.setIs24HourView(true);
             frameLayout.addView(timePicker, 0);
 
             timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
