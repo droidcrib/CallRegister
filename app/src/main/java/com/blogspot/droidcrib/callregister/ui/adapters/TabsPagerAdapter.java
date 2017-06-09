@@ -58,7 +58,6 @@ public class TabsPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
 
-
         View itemView = mLayoutInflater.inflate(R.layout.view_pick_pager_item, container, false);
         FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.view_pick_pager_item);
 
