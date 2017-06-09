@@ -62,7 +62,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private LinearLayout mRootLinear;
     private LinearLayout mButtonsHolder;
     private RelativeLayout mPickerMainLayout;
-    ViewTreeObserver vto;
 
 
     private static final String TAG = "CallMemoDialogActivity";
@@ -155,12 +154,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         if (flag){
             mPickerMainLayout.setVisibility(View.VISIBLE);
         }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         // Setup views
         mDisplayName.setText(mContactName);
@@ -236,17 +229,15 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: fix issue with hidden buttons. Probably basing on android versions
 
-//        Rect scrollBounds = new Rect();
-//        mRootLinear.getDrawingRect(scrollBounds);
-//        if (mButtonsHolder.getLocalVisibleRect(scrollBounds)) {
-//            // imageView is within the visible window
-//            Log.d(TAG, "Button is within the visible window");
-//        } else {
-//            // imageView is not within the visible window
-//            Log.d(TAG, "Button is NOT within the visible window");
-//        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 
     private ContactCard readContactsWrapper(String phoneNumber) {

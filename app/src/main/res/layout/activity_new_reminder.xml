@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_linear"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+
+
+        <ImageView
+            android:id="@+id/id_dialog_avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person_black_48dp" />
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:paddingLeft="72dp">
+
+            <TextView
+                android:id="@+id/id_dialog_person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="50"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:hint="Person Name"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/id_dialog_call_type"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:alpha="0.5"
+            android:clickable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_call_missed_black_48dp" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/include_picker_tablayout" />
+
+
+
+</LinearLayout>
