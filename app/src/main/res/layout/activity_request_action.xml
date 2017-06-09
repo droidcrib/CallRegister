@@ -15,7 +15,7 @@
 
 
         <ImageView
-            android:id="@+id/id_dialog_avatar"
+            android:id="@+id/id_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -32,7 +32,7 @@
             android:paddingLeft="72dp">
 
             <TextView
-                android:id="@+id/id_dialog_person_name"
+                android:id="@+id/id_person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -48,7 +48,7 @@
 
 
         <ImageView
-            android:id="@+id/id_dialog_call_type"
+            android:id="@+id/id_call_type"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"

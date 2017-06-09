@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_linear"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:id="@+id/id_call_info"
         android:layout_width="match_parent"
         android:layout_height="56dp">
 
 
-
         <ImageView
-            android:id="@+id/id_dialog_avatar"
+            android:id="@+id/id_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -31,7 +28,7 @@
             android:paddingLeft="72dp">
 
             <TextView
-                android:id="@+id/id_dialog_person_name"
+                android:id="@+id/id_person_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -47,7 +44,7 @@
 
 
         <ImageView
-            android:id="@+id/id_dialog_call_type"
+            android:id="@+id/id_call_type"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
@@ -59,10 +56,37 @@
             android:src="@drawable/ic_call_missed_black_48dp" />
 
 
+
+
     </RelativeLayout>
 
-    <include layout="@layout/include_picker_tablayout" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id_call_info"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize" />
+
+    <view
+        android:id="@+id/pager"
+        class="com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tab_layout" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_done_white_48dp" />
+</RelativeLayout>
 
 
 
-</LinearLayout>
+
+

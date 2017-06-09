@@ -25,12 +25,13 @@
 
         <activity
             android:name=".ui.activities.SingleFragmentActivity"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.activities.CallMemoDialogActivity"
-            android:theme="@style/AppThemeDialog"></activity>
+            android:theme="@style/AppThemeDialog" />
+        <activity
+            android:name=".ui.activities.NewReminderActivity"
+            android:theme="@style/AppTheme" />
 
         <receiver android:name=".telephony.CallReceiver">
             <intent-filter>
