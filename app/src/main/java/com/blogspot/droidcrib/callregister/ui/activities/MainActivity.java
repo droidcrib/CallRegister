@@ -6,7 +6,6 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 // TODO: Напоминалка
 // TODO: Переделать окно списка звонков: добавить юзерфото + значок заметки и/или напоминалки
 // TODO: при срабаптывании нотификейшена для контакта - позвонить ему прямо из приложения
-// TODO: Закрывать CallMemoDialogActivity по истечении 3 секунд если действие не выбрано
 
 
 import android.Manifest;
