@@ -9,9 +9,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:visibility="gone">
-
+        android:layout_height="56dp">
 
 
         <ImageView
@@ -58,13 +56,14 @@
             android:clickable="true"
             android:padding="4dp"
             android:src="@drawable/ic_call_missed_black_48dp" />
-
-
     </RelativeLayout>
 
-    <include layout="@layout/include_note_edit_text" />
-
-    <include layout="@layout/include_picker_tablayout" />
+    <EditText
+        android:id="@+id/id_dialog_note"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:hint="Note will be saved automatically"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/buttons_holder"
@@ -79,9 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
-            android:text="Note"
-
-            />
+            android:text="Note" />
 
         <Button
             android:id="@+id/id_dialog_button_reminder"
@@ -93,10 +90,7 @@
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:focusable="true"
-            android:text="Reminder"
-
-
-            />
+            android:text="Reminder" />
 
         <Button
             android:id="@+id/id_dialog_button_cancel"
@@ -107,9 +101,5 @@
             android:layout_weight="1"
             android:focusable="true"
             android:text="Close" />
-
-
     </LinearLayout>
-
-
 </LinearLayout>

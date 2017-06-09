@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -34,61 +35,41 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_RECOR
 
 public class CallMemoDialogActivity extends AppCompatActivity {
 
+    private static final String TAG = "CallMemoDialogActivity";
+
     private String mPhoneNumber;
     private Date mCallDate = new Date();
-    private String mContactName;
-    private String mCallType;
     private long mRecordId;
-
-    private TextView mDisplayName;
     private EditText mNote;
-    private ImageView mDisplayCallType;
-    private ImageView mDisplayAvatar;
-    private Button mNoteButton;
-    private Button mReminderButton;
-    private Button mCancelButton;
-    private Bitmap mAvatarBitmap;
-    private String mAvatarUri;
-
-
-
-    private static final String TAG = "CallMemoDialogActivity";
+    private boolean isNoAction = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        boolean flag = getIntent().getBooleanExtra("qaz", false);
-        if (flag){
-           setTheme(R.style.AppTheme);
-        }
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_action);
         this.setFinishOnTouchOutside(false);
+
+        TextView mDisplayName = (TextView) findViewById(R.id.id_person_name);
+        ImageView mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
+        ImageView mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
+        Button mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
+        Button mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
+        Button mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
+        mNote = (EditText) findViewById(R.id.id_dialog_note);
 
         // Get call data
         mPhoneNumber = getIntent().getStringExtra(Constants.EXTRA_PHONE_NUMBER);
         long dateMilliseconds = getIntent().getLongExtra(Constants.EXTRA_DATE, -1);
         mCallDate.setTime(dateMilliseconds);
-        mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
+        String mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
         ContactCard contactCard = readContactsWrapper(mPhoneNumber);
-        mContactName = contactCard.getName();
-        mAvatarBitmap = contactCard.getAavatar();
-        mAvatarUri = contactCard.getAvatarUri();
+        String mContactName = contactCard.getName();
+        Bitmap mAvatarBitmap = contactCard.getAavatar();
+        String mAvatarUri = contactCard.getAvatarUri();
 
-        // Insert new call record,
+        // Insert new call record
         mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
         EventBus.getDefault().post(new NewCallEvent());
-
-        mDisplayName = (TextView) findViewById(R.id.id_person_name);
-        mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
-        mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
-        mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
-        mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
-        mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
-        mNote = (EditText) findViewById(R.id.id_dialog_note);
-
 
         // Setup views
         mDisplayName.setText(mContactName);
@@ -115,6 +96,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isNoAction = false;
                 mNote.setVisibility(View.VISIBLE);
             }
         });
@@ -123,17 +105,11 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // TODO: start another activity with almost same layout to handle big datepicker
-                // TODO: replace buttons at the bottom with FAB "Done"
-                long dateMilliseconds = mCallDate.getTime();
                 Intent intent = new Intent(CallMemoDialogActivity.this, NewReminderActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(EXTRA_RECORD_ID, mRecordId);
                 CallMemoDialogActivity.this.startActivity(intent);
-                finish();
-
-//                mPickerMainLayout.setVisibility(View.VISIBLE);
-//                mNote.setVisibility(View.GONE);
+                CallMemoDialogActivity.this.finish();
             }
         });
 
@@ -156,20 +132,28 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 CallRecord.updateMemo(mRecordId, s.toString());
-                Log.d(TAG, "afterTextChanged: " + s.toString());
             }
         });
 
 
+        // Close activity if no action performed during 4 seconds
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if(isNoAction) {
+                    CallMemoDialogActivity.this.finish();
+                }
+            }
+        }, 4000);
+
+
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-    }
+    ////////////////////////////////////////////////////////
+    // Handling permissions for API >= 23
+    ////////////////////////////////////////////////////////
 
     private ContactCard readContactsWrapper(String phoneNumber) {
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
