@@ -20,7 +20,13 @@ import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerDateChangedEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
 import com.facebook.cache.disk.DiskStorageCache;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 
@@ -74,6 +80,7 @@ public class TabsPagerAdapter extends PagerAdapter {
                     @Override
                     public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
                         Log.d(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
+                        EventBus.getDefault().post(new PickerDateChangedEvent(year, month, dayOfMonth));
                     }
                 });
                 break;
@@ -87,6 +94,7 @@ public class TabsPagerAdapter extends PagerAdapter {
                     @Override
                     public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                         Log.d(TAG, "hourOfDay = " + hourOfDay + " minute " + minute);
+                        EventBus.getDefault().post(new PickerTimeCangedEvent(hourOfDay, minute));
                     }
                 });
                 break;
@@ -105,6 +113,7 @@ public class TabsPagerAdapter extends PagerAdapter {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         Log.d(TAG, "Memo text = " + s);
+                        EventBus.getDefault().post(new PickerTextChangedEvent(s));
                     }
 
                     @Override

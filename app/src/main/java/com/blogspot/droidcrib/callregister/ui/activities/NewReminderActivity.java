@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +17,16 @@ import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
+import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerDateChangedEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
+import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager;
 import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Date;
 
@@ -41,6 +49,8 @@ public class NewReminderActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reminder);
+
+        EventBus.getDefault().register(this);
 
         mRecordId = getIntent().getLongExtra(EXTRA_RECORD_ID, 0);
         CallRecord callRecord = CallRecord.getRecordById(mRecordId);
@@ -124,6 +134,33 @@ public class NewReminderActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    /////////////////////////////////////////////////////////////
+    // EVENT LISTENERS
+    /////////////////////////////////////////////////////////////
+
+    @Subscribe
+    public void onEvent(PickerDateChangedEvent event){
+        Log.d("onEvent", "PickerDateChangedEvent " + event.getYear() + " " + event.getMonth() + " " + event.getDayOfMonth());
+    }
+
+    @Subscribe
+    public void onEvent(PickerTimeCangedEvent event){
+        Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
+    }
+
+    @Subscribe
+    public void onEvent(PickerTextChangedEvent event){
+        Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
 
     }
 }
