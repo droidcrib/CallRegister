@@ -28,6 +28,9 @@ import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_RECORD_ID;
@@ -44,6 +47,9 @@ public class NewReminderActivity extends AppCompatActivity {
     private EditText mNote;
     private ImageView mDisplayCallType;
     private ImageView mDisplayAvatar;
+    TabLayout tabLayout;
+    private static Calendar mCalendar = Calendar.getInstance();
+    private static Date mDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +92,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
 
         //  Setup TabLayout
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Date"));
         tabLayout.addTab(tabLayout.newTab().setText("Time"));
         tabLayout.addTab(tabLayout.newTab().setText("Memo"));
@@ -149,18 +155,33 @@ public class NewReminderActivity extends AppCompatActivity {
     /////////////////////////////////////////////////////////////
 
     @Subscribe
-    public void onEvent(PickerDateChangedEvent event){
+    public void onEvent(PickerDateChangedEvent event) {
         Log.d("onEvent", "PickerDateChangedEvent " + event.getYear() + " " + event.getMonth() + " " + event.getDayOfMonth());
+        int year = event.getYear();
+        int month = event.getMonth();
+        int day = event.getDayOfMonth();
+        String dateStr = month + "/" + day + "/" + year;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            mDate = sdf.parse(dateStr);
+            sdf = new SimpleDateFormat("dd MMM yyyy");
+            String str = sdf.format(mDate);
+            tabLayout.getTabAt(0).setText(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Subscribe
-    public void onEvent(PickerTimeCangedEvent event){
+    public void onEvent(PickerTimeCangedEvent event) {
         Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
+        tabLayout.getTabAt(1).setText(" " + event.getHourOfDay());
     }
 
     @Subscribe
-    public void onEvent(PickerTextChangedEvent event){
+    public void onEvent(PickerTextChangedEvent event) {
         Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
+        tabLayout.getTabAt(2).setText(" " + event.getText());
 
     }
 }
