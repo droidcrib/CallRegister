@@ -82,6 +82,8 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         // Set avatar
         if(record.avatarUri != null){
             holder.avatar.setImageURI(Uri.parse(record.avatarUri));
+        } else {
+            holder.avatar.setImageResource(R.drawable.ic_person_black_48dp);
         }
 
 
