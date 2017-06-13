@@ -1,5 +1,9 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +58,9 @@ public class NewReminderActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
     private static Date mDate = new Date();
-    private  AlarmRecord alarmRecord;
+    private AlarmRecord alarmRecord;
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
 
     @Override
@@ -149,7 +155,7 @@ public class NewReminderActivity extends AppCompatActivity {
         mCalendar.setTime(mDate);
         alarmRecord = new AlarmRecord();
         alarmRecord.year = mCalendar.get(Calendar.YEAR);
-        alarmRecord.month= mCalendar.get(Calendar.MONTH);
+        alarmRecord.month = mCalendar.get(Calendar.MONTH);
         alarmRecord.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
         alarmRecord.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
         alarmRecord.minute = mCalendar.get(Calendar.MINUTE);
@@ -161,18 +167,24 @@ public class NewReminderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //TODO: save AlarmRecord here
-                Log.d(TAG, alarmRecord.toString());
+                //Save AlarmRecord here
                 alarmRecord.save();
                 //TODO: set new AlarmManager here
+                alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(Intent.ACTION_SEARCH);
+                alarmIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, alarmRecord.hourOfDay);
+                calendar.set(Calendar.MINUTE, alarmRecord.minute);
 
+                alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
 
     }
 
@@ -229,7 +241,6 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmRecord.memoText = event.getText().toString();
 
     }
-
 
 
 }

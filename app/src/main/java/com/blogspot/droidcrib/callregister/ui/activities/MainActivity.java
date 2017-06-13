@@ -11,6 +11,7 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -144,6 +145,12 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.id_fragment_container, mFragment)
                     .commit();
         }
+
+
+
+
+
+
     }
 
     @Override

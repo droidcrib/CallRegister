@@ -88,15 +88,19 @@ public class TabsPagerAdapter extends PagerAdapter {
             case 1:
                 TimePicker timePicker = new TimePicker(mContext);
                 timePicker.setIs24HourView(true);
-                frameLayout.addView(timePicker, 0);
+                timePicker.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
 
                     @Override
                     public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                        view.setIs24HourView(true);
                         Log.d(TAG, "hourOfDay = " + hourOfDay + " minute " + minute);
                         EventBus.getDefault().post(new PickerTimeCangedEvent(hourOfDay, minute));
                     }
                 });
+
+                frameLayout.addView(timePicker, 0);
                 break;
 
             case 2:
