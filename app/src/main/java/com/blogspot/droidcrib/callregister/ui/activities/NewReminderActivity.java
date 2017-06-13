@@ -21,6 +21,7 @@ import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerDateChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
+import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager;
 import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
@@ -41,15 +42,20 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_RECOR
 
 public class NewReminderActivity extends AppCompatActivity {
 
+
+    private static final String TAG = "NewReminderActivity";
+
     private MeasuredViewPager mViewPager;
     private long mRecordId;
     private TextView mDisplayName;
     private EditText mNote;
     private ImageView mDisplayCallType;
     private ImageView mDisplayAvatar;
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
     private static Date mDate = new Date();
+    private  AlarmRecord alarmRecord;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,11 +145,29 @@ public class NewReminderActivity extends AppCompatActivity {
         String time = sdf.format(mDate);
         tabLayout.getTabAt(1).setText(time);
 
+        // Set initial values for AlarmRecord
+        mCalendar.setTime(mDate);
+        alarmRecord = new AlarmRecord();
+        alarmRecord.year = mCalendar.get(Calendar.YEAR);
+        alarmRecord.month= mCalendar.get(Calendar.MONTH);
+        alarmRecord.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
+        alarmRecord.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
+        alarmRecord.minute = mCalendar.get(Calendar.MINUTE);
+        //TODO: set related CallRecord object here
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //TODO: save AlarmRecord here
+                Log.d(TAG, alarmRecord.toString());
+                alarmRecord.save();
+                //TODO: set new AlarmManager here
+
+
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -166,14 +190,12 @@ public class NewReminderActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(PickerDateChangedEvent event) {
         Log.d("onEvent", "PickerDateChangedEvent " + event.getYear() + " " + event.getMonth() + " " + event.getDayOfMonth());
-        int year = event.getYear();
-        int month = event.getMonth();
-        int day = event.getDayOfMonth();
-
-
+        alarmRecord.year = event.getYear();
+        alarmRecord.month = event.getMonth();
+        alarmRecord.dayOfMonth = event.getDayOfMonth();
 
         // Setup tab header
-        String dateStr = month + "/" + day + "/" + year;
+        String dateStr = event.getMonth() + "/" + event.getDayOfMonth() + "/" + event.getYear();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             mDate = sdf.parse(dateStr);
@@ -190,20 +212,21 @@ public class NewReminderActivity extends AppCompatActivity {
         Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
 
 
-        int hourOfDay = event.getHourOfDay();
-        int minute = event.getMinute();
+        alarmRecord.hourOfDay = event.getHourOfDay();
+        alarmRecord.minute = event.getMinute();
         // Setup tab header
-        if (minute < 10) {
-            StringBuilder sb = new StringBuilder("0").append(minute);
-            tabLayout.getTabAt(1).setText(hourOfDay + " : " + sb);
+        if (event.getMinute() < 10) {
+            StringBuilder sb = new StringBuilder("0").append(event.getMinute());
+            tabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + sb);
         } else {
-            tabLayout.getTabAt(1).setText(hourOfDay + " : " + minute);
+            tabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + event.getMinute());
         }
     }
 
     @Subscribe
     public void onEvent(PickerTextChangedEvent event) {
         Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
+        alarmRecord.memoText = event.getText().toString();
 
     }
 

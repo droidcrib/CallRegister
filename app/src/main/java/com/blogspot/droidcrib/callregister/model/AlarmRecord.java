@@ -34,7 +34,20 @@ public class AlarmRecord extends Model {
     public CallRecord callRecord;
 
 
+    public AlarmRecord() {
+        super();
+    }
 
-
-
+    @Override
+    public String toString() {
+        return "AlarmRecord{" +
+                "year=" + year +
+                ", month=" + month +
+                ", dayOfMonth=" + dayOfMonth +
+                ", hourOfDay=" + hourOfDay +
+                ", minute=" + minute +
+                ", memoText='" + memoText + '\'' +
+                ", callRecord=" + callRecord +
+                '}';
+    }
 }

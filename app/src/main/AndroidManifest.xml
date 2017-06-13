@@ -18,7 +18,8 @@
             android:value="Calls.db" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.blogspot.droidcrib.callregister.model.CallRecord" />
+            android:value="com.blogspot.droidcrib.callregister.model.CallRecord,
+            com.blogspot.droidcrib.callregister.model.AlarmRecord" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
