@@ -49,7 +49,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private ImageView mDisplayAvatar;
     TabLayout tabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
-    private static Date mDate;
+    private static Date mDate = new Date();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,6 +131,15 @@ public class NewReminderActivity extends AppCompatActivity {
         });
 
 
+        // Set current date-time into tabs headers
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        String date = sdf.format(mDate);
+        tabLayout.getTabAt(0).setText(date);
+        sdf = new SimpleDateFormat("HH:mm");
+        String time = sdf.format(mDate);
+        tabLayout.getTabAt(1).setText(time);
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +169,10 @@ public class NewReminderActivity extends AppCompatActivity {
         int year = event.getYear();
         int month = event.getMonth();
         int day = event.getDayOfMonth();
+
+
+
+        // Setup tab header
         String dateStr = month + "/" + day + "/" + year;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -175,13 +188,25 @@ public class NewReminderActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(PickerTimeCangedEvent event) {
         Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
-        tabLayout.getTabAt(1).setText(" " + event.getHourOfDay());
+
+
+        int hourOfDay = event.getHourOfDay();
+        int minute = event.getMinute();
+        // Setup tab header
+        if (minute < 10) {
+            StringBuilder sb = new StringBuilder("0").append(minute);
+            tabLayout.getTabAt(1).setText(hourOfDay + " : " + sb);
+        } else {
+            tabLayout.getTabAt(1).setText(hourOfDay + " : " + minute);
+        }
     }
 
     @Subscribe
     public void onEvent(PickerTextChangedEvent event) {
         Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
-        tabLayout.getTabAt(2).setText(" " + event.getText());
 
     }
+
+
+
 }
