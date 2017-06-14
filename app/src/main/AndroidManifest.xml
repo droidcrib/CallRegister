@@ -26,7 +26,7 @@
 
         <activity
             android:name=".ui.activities.SingleFragmentActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activities.CallMemoDialogActivity"
             android:theme="@style/AppThemeDialog" />
@@ -42,6 +42,8 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".receivers.AlarmsReceiver" />
 
         <activity
             android:name=".ui.activities.MainActivity"

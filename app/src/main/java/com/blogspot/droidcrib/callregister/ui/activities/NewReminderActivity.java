@@ -27,6 +27,7 @@ import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.receivers.AlarmsReceiver;
 import com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager;
 import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
 
@@ -172,8 +173,11 @@ public class NewReminderActivity extends AppCompatActivity {
                 //TODO: set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 //TODO: set intent with notification message
-                Intent intent = new Intent(Intent.ACTION_SEARCH);
-                alarmIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+//                Intent intent = new Intent(Intent.ACTION_SEARCH);
+//                alarmIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+
+                Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
+                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
                 mCalendar.set(Calendar.YEAR, alarmRecord.year);
