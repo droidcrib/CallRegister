@@ -23,12 +23,21 @@ public class AlarmsReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intentTL,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
+        Intent intent1 = new Intent(Intent.ACTION_SEARCH);
+        PendingIntent pendingIntent1 = PendingIntent.getActivity(context, 0, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intentTL,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
 
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("New mail from ")
                 .setContentText("subject")
                 .setSmallIcon(R.drawable.ic_message_envelope)
                 .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_add_white_48dp, null, pendingIntent)
+                .addAction(R.drawable.ic_delete_black_48dp, null, pendingIntent1)
+                .addAction(R.drawable.ic_arrow_back_white_24dp, null, pendingIntent2)
                 .build();
         notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
         nm.notify(1, notification);
