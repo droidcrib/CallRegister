@@ -171,18 +171,22 @@ public class NewReminderActivity extends AppCompatActivity {
                 alarmRecord.save();
                 //TODO: set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                //TODO: set intent with notification message
                 Intent intent = new Intent(Intent.ACTION_SEARCH);
                 alarmIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.set(Calendar.HOUR_OF_DAY, alarmRecord.hourOfDay);
-                calendar.set(Calendar.MINUTE, alarmRecord.minute);
+                mCalendar.setTimeInMillis(System.currentTimeMillis());
+                mCalendar.set(Calendar.YEAR, alarmRecord.year);
+                mCalendar.set(Calendar.MONTH, alarmRecord.month);
+                mCalendar.set(Calendar.DAY_OF_MONTH, alarmRecord.dayOfMonth);
+                mCalendar.set(Calendar.HOUR_OF_DAY, alarmRecord.hourOfDay);
+                mCalendar.set(Calendar.MINUTE, alarmRecord.minute);
 
-                alarmMgr.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+                alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
 
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                NewReminderActivity.this.finish();
             }
         });
 
