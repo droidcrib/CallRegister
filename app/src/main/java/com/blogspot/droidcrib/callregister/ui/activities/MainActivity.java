@@ -46,6 +46,8 @@ import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
+import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_PHONE_NUMBER;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity
     private Boolean isCatchOutgoings;
     private Boolean isCatchMissed;
     private SharedPreferences mPrefs;
+
+
+    private static final String TAG = "AlarmsReceiver";
 
 
     @Override
@@ -95,7 +100,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
-
 
 
         // Get elements of navigation view
@@ -147,8 +151,13 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        String action = getIntent().getAction();
 
-
+        Log.d(TAG, "main activity action received = " + getIntent().getAction());
+        Log.d(TAG, "main activity extra received = " + getIntent().getStringExtra(EXTRA_PHONE_NUMBER));
+        if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
+            setDetailsFragment(1);
+        }
 
 
     }

@@ -21,7 +21,6 @@ import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
-import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

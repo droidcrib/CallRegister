@@ -17,7 +17,6 @@ import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
-import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.CallsListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
