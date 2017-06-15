@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
-import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
 public class CallMemoDialogActivity extends AppCompatActivity {
 
@@ -106,8 +105,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(CallMemoDialogActivity.this, NewReminderActivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(EXTRA_RECORD_ID, mRecordId);
+                intent.putExtra(EXTRA_CALL_RECORD_ID, mRecordId);
                 CallMemoDialogActivity.this.startActivity(intent);
                 CallMemoDialogActivity.this.finish();
             }

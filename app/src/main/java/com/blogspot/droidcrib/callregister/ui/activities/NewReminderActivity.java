@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,14 +13,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
-import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerDateChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
@@ -39,7 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
 /**
  *
@@ -71,7 +69,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
-        mRecordId = getIntent().getLongExtra(EXTRA_RECORD_ID, 0);
+        mRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, 0);
         CallRecord callRecord = CallRecord.getRecordById(mRecordId);
 
         mDisplayName = (TextView) findViewById(R.id.id_person_name);
@@ -160,23 +158,20 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmRecord.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
         alarmRecord.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
         alarmRecord.minute = mCalendar.get(Calendar.MINUTE);
-        //TODO: set related CallRecord object here
-
+        alarmRecord.callRecord = callRecord;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Save AlarmRecord here
-                alarmRecord.save();
-                //TODO: set new AlarmManager here
+                // Save AlarmRecord here
+                long recordId = alarmRecord.save();
+                // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                //TODO: set intent with notification message
-//                Intent intent = new Intent(Intent.ACTION_SEARCH);
-//                alarmIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-
+                // Set intent with notification message
                 Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
+                intent.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
                 alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                 mCalendar.setTimeInMillis(System.currentTimeMillis());

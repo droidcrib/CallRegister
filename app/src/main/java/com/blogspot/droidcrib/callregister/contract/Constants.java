@@ -14,8 +14,8 @@ public class Constants {
     public static final String EXTRA_PHONE_NUMBER = "com.blogspot.droidcrib.callregister.EXTRA_PHONE_NUMBER";
     public static final String EXTRA_DATE = "com.blogspot.droidcrib.callregister.EXTRA_DATE";
     public static final String EXTRA_CALL_TYPE = "com.blogspot.droidcrib.callregister.EXTRA_CALL_TYPE";
-    public static final String EXTRA_RECORD_ID = "com.blogspot.droidcrib.callregister.EXTRA_RECORD_ID";
-
+    public static final String EXTRA_CALL_RECORD_ID = "com.blogspot.droidcrib.callregister.EXTRA_CALL_RECORD_ID";
+    public static final String EXTRA_ALARM_RECORD_ID = "com.blogspot.droidcrib.callregister.EXTRA_ALARM_RECORD_ID";
 
     public static final String SHARED_PREFS = "com.blogspot.droidcrib.callregister.SHARED_PREFS";
     public static final String IS_CATCH_INCOMINGS = "com.blogspot.droidcrib.callregister.IS_CATCH_INCOMINGS";

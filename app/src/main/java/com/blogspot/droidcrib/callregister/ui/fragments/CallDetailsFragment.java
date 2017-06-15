@@ -1,11 +1,7 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,12 +16,8 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
-import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-
-import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * Created by Andrey on 04.10.2016.
@@ -48,7 +40,7 @@ public class CallDetailsFragment extends Fragment {
     // Fragment instance
     public static CallDetailsFragment newInstance(long id) {
         Bundle args = new Bundle();
-        args.putLong(Constants.EXTRA_RECORD_ID, id);
+        args.putLong(Constants.EXTRA_CALL_RECORD_ID, id);
         CallDetailsFragment fragment = new CallDetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -59,7 +51,7 @@ public class CallDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mRecordId = getArguments().getLong(Constants.EXTRA_RECORD_ID);
+        mRecordId = getArguments().getLong(Constants.EXTRA_CALL_RECORD_ID);
         mCallRecord = CallRecord.getRecordById(mRecordId);
     }
 
