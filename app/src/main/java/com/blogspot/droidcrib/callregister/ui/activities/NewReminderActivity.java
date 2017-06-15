@@ -158,7 +158,14 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmRecord.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
         alarmRecord.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
         alarmRecord.minute = mCalendar.get(Calendar.MINUTE);
-        alarmRecord.callRecord = callRecord;
+        alarmRecord.callRecord = new CallRecord();
+        //alarmRecord.callRecord = callRecord;
+        alarmRecord.callRecord.name = "aaa";
+        alarmRecord.callRecord.phone = "bbb";
+        alarmRecord.callRecord.memoText = "ccc";
+        alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

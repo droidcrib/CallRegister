@@ -35,6 +35,10 @@ public class CallRecord extends Model {
     @Column(name = "callDateId")
     public long callDateId;
 
+    public CallRecord() {
+        super();
+    }
+
     // add new record
     public static long insert(String contactName, String contactPhone, String avatarUri,
                               String callType, Date callTime) {

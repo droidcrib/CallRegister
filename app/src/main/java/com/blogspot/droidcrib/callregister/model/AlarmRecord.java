@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 /**
  * Created by BulanovA on 09.06.2017.
@@ -38,6 +39,32 @@ public class AlarmRecord extends Model {
         super();
     }
 
+    public static AlarmRecord getRecordById(long id){
+        return new Select()
+                .from(AlarmRecord.class)
+                .where("_id = ?", id)
+                .executeSingle();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public String toString() {
         return "AlarmRecord{" +
@@ -50,4 +77,8 @@ public class AlarmRecord extends Model {
                 ", callRecord=" + callRecord +
                 '}';
     }
+
+
+
+
 }
