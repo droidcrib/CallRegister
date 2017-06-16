@@ -44,6 +44,7 @@
         <receiver android:name=".receivers.AlarmsReceiver">
             <intent-filter>
                 <action android:name="com.blogspot.droidcrib.callregister.ACTION_REMOVE_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 

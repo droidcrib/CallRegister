@@ -188,10 +188,15 @@ public class NewReminderActivity extends AppCompatActivity {
 
                 // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
                 // Set intent with notification message
-                Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
+//                Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
+//                intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
+                Intent intent = new Intent();
                 intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
+                // TODO: add new action here
                 alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
                 mCalendar.set(Calendar.YEAR, alarmHolder.year);

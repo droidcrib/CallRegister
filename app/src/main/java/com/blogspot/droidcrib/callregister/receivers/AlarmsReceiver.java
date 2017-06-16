@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -44,25 +43,27 @@ public class AlarmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        String action = intent.getAction();
         int recordId = (int) intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
 
-        if (intent.getAction() != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
-            nm.cancel(recordId);
+        Log.d(TAG, "action received = " + action);
+        Log.d(TAG, "extra alarm id received = " + recordId);
+
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        if (action != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
+            Log.d(TAG, "Cancelling notification with id = " + recordId);
+            nm.cancel(18);
             return;
         }
 
-
-        Log.d(TAG, "action received = " + intent.getAction());
-        Log.d(TAG, "extra received = " + intent.getStringExtra(EXTRA_PHONE_NUMBER));
-        Log.d(TAG, "extra received = " + intent.getStringExtra(EXTRA_ALARM_RECORD_ID));
 
 
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(recordId);
         Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
         String name = alarmRecord.callRecord.name;
         String memo = alarmRecord.memoText;
-
 
         Bitmap avatar = null;
         Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
@@ -79,7 +80,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
             }
         }
 
-        Bitmap circeAvatar = getCroppedBitmap(avatar, 96);
+        Bitmap circeAvatar = getCircledBitmap(avatar, 96);
         avatar.recycle();
 
 
@@ -107,12 +108,12 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
                 .addAction(R.drawable.ic_close_white_24dp, "Dismiss", pIntentDismiss)
                 .setAutoCancel(true);
-        nm.notify(recordId, notification.build());
+        nm.notify(18, notification.build());
 
     }
 
 
-    public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
+    public static Bitmap getCircledBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;
 
         if (bmp.getWidth() != radius || bmp.getHeight() != radius) {
