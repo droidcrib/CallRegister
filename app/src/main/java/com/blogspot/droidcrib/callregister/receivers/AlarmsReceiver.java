@@ -45,12 +45,19 @@ public class AlarmsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        int recordId = (int) intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+
+        if (intent.getAction() != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
+            nm.cancel(recordId);
+            return;
+        }
+
 
         Log.d(TAG, "action received = " + intent.getAction());
         Log.d(TAG, "extra received = " + intent.getStringExtra(EXTRA_PHONE_NUMBER));
         Log.d(TAG, "extra received = " + intent.getStringExtra(EXTRA_ALARM_RECORD_ID));
 
-        int recordId = (int) intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(recordId);
         Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
         String name = alarmRecord.callRecord.name;
