@@ -5,6 +5,8 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.Calendar;
+
 /**
  * Created by BulanovA on 09.06.2017.
  */
@@ -39,31 +41,32 @@ public class AlarmRecord extends Model {
         super();
     }
 
-    public static AlarmRecord getRecordById(long id){
+
+    public static long insert(int year, int month, int dayOfMonth, int hourOfDay, int minute, CallRecord callRecord, String memoText) {
+
+        AlarmRecord alarmRecord = new AlarmRecord();
+        alarmRecord.year = year;
+        alarmRecord.month = month;
+        alarmRecord.dayOfMonth = dayOfMonth;
+        alarmRecord.hourOfDay = hourOfDay;
+        alarmRecord.minute = minute;
+        alarmRecord.memoText = memoText;
+        alarmRecord.callRecord = callRecord;
+        alarmRecord.callRecord.name = "aaa";
+        alarmRecord.callRecord.phone = "bbb";
+        alarmRecord.callRecord.memoText = "ccc";
+        alarmRecord.callRecord.avatarUri = "file://";
+        alarmRecord.save();
+
+        return alarmRecord.getId();
+    }
+
+    public static AlarmRecord getRecordById(long id) {
         return new Select()
                 .from(AlarmRecord.class)
                 .where("_id = ?", id)
                 .executeSingle();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public String toString() {
@@ -75,10 +78,10 @@ public class AlarmRecord extends Model {
                 ", minute=" + minute +
                 ", memoText='" + memoText + '\'' +
                 ", callRecord=" + callRecord +
+                ", callRecord.name=" + callRecord.name +
+                ", callRecord.phone=" + callRecord.phone +
+                ", callRecord.memoText=" + callRecord.memoText +
+                ", callRecord.avatarUri=" + callRecord.avatarUri +
                 '}';
     }
-
-
-
-
 }

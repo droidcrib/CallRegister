@@ -46,7 +46,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 public class NewReminderActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "NewReminderActivity";
+    private static final String TAG = "AlarmsReceiver";
 
     private MeasuredViewPager mViewPager;
     private long mRecordId;
@@ -60,6 +60,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private AlarmRecord alarmRecord;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
+    private AlarmHolder alarmHolder = new AlarmHolder();
 
 
     @Override
@@ -152,44 +153,51 @@ public class NewReminderActivity extends AppCompatActivity {
 
         // Set initial values for AlarmRecord
         mCalendar.setTime(mDate);
-        alarmRecord = new AlarmRecord();
-        alarmRecord.year = mCalendar.get(Calendar.YEAR);
-        alarmRecord.month = mCalendar.get(Calendar.MONTH);
-        alarmRecord.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
-        alarmRecord.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
-        alarmRecord.minute = mCalendar.get(Calendar.MINUTE);
-        alarmRecord.callRecord = new CallRecord();
-        //alarmRecord.callRecord = callRecord;
-        alarmRecord.callRecord.name = "aaa";
-        alarmRecord.callRecord.phone = "bbb";
-        alarmRecord.callRecord.memoText = "ccc";
-        alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+        alarmHolder.year = mCalendar.get(Calendar.YEAR);
+        alarmHolder.month = mCalendar.get(Calendar.MONTH);
+        alarmHolder.dayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
+        alarmHolder.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
+        alarmHolder.minute = mCalendar.get(Calendar.MINUTE);
+        alarmHolder.callRecord = callRecord;
+        alarmHolder.memoText = "this is memo text";
+
+        Log.d(TAG, "-- AlarmHolder initial values: " + alarmHolder.toString());
 
 
-
+        // FAB action
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // Save AlarmRecord here
-                long recordId = alarmRecord.save();
+                // TODO: do this in asynctask
+                final long recId = AlarmRecord.insert(
+                        alarmHolder.year,
+                        alarmHolder.month,
+                        alarmHolder.dayOfMonth,
+                        alarmHolder.hourOfDay,
+                        alarmHolder.minute,
+                        alarmHolder.callRecord,
+                        alarmHolder.memoText
+                );
+
+                // TODO: delete below after test
+                final AlarmRecord rec = AlarmRecord.getRecordById(recId);
+                Log.d(TAG, "-- rec send: " + rec.toString());
                 // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 // Set intent with notification message
                 Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
-                intent.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
+                intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
-
+                // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
-                mCalendar.set(Calendar.YEAR, alarmRecord.year);
-                mCalendar.set(Calendar.MONTH, alarmRecord.month);
-                mCalendar.set(Calendar.DAY_OF_MONTH, alarmRecord.dayOfMonth);
-                mCalendar.set(Calendar.HOUR_OF_DAY, alarmRecord.hourOfDay);
-                mCalendar.set(Calendar.MINUTE, alarmRecord.minute);
-
+                mCalendar.set(Calendar.YEAR, alarmHolder.year);
+                mCalendar.set(Calendar.MONTH, alarmHolder.month);
+                mCalendar.set(Calendar.DAY_OF_MONTH, alarmHolder.dayOfMonth);
+                mCalendar.set(Calendar.HOUR_OF_DAY, alarmHolder.hourOfDay);
+                mCalendar.set(Calendar.MINUTE, alarmHolder.minute);
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
-
                 Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 NewReminderActivity.this.finish();
@@ -212,9 +220,9 @@ public class NewReminderActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(PickerDateChangedEvent event) {
         Log.d("onEvent", "PickerDateChangedEvent " + event.getYear() + " " + event.getMonth() + " " + event.getDayOfMonth());
-        alarmRecord.year = event.getYear();
-        alarmRecord.month = event.getMonth();
-        alarmRecord.dayOfMonth = event.getDayOfMonth();
+        alarmHolder.year = event.getYear();
+        alarmHolder.month = event.getMonth();
+        alarmHolder.dayOfMonth = event.getDayOfMonth();
 
         // Setup tab header
         String dateStr = event.getMonth() + "/" + event.getDayOfMonth() + "/" + event.getYear();
@@ -234,8 +242,8 @@ public class NewReminderActivity extends AppCompatActivity {
         Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
 
 
-        alarmRecord.hourOfDay = event.getHourOfDay();
-        alarmRecord.minute = event.getMinute();
+        alarmHolder.hourOfDay = event.getHourOfDay();
+        alarmHolder.minute = event.getMinute();
         // Setup tab header
         if (event.getMinute() < 10) {
             StringBuilder sb = new StringBuilder("0").append(event.getMinute());
@@ -248,8 +256,32 @@ public class NewReminderActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(PickerTextChangedEvent event) {
         Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
-        alarmRecord.memoText = event.getText().toString();
+        alarmHolder.memoText = event.getText().toString();
 
+    }
+
+
+    private static class AlarmHolder {
+         int year;
+         int month;
+         int dayOfMonth;
+         int hourOfDay;
+         int minute;
+         CallRecord callRecord;
+         String memoText;
+
+        @Override
+        public String toString() {
+            return "AlarmHolder{" +
+                    "year=" + year +
+                    ", month=" + month +
+                    ", dayOfMonth=" + dayOfMonth +
+                    ", hourOfDay=" + hourOfDay +
+                    ", minute=" + minute +
+                    ", callRecord=" + callRecord +
+                    ", memoText='" + memoText + '\'' +
+                    '}';
+        }
     }
 
 

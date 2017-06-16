@@ -47,10 +47,11 @@ public class AlarmsReceiver extends BroadcastReceiver {
 
         int recordId = (int) intent.getLongExtra(EXTRA_CALL_RECORD_ID, -1);
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(recordId);
-        String name = alarmRecord.callRecord.name;
-        String memo = alarmRecord.callRecord.memoText;
+        Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
+//        String name = alarmRecord.callRecord.name;
+//        String memo = alarmRecord.callRecord.memoText;
 
-        Bitmap avatar = Bitmap.createBitmap(1,1, null);
+        Bitmap avatar = Bitmap.createBitmap(1, 1, null);
         Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
         Drawable currentState = d.getCurrent();
         if (currentState instanceof BitmapDrawable)
@@ -95,8 +96,8 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setWhen(0)
                 .setSmallIcon(R.drawable.ic_watch_later_white_24dp)
                 //.setLargeIcon(avatar)                               // User avatar here
-                .setContentTitle(name)              // User name or phone number here
-                .setContentText(memo)                     // Memo text here
+                .setContentTitle("name")              // User name or phone number here
+                .setContentText("memo")                     // Memo text here
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("some big text"))
                 .setContentIntent(pIntentAction)  // goto reminder details on click
                 .addAction(R.drawable.ic_close_white_24dp, "Dismiss", pIntentDismiss)
