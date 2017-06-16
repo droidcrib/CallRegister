@@ -23,6 +23,7 @@ public class Constants {
     public static final String IS_CATCH_MISSED = "com.blogspot.droidcrib.callregister.IS_CATCH_MISSED";
 
     public static final String ACTION_REMOVE_NOTIFICATION = "com.blogspot.droidcrib.callregister.ACTION_REMOVE_NOTIFICATION";
+    public static final String ACTION_CREATE_NOTIFICATION = "com.blogspot.droidcrib.callregister.ACTION_CREATE_NOTIFICATION";
     public static final String ACTION_SHOW_ALARM_DETAILS = "com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS";
 
 

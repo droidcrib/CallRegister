@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_CREATE_NOTIFICATION;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
@@ -57,7 +58,6 @@ public class NewReminderActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
     private static Date mDate = new Date();
-    private AlarmRecord alarmRecord;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private AlarmHolder alarmHolder = new AlarmHolder();
@@ -172,7 +172,7 @@ public class NewReminderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // TODO: do this in asynctask
-                final long recId = AlarmRecord.insert(
+                long recId = AlarmRecord.insert(
                         alarmHolder.year,
                         alarmHolder.month,
                         alarmHolder.dayOfMonth,
@@ -194,7 +194,7 @@ public class NewReminderActivity extends AppCompatActivity {
 //                intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
-                // TODO: add new action here
+                intent.setAction(ACTION_CREATE_NOTIFICATION);
                 alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
                 // Set alarm date and time

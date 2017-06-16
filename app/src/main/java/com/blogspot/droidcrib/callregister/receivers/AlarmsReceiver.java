@@ -44,23 +44,22 @@ public class AlarmsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String action = intent.getAction();
-        int recordId = (int) intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        long longExtraId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
 
         Log.d(TAG, "action received = " + action);
-        Log.d(TAG, "extra alarm id received = " + recordId);
+        Log.d(TAG, "extra alarm id received = " + longExtraId);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
         if (action != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
-            Log.d(TAG, "Cancelling notification with id = " + recordId);
-            nm.cancel(18);
+            Log.d(TAG, "Cancelling notification with id = " + longExtraId);
+            nm.cancel((int) longExtraId);
             return;
         }
 
 
-
-        AlarmRecord alarmRecord = AlarmRecord.getRecordById(recordId);
+        AlarmRecord alarmRecord = AlarmRecord.getRecordById(longExtraId);
         Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
         String name = alarmRecord.callRecord.name;
         String memo = alarmRecord.memoText;
@@ -86,15 +85,15 @@ public class AlarmsReceiver extends BroadcastReceiver {
 
         Intent intentAction = new Intent(context, MainActivity.class);
         intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
-        intentAction.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
+        intentAction.putExtra(EXTRA_ALARM_RECORD_ID, longExtraId);
         PendingIntent pIntentAction = PendingIntent.getActivity(context, 0, intentAction,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Intent intentDismiss = new Intent();
-        intentDismiss.setAction(ACTION_REMOVE_NOTIFICATION);
-        intentDismiss.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
-        PendingIntent pIntentDismiss = PendingIntent.getBroadcast(context, 0, intentDismiss,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        Intent intentDismiss = new Intent();
+//        intentDismiss.setAction(ACTION_REMOVE_NOTIFICATION);
+//        intentDismiss.putExtra(EXTRA_ALARM_RECORD_ID, longExtraId);
+//        PendingIntent pIntentDismiss = PendingIntent.getBroadcast(context, 0, intentDismiss,
+//                PendingIntent.FLAG_CANCEL_CURRENT);
 
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
@@ -106,9 +105,9 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setContentText(memo)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(memo))
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
-                .addAction(R.drawable.ic_close_white_24dp, "Dismiss", pIntentDismiss)
+//                .addAction(R.drawable.ic_close_white_24dp, "Dismiss", pIntentDismiss)
                 .setAutoCancel(true);
-        nm.notify(18, notification.build());
+        nm.notify((int) longExtraId, notification.build());
 
     }
 
