@@ -52,10 +52,10 @@ public class AlarmRecord extends Model {
         alarmRecord.minute = minute;
         alarmRecord.memoText = memoText;
         alarmRecord.callRecord = callRecord;
-        alarmRecord.callRecord.name = "aaa";
-        alarmRecord.callRecord.phone = "bbb";
-        alarmRecord.callRecord.memoText = "ccc";
-        alarmRecord.callRecord.avatarUri = "file://";
+        alarmRecord.callRecord.name = callRecord.name;
+        alarmRecord.callRecord.phone = callRecord.phone;
+        alarmRecord.callRecord.memoText = callRecord.memoText;
+        alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
         alarmRecord.save();
 
         return alarmRecord.getId();
