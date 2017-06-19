@@ -74,13 +74,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String action = getIntent().getAction();
+        mFragmentManager = getSupportFragmentManager();
+        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
 
-        Log.d(TAG, "main activity action received = " + getIntent().getAction());
-        Log.d(TAG, "main activity extra received = " + getIntent().getStringExtra(EXTRA_ALARM_RECORD_ID));
-        if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
-            setDetailsFragment(1);
-        }
+        String action = getIntent().getAction();
+        long recordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+
+        Log.d(TAG, "main activity action received = " + action);
+        Log.d(TAG, "main activity extra received = " + recordId);
+
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 
@@ -142,13 +144,11 @@ public class MainActivity extends AppCompatActivity
         //Setup list fragment
         // Explicitly call to get permission in Android 6
         readPhoneStateWrapper();
-        mFragmentManager = getSupportFragmentManager();
-        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
-        if (mFragment == null) {
-            mFragment = CallsListFragment.getInstance();
-            mFragmentManager.beginTransaction()
-                    .add(R.id.id_fragment_container, mFragment)
-                    .commit();
+
+        if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
+            setDetailsFragment(1);
+        } else {
+            setListFragment();
         }
 
 
@@ -241,7 +241,13 @@ public class MainActivity extends AppCompatActivity
      */
 
     public void setDetailsFragment(long id) {
+
+
         mFragment = CallDetailsFragment.newInstance(id);
+
+        Log.d(TAG, "mFragment is null = " + mFragment);
+        Log.d(TAG, "mFragmentManager is null = " + mFragmentManager);
+
         mFragmentManager.beginTransaction()
                 .replace(R.id.id_fragment_container, mFragment)
                 .commit();
