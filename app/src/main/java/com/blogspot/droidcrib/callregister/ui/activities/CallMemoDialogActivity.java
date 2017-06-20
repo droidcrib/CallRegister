@@ -24,6 +24,7 @@ import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.model.ContactCard;
+import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.telephony.ContactsProvider;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,6 +47,9 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     String mContactName;
     Bitmap mAvatarBitmap;
     String mAvatarUri;
+    private String mNoteText;
+    Button mNoteButton;
+    Button mReminderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,8 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         TextView mDisplayName = (TextView) findViewById(R.id.id_person_name);
         ImageView mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
         ImageView mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
-        Button mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
-        Button mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
+        mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
+        mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
         Button mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
         mNote = (EditText) findViewById(R.id.id_dialog_note);
 
@@ -71,9 +75,10 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mAvatarBitmap = contactCard.getAavatar();
         mAvatarUri = contactCard.getAvatarUri();
 
-//        // Insert new call record
-//        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
-//        EventBus.getDefault().post(new NewCallEvent());
+        // Insert new call record
+        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
+        EventBus.getDefault().post(new NewCallEvent());
+
 
         // Setup views
         mDisplayName.setText(mContactName);
@@ -100,11 +105,10 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mNoteButton.setVisibility(View.GONE);
+                mReminderButton.setVisibility(View.GONE);
                 isNoAction = false;
                 mNote.setVisibility(View.VISIBLE);
-                // Insert new call record
-                mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
-                EventBus.getDefault().post(new NewCallEvent());
             }
         });
 
@@ -112,9 +116,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Insert new call record
-                mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
-                EventBus.getDefault().post(new NewCallEvent());
-
                 Intent intent = new Intent(CallMemoDialogActivity.this, NewReminderActivity.class);
                 intent.putExtra(EXTRA_CALL_RECORD_ID, mRecordId);
                 CallMemoDialogActivity.this.startActivity(intent);
@@ -141,7 +142,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                CallRecord.updateMemo(mRecordId, s.toString());
+                mNoteText = s.toString();
             }
         });
 
@@ -160,6 +161,11 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NoteRecord.insert(mNoteText, CallRecord.getRecordById(mRecordId));
+    }
 
     ////////////////////////////////////////////////////////
     // Handling permissions for API >= 23
