@@ -75,6 +75,16 @@ public class CallRecord extends Model {
     }
 
 
+    // Used to return items from another table based on the foreign key
+    public List<NoteRecord> getNotes() {
+        return getMany(NoteRecord.class, "callRecord");
+    }
+
+    public List<AlarmRecord> getAlarms() {
+        return getMany(AlarmRecord.class, "callRecord");
+    }
+
+
 
 
     private static long dateToLong(Date date){

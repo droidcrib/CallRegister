@@ -15,9 +15,12 @@ import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
+import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.model.NoteRecord;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * Created by Andrey on 04.10.2016.
@@ -25,13 +28,21 @@ import java.text.SimpleDateFormat;
 public class CallDetailsFragment extends Fragment {
     private Long mRecordId;
     private CallRecord mCallRecord;
+    private NoteRecord mNoteRecord;
+    private AlarmRecord mAlarmRecord;
     private String mToolbarTextHeader;
+    private  String mMemoText;
+
+    ArrayList<NoteRecord> mNoteRecordsList;
+    ArrayList<AlarmRecord> mAlarmRecordsList;
 
 
     private ImageView mDisplayCallType;
     private TextView mDisplayCallTime;
     private TextView mDisplayCallMemo;
     private ImageView mDisplayAvatar;
+    private TextView mDisplayAlarmTime;
+    private TextView mDisplayAlarmMemo;
     private FloatingActionButton mFab;
 
     private static final String TAG = "CallDetailsFragment";
@@ -53,6 +64,14 @@ public class CallDetailsFragment extends Fragment {
 
         mRecordId = getArguments().getLong(Constants.EXTRA_CALL_RECORD_ID);
         mCallRecord = CallRecord.getRecordById(mRecordId);
+        mNoteRecordsList =  new ArrayList<>(mCallRecord.getNotes());
+        mAlarmRecordsList =  new ArrayList<>(mCallRecord.getAlarms());
+
+        Log.d(TAG, "Related notes: " + mCallRecord.getNotes().size());
+        Log.d(TAG, "Related alarms: " + mCallRecord.getAlarms().size());
+
+
+
     }
 
     @Nullable
@@ -66,11 +85,28 @@ public class CallDetailsFragment extends Fragment {
         mDisplayCallTime = (TextView) v.findViewById(R.id.id_text_view_details_call_time);
         mDisplayCallMemo = (TextView) v.findViewById(R.id.id_detail_note);
         mDisplayAvatar = (ImageView) v.findViewById(R.id.avatar_backdrop);
+        mDisplayAlarmTime = (TextView) v.findViewById(R.id.id_detail_time);
+        mDisplayAlarmMemo = (TextView) v.findViewById(R.id.id_detail_text);
+
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mCallRecord.name);
 
 
-//        mDisplayCallMemo.setText(mCallRecord.memoText);
+
+        if (mNoteRecordsList.size() > 0){
+            mDisplayCallMemo.setText(mNoteRecordsList.get(0).memoText);
+        }
+
+        if (mAlarmRecordsList.size() > 0){
+            String date = String.valueOf(mAlarmRecordsList.get(0).year);
+            String memo = mAlarmRecordsList.get(0).memoText;
+
+            mDisplayAlarmTime.setText(date);
+            mDisplayAlarmMemo.setText(memo);
+//            mDisplayAlarmTime.setText("DATE");
+//            mDisplayAlarmMemo.setText("MEMO");
+        }
+
         Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
         if (mCallRecord.avatarUri != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));

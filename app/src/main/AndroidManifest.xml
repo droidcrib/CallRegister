@@ -20,7 +20,8 @@
         <meta-data
             android:name="AA_MODELS"
             android:value="com.blogspot.droidcrib.callregister.model.CallRecord,
-            com.blogspot.droidcrib.callregister.model.AlarmRecord" />
+            com.blogspot.droidcrib.callregister.model.AlarmRecord,
+            com.blogspot.droidcrib.callregister.model.NoteRecord" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />

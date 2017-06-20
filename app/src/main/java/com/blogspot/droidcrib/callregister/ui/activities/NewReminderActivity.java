@@ -190,12 +190,10 @@ public class NewReminderActivity extends AppCompatActivity {
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 // Set intent with notification message
-//                Intent intent = new Intent(getApplicationContext(), AlarmsReceiver.class);
-//                intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 intent.setAction(ACTION_CREATE_NOTIFICATION);
-                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -204,6 +202,8 @@ public class NewReminderActivity extends AppCompatActivity {
                 mCalendar.set(Calendar.DAY_OF_MONTH, alarmHolder.dayOfMonth);
                 mCalendar.set(Calendar.HOUR_OF_DAY, alarmHolder.hourOfDay);
                 mCalendar.set(Calendar.MINUTE, alarmHolder.minute);
+
+                // Set new alarm
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
                 Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

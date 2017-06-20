@@ -36,6 +36,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
@@ -78,10 +79,10 @@ public class MainActivity extends AppCompatActivity
         mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
 
         String action = getIntent().getAction();
-        long recordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        long alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
 
         Log.d(TAG, "main activity action received = " + action);
-        Log.d(TAG, "main activity extra received = " + recordId);
+        Log.d(TAG, "main activity extra received = " + alarmRecordId);
 
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity
         readPhoneStateWrapper();
 
         if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
-            setDetailsFragment(1);
+            AlarmRecord record = AlarmRecord.getRecordById(alarmRecordId);
+            setDetailsFragment(record.callRecord.getId());
         } else {
             setListFragment();
         }

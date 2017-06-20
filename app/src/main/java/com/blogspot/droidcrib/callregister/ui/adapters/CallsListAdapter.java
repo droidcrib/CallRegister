@@ -76,9 +76,9 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         String convertedTime = new SimpleDateFormat("HH:mm").format(record.callStartTime);
         holder.callTime.setText(convertedTime);
         // Set comment icon
-        if (!record.memoText.equals("")) {
-            holder.comment.setVisibility(View.VISIBLE);
-        }
+//        if (!record.memoText.equals("")) {
+//            holder.comment.setVisibility(View.VISIBLE);
+//        }
         // Set avatar
         if(record.avatarUri != null){
             holder.avatar.setImageURI(Uri.parse(record.avatarUri));
