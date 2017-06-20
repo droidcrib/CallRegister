@@ -41,6 +41,11 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private long mRecordId;
     private EditText mNote;
     private boolean isNoAction = true;
+    String mCallType;
+    ContactCard contactCard;
+    String mContactName;
+    Bitmap mAvatarBitmap;
+    String mAvatarUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +65,15 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mPhoneNumber = getIntent().getStringExtra(Constants.EXTRA_PHONE_NUMBER);
         long dateMilliseconds = getIntent().getLongExtra(Constants.EXTRA_DATE, -1);
         mCallDate.setTime(dateMilliseconds);
-        String mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
-        ContactCard contactCard = readContactsWrapper(mPhoneNumber);
-        String mContactName = contactCard.getName();
-        Bitmap mAvatarBitmap = contactCard.getAavatar();
-        String mAvatarUri = contactCard.getAvatarUri();
+        mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
+        contactCard = readContactsWrapper(mPhoneNumber);
+        mContactName = contactCard.getName();
+        mAvatarBitmap = contactCard.getAavatar();
+        mAvatarUri = contactCard.getAvatarUri();
 
-        // Insert new call record
-        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
-        EventBus.getDefault().post(new NewCallEvent());
+//        // Insert new call record
+//        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
+//        EventBus.getDefault().post(new NewCallEvent());
 
         // Setup views
         mDisplayName.setText(mContactName);
@@ -97,12 +102,18 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isNoAction = false;
                 mNote.setVisibility(View.VISIBLE);
+                // Insert new call record
+                mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
+                EventBus.getDefault().post(new NewCallEvent());
             }
         });
 
         mReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Insert new call record
+                mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
+                EventBus.getDefault().post(new NewCallEvent());
 
                 Intent intent = new Intent(CallMemoDialogActivity.this, NewReminderActivity.class);
                 intent.putExtra(EXTRA_CALL_RECORD_ID, mRecordId);
@@ -117,7 +128,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 CallMemoDialogActivity.this.finish();
             }
         });
-
 
 
         mNote.addTextChangedListener(new TextWatcher() {
@@ -141,7 +151,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                if(isNoAction) {
+                if (isNoAction) {
                     CallMemoDialogActivity.this.finish();
                 }
             }

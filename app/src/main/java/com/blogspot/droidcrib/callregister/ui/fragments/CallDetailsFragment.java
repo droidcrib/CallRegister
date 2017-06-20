@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
@@ -32,6 +34,8 @@ public class CallDetailsFragment extends Fragment {
     private AlarmRecord mAlarmRecord;
     private String mToolbarTextHeader;
     private  String mMemoText;
+    private LinearLayout mNoteLayout;
+    private RelativeLayout mAlarmLayout;
 
     ArrayList<NoteRecord> mNoteRecordsList;
     ArrayList<AlarmRecord> mAlarmRecordsList;
@@ -87,6 +91,10 @@ public class CallDetailsFragment extends Fragment {
         mDisplayAvatar = (ImageView) v.findViewById(R.id.avatar_backdrop);
         mDisplayAlarmTime = (TextView) v.findViewById(R.id.id_detail_time);
         mDisplayAlarmMemo = (TextView) v.findViewById(R.id.id_detail_text);
+        mNoteLayout = (LinearLayout) v.findViewById(R.id.in_note);
+        mAlarmLayout = (RelativeLayout) v.findViewById(R.id.in_alarm);
+        mNoteLayout.setVisibility(View.GONE);
+        mAlarmLayout.setVisibility(View.GONE);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(mCallRecord.name);
@@ -94,17 +102,16 @@ public class CallDetailsFragment extends Fragment {
 
 
         if (mNoteRecordsList.size() > 0){
+            mNoteLayout.setVisibility(View.VISIBLE);
             mDisplayCallMemo.setText(mNoteRecordsList.get(0).memoText);
         }
 
         if (mAlarmRecordsList.size() > 0){
+            mAlarmLayout.setVisibility(View.VISIBLE);
             String date = String.valueOf(mAlarmRecordsList.get(0).year);
             String memo = mAlarmRecordsList.get(0).memoText;
-
             mDisplayAlarmTime.setText(date);
             mDisplayAlarmMemo.setText(memo);
-//            mDisplayAlarmTime.setText("DATE");
-//            mDisplayAlarmMemo.setText("MEMO");
         }
 
         Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
