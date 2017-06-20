@@ -33,7 +33,7 @@
             android:fontFamily="sans-serif"
             android:hint="12:00"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

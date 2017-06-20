@@ -68,6 +68,8 @@
 
             <include layout="@layout/include_note" />
 
+            <include layout="@layout/include_alarm" />
+
         </LinearLayout>
 
 
