@@ -24,6 +24,7 @@ import android.util.Log;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
+import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 
 import java.io.IOException;
 
@@ -82,7 +83,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
         avatar.recycle();
 
 
-        Intent intentAction = new Intent(context, MainActivity.class);
+        Intent intentAction = new Intent(context, SingleFragmentActivity.class);
         intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
         PendingIntent pIntentAction = PendingIntent.getActivity(context, (int)recordId, intentAction,

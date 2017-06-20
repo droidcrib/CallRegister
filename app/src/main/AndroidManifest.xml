@@ -33,6 +33,15 @@
             android:name=".ui.activities.NewReminderActivity"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".ui.activities.SingleFragmentActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS" />
+            </intent-filter>
+        </activity>
+
+
         <receiver android:name=".telephony.CallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
@@ -58,9 +67,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS" />
             </intent-filter>
         </activity>
     </application>

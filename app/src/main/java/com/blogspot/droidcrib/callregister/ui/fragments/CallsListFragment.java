@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
+import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.CallsListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
 /**
  * Created by Andrey Bulanov on 04.10.2016.
@@ -80,8 +84,13 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MainActivity activity = (MainActivity) getActivity();
-                activity.setDetailsFragment(id);
+//                MainActivity activity = (MainActivity) getActivity();
+//                activity.setDetailsFragment(id);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtra(EXTRA_CALL_RECORD_ID, id);
+                getActivity().startActivity(intent);
+
+
             }
         });
         // Set text to Toolbar header
