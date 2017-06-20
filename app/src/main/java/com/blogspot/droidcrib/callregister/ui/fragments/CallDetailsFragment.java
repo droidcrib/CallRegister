@@ -70,7 +70,7 @@ public class CallDetailsFragment extends Fragment {
         collapsingToolbarLayout.setTitle(mCallRecord.name);
 
 
-        mDisplayCallMemo.setText(mCallRecord.memoText);
+//        mDisplayCallMemo.setText(mCallRecord.memoText);
         Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
         if (mCallRecord.avatarUri != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));

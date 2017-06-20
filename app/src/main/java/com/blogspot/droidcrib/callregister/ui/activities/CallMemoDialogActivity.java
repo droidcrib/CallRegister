@@ -129,7 +129,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                CallRecord.updateMemo(mRecordId, s.toString());
+//                CallRecord.updateMemo(mRecordId, s.toString());
             }
         });
 

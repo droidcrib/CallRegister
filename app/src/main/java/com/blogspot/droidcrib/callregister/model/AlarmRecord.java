@@ -8,7 +8,7 @@ import com.activeandroid.query.Select;
 import java.util.Calendar;
 
 /**
- * Created by BulanovA on 09.06.2017.
+ *
  */
 
 
@@ -54,7 +54,6 @@ public class AlarmRecord extends Model {
         alarmRecord.callRecord = callRecord;
         alarmRecord.callRecord.name = callRecord.name;
         alarmRecord.callRecord.phone = callRecord.phone;
-        alarmRecord.callRecord.memoText = callRecord.memoText;
         alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
         alarmRecord.save();
 
@@ -80,7 +79,7 @@ public class AlarmRecord extends Model {
                 ", callRecord=" + callRecord +
                 ", callRecord.name=" + callRecord.name +
                 ", callRecord.phone=" + callRecord.phone +
-                ", callRecord.memoText=" + callRecord.memoText +
+//                ", callRecord.memoText=" + callRecord.memoText +
                 ", callRecord.avatarUri=" + callRecord.avatarUri +
                 '}';
     }

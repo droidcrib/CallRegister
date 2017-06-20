@@ -29,9 +29,6 @@ public class CallRecord extends Model {
     @Column(name = "callStartTime")
     public Date callStartTime;
 
-    @Column(name = "memoText")
-    public String memoText;
-
     @Column(name = "callDateId")
     public long callDateId;
 
@@ -49,7 +46,6 @@ public class CallRecord extends Model {
         record.avatarUri = avatarUri;
         record.callType = callType;
         record.callStartTime = callTime;
-        record.memoText = "";
         record.callDateId = dateToLong(callTime);
         record.save();
 
@@ -65,11 +61,11 @@ public class CallRecord extends Model {
                 .execute();
     }
 
-    public static void updateMemo(long id, String memo){
-        CallRecord record = CallRecord.load(CallRecord.class, id);
-        record.memoText = memo;
-        record.save();
-    }
+//    public static void updateMemo(long id, String memo){
+//        CallRecord record = CallRecord.load(CallRecord.class, id);
+//        record.memoText = memo;
+//        record.save();
+//    }
 
     public static CallRecord getRecordById(long id){
         return new Select()
