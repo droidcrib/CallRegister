@@ -13,7 +13,9 @@ import android.widget.AdapterView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
+import com.blogspot.droidcrib.callregister.loaders.NoteRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +32,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class NotesListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     public static NotesListFragment sNotesListFragment;
-    List<CallRecord> mCallRecordsList;
+    List<NoteRecord> mCallRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
 
@@ -101,12 +103,13 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new NotesRecordsLoader(getActivity());
+        return new NoteRecordsLoader(getActivity());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        mCallRecordsList = (List<CallRecord>) data;
+        mCallRecordsList = (List<NoteRecord>) data;
         NotesListAdapter adapter = new NotesListAdapter(getActivity(), mCallRecordsList);
         stickyList.setAdapter(adapter);
     }

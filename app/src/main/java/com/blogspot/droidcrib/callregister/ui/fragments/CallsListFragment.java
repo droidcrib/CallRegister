@@ -111,6 +111,7 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         return new CallRecordsLoader(getActivity());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         mCallRecordsList = (List<CallRecord>) data;

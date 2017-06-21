@@ -16,6 +16,7 @@ import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
 import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
+import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
@@ -37,7 +38,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 public class AlarmsListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     public static AlarmsListFragment sAlarmsListFragment;
-    List<CallRecord> mCallRecordsList;
+    List<AlarmRecord> mCallRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
 
@@ -110,10 +111,10 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     public Loader onCreateLoader(int id, Bundle args) {
         return new AlarmRecordsLoader(getActivity());
     }
-
+    @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        mCallRecordsList = (List<CallRecord>) data;
+        mCallRecordsList = (List<AlarmRecord>) data;
         AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mCallRecordsList);
         stickyList.setAdapter(adapter);
     }
