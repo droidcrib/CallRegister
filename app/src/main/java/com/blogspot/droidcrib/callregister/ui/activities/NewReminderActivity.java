@@ -47,7 +47,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 public class NewReminderActivity extends AppCompatActivity {
 
 
-    private static final String TAG = "AlarmsReceiver";
+    private static final String TAG = "trace_notifications";
 
     private MeasuredViewPager mViewPager;
     private long mRecordId;
@@ -193,7 +193,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 intent.setAction(ACTION_CREATE_NOTIFICATION);
-                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), (int)recId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -207,6 +207,9 @@ public class NewReminderActivity extends AppCompatActivity {
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
                 Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Log.d(TAG, "==> NewReminderActivity extra alarm id send = " + recId);
+                Log.d(TAG, "==> NewReminderActivity  alarm intent send = " + alarmIntent.toString());
                 NewReminderActivity.this.finish();
             }
         });

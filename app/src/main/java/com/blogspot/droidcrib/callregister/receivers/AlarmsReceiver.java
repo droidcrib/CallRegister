@@ -39,27 +39,28 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_PHONE
 
 public class AlarmsReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "AlarmsReceiver";
+    private static final String TAG = "trace_notifications";
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         String action = intent.getAction();
-        long recordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        long alarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
 
-//        Log.d(TAG, "action received = " + action);
-//        Log.d(TAG, "extra alarm id received = " + recordId);
+        Log.d(TAG, "<== AlarmsReceiver intent received = " + intent.toString());
+        Log.d(TAG, "<== AlarmsReceiver action received = " + action);
+        Log.d(TAG, "<== AlarmsReceiver extra alarm id received = " + alarmRecordId);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 //
 //        if (action != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
-////            Log.d(TAG, "Cancelling notification with id = " + recordId);
-//            nm.cancel((int) recordId);
+////            Log.d(TAG, "Cancelling notification with id = " + alarmRecordId);
+//            nm.cancel((int) alarmRecordId);
 //            return;
 //        }
 
 
-        AlarmRecord alarmRecord = AlarmRecord.getRecordById(recordId);
+        AlarmRecord alarmRecord = AlarmRecord.getRecordById(alarmRecordId);
 //        Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
         String name = alarmRecord.callRecord.name;
         String memo = alarmRecord.memoText;
@@ -80,13 +81,13 @@ public class AlarmsReceiver extends BroadcastReceiver {
         }
 
         Bitmap circeAvatar = getCircledBitmap(avatar, 96);
-        avatar.recycle();
+        //avatar.recycle();
 
 
         Intent intentAction = new Intent(context, SingleFragmentActivity.class);
         intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
-        intentAction.putExtra(EXTRA_ALARM_RECORD_ID, recordId);
-        PendingIntent pIntentAction = PendingIntent.getActivity(context, (int)recordId, intentAction,
+        intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
+        PendingIntent pIntentAction = PendingIntent.getActivity(context, (int)alarmRecordId, intentAction,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -94,13 +95,13 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setPriority(Notification.PRIORITY_MAX)
                 .setWhen(0)
                 .setSmallIcon(R.drawable.ic_watch_later_white_24dp)
-                .setLargeIcon(circeAvatar)                               // User avatar here
+               // .setLargeIcon(circeAvatar)                               // User avatar here
                 .setContentTitle(name)                              // User name or phone number here
                 .setContentText(memo)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(memo))
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
                 .setAutoCancel(true);
-        nm.notify((int) recordId, notification.build());
+        nm.notify((int) alarmRecordId, notification.build());
 
     }
 
