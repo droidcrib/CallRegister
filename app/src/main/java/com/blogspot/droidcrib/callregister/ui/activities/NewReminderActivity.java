@@ -24,9 +24,8 @@ import com.blogspot.droidcrib.callregister.eventbus.PickerTextChangedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.PickerTimeCangedEvent;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
-import com.blogspot.droidcrib.callregister.receivers.AlarmsReceiver;
 import com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager;
-import com.blogspot.droidcrib.callregister.ui.adapters.TabsPagerAdapter;
+import com.blogspot.droidcrib.callregister.ui.adapters.ReminderTabsPagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,7 +54,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private EditText mNote;
     private ImageView mDisplayCallType;
     private ImageView mDisplayAvatar;
-    private TabLayout tabLayout;
+    private TabLayout mTabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
     private static Date mDate = new Date();
     private AlarmManager alarmMgr;
@@ -104,17 +103,17 @@ public class NewReminderActivity extends AppCompatActivity {
 
 
         //  Setup TabLayout
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Date"));
-        tabLayout.addTab(tabLayout.newTab().setText("Time"));
-        tabLayout.addTab(tabLayout.newTab().setText("Memo"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Date"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Time"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Memo"));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //  Setup ViewPager
         mViewPager = (MeasuredViewPager) findViewById(R.id.pager);
-        final TabsPagerAdapter adapter = new TabsPagerAdapter(this, tabLayout.getTabCount());
+        final ReminderTabsPagerAdapter adapter = new ReminderTabsPagerAdapter(this, mTabLayout.getTabCount());
         mViewPager.setAdapter(adapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout) {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -127,7 +126,7 @@ public class NewReminderActivity extends AppCompatActivity {
             }
         });
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
@@ -146,10 +145,10 @@ public class NewReminderActivity extends AppCompatActivity {
         // Set current date-time into tabs headers
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
         String date = sdf.format(mDate);
-        tabLayout.getTabAt(0).setText(date);
+        mTabLayout.getTabAt(0).setText(date);
         sdf = new SimpleDateFormat("HH:mm");
         String time = sdf.format(mDate);
-        tabLayout.getTabAt(1).setText(time);
+        mTabLayout.getTabAt(1).setText(time);
 
         // Set initial values for AlarmRecord
         mCalendar.setTime(mDate);
@@ -241,7 +240,7 @@ public class NewReminderActivity extends AppCompatActivity {
             mDate = sdf.parse(dateStr);
             sdf = new SimpleDateFormat("dd MMM yyyy");
             String str = sdf.format(mDate);
-            tabLayout.getTabAt(0).setText(str);
+            mTabLayout.getTabAt(0).setText(str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -257,9 +256,9 @@ public class NewReminderActivity extends AppCompatActivity {
         // Setup tab header
         if (event.getMinute() < 10) {
             StringBuilder sb = new StringBuilder("0").append(event.getMinute());
-            tabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + sb);
+            mTabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + sb);
         } else {
-            tabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + event.getMinute());
+            mTabLayout.getTabAt(1).setText(event.getHourOfDay() + " : " + event.getMinute());
         }
     }
 

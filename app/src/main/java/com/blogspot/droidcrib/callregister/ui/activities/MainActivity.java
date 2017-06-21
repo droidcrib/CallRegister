@@ -14,12 +14,13 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -33,14 +34,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
-import com.blogspot.droidcrib.callregister.model.AlarmRecord;
+import com.blogspot.droidcrib.callregister.ui.adapters.MainTabsPagerAdapter;
+import com.blogspot.droidcrib.callregister.ui.adapters.ReminderTabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
-import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity
     private Boolean isCatchOutgoings;
     private Boolean isCatchMissed;
     private SharedPreferences mPrefs;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
 
     private static final String TAG = "AlarmsReceiver";
@@ -75,8 +77,48 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mFragmentManager = getSupportFragmentManager();
-        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
+        //  Setup TabLayout
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout.addTab(mTabLayout.newTab().setText("Date"));
+//        mTabLayout.addTab(mTabLayout.newTab().setText("Time"));
+//        mTabLayout.addTab(mTabLayout.newTab().setText("Memo"));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        //  Setup ViewPager
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        final MainTabsPagerAdapter adapter = new MainTabsPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout) {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (position == 0) {
+                    // do something with content
+                }
+                if (position == 1) {
+                    // do something with content
+                }
+            }
+        });
+
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+
+//        mFragmentManager = getSupportFragmentManager();
+//        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
 
         String action = getIntent().getAction();
         long alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
@@ -146,14 +188,6 @@ public class MainActivity extends AppCompatActivity
         // Explicitly call to get permission in Android 6
         readPhoneStateWrapper();
 
-        if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
-            AlarmRecord record = AlarmRecord.getRecordById(alarmRecordId);
-            setDetailsFragment(record.callRecord.getId());
-        } else {
-            setListFragment();
-        }
-
-
 
 
     }
@@ -166,31 +200,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-
-        /**
-         *  Moved from SingleFragmentActivity
-         */
-        // Go back to calls list
-        Object f = mFragmentManager.findFragmentById(R.id.id_fragment_container);
-        if (f instanceof CallDetailsFragment) {
-            setListFragment();
-            return;
-        }
-        // Exit program on second click
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, R.string.press_back_to_exit, Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
     }
 
     @Override

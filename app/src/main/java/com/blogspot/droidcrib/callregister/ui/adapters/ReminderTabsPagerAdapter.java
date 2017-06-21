@@ -32,19 +32,19 @@ import java.util.Calendar;
 
 
 /**
- * Created by Andrey Bulanov on 1/23/2017.
+ *
  */
 
-public class TabsPagerAdapter extends PagerAdapter {
+public class ReminderTabsPagerAdapter extends PagerAdapter {
 
     Context mContext;
     LayoutInflater mLayoutInflater;
     int mNumOfTabs;
 
 
-    private static final String TAG = "TabsPagerAdapter";
+    private static final String TAG = "ReminderTabsPagerAdapter";
 
-    public TabsPagerAdapter(Context context, int numOfTabs) {
+    public ReminderTabsPagerAdapter(Context context, int numOfTabs) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mNumOfTabs = numOfTabs;
