@@ -23,6 +23,7 @@
             android:id="@+id/id_tv_alarm_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/id_alarm_image"
             android:layout_toRightOf="@id/id_alarm_image"
             android:layout_marginLeft="16dp"
             android:fontFamily="sans-serif"
@@ -39,7 +40,9 @@
             android:layout_alignBottom="@id/id_alarm_image"
             android:layout_toRightOf="@id/id_alarm_image"
             android:layout_marginLeft="16dp"
-            android:layout_weight="50"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:hint="Note"
             android:textSize="14sp" />

@@ -5,7 +5,10 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +37,9 @@ public class AlarmRecord extends Model {
     @Column(name = "memoText")
     public String memoText;
 
+    @Column(name = "alarmDateId")
+    public long alarmDateId;
+
     @Column(name = "callRecord", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public CallRecord callRecord;
 
@@ -56,6 +62,7 @@ public class AlarmRecord extends Model {
         alarmRecord.callRecord.name = callRecord.name;
         alarmRecord.callRecord.phone = callRecord.phone;
         alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+        alarmRecord.alarmDateId = dateToLong(new Date());
         alarmRecord.save();
 
         return alarmRecord.getId();
@@ -75,6 +82,18 @@ public class AlarmRecord extends Model {
                 .from(AlarmRecord.class)
                 .orderBy("_id ASC")
                 .execute();
+    }
+
+
+    private static long dateToLong(Date date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+            String str = sdf.format(date);
+            date = sdf.parse(str);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return date.getTime();
     }
 
     @Override
