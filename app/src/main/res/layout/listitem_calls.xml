@@ -7,7 +7,7 @@
     android:paddingTop="8dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/id_image_view_photo"
+        android:id="@+id/id_alarm_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerVertical="true"
@@ -26,7 +26,7 @@
         android:paddingLeft="72dp">
 
         <TextView
-            android:id="@+id/id_text_view_person_name"
+            android:id="@+id/id_tv_alarm_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="50"
@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_call_missed_black_48dp" />
 
             <TextView
-                android:id="@+id/id_text_view_call_time"
+                android:id="@+id/id_tv_note"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

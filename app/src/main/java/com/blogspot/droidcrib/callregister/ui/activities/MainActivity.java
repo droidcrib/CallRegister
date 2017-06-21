@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity
 
         //  Setup TabLayout
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Date"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("Time"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("Memo"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Calls"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Alarms"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Notes"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //  Setup ViewPager

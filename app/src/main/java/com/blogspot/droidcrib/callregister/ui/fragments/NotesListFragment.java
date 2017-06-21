@@ -14,9 +14,9 @@ import android.widget.AdapterView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.NoteRecordsLoader;
-import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
+import com.blogspot.droidcrib.callregister.ui.adapters.NotesListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,13 +26,13 @@ import java.util.List;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
- * Created by BulanovA on 21.06.2017.
+ *
  */
 
 public class NotesListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     public static NotesListFragment sNotesListFragment;
-    List<NoteRecord> mCallRecordsList;
+    List<NoteRecord> mNoteRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
 
@@ -109,8 +109,8 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
     @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        mCallRecordsList = (List<NoteRecord>) data;
-        NotesListAdapter adapter = new NotesListAdapter(getActivity(), mCallRecordsList);
+        mNoteRecordsList = (List<NoteRecord>) data;
+        NotesListAdapter adapter = new NotesListAdapter(getActivity(), mNoteRecordsList);
         stickyList.setAdapter(adapter);
     }
 
@@ -124,5 +124,4 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
         Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
-} {
 }

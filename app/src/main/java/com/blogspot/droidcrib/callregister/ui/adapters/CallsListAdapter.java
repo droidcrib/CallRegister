@@ -55,12 +55,12 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
 
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.calls_list_item, parent, false);
-            holder.personName = (TextView) convertView.findViewById(R.id.id_text_view_person_name);
-            holder.callTime =(TextView) convertView.findViewById(R.id.id_text_view_call_time);
+            convertView = inflater.inflate(R.layout.listitem_calls, parent, false);
+            holder.personName = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
+            holder.callTime =(TextView) convertView.findViewById(R.id.id_tv_note);
             holder.comment = (ImageView) convertView.findViewById(R.id.id_image_view_comment);
             holder.callType = (ImageView) convertView.findViewById(R.id.id_image_view_call_type);
-            holder.avatar = (SimpleDraweeView ) convertView.findViewById(R.id.id_image_view_photo);
+            holder.avatar = (SimpleDraweeView ) convertView.findViewById(R.id.id_alarm_image);
 
             convertView.setTag(holder);
 
@@ -115,9 +115,9 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        //set header callDate as first char in name
+        //set header headerNoteDate as first char in name
         //String headerText = "" + countries[position].subSequence(0, 1).charAt(0);
-        //holder.callDate.setText(record.name);
+        //holder.headerNoteDate.setText(record.name);
 
         CallRecord record = (CallRecord)getItem(position);
         String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.callStartTime);

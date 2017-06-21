@@ -1,6 +1,5 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,12 +14,9 @@ import android.widget.AdapterView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
-import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
-import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
-import com.blogspot.droidcrib.callregister.ui.activities.SingleFragmentActivity;
-import com.blogspot.droidcrib.callregister.ui.adapters.CallsListAdapter;
+import com.blogspot.droidcrib.callregister.ui.adapters.AlarmsListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,8 +25,6 @@ import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
-
 /**
  * Created by BulanovA on 21.06.2017.
  */
@@ -38,7 +32,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 public class AlarmsListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
 
     public static AlarmsListFragment sAlarmsListFragment;
-    List<AlarmRecord> mCallRecordsList;
+    List<AlarmRecord> mAlarmRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
 
@@ -114,8 +108,8 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        mCallRecordsList = (List<AlarmRecord>) data;
-        AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mCallRecordsList);
+        mAlarmRecordsList = (List<AlarmRecord>) data;
+        AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mAlarmRecordsList);
         stickyList.setAdapter(adapter);
     }
 
