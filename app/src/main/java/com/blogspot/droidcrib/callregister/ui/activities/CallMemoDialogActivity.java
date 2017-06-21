@@ -42,6 +42,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private long mRecordId;
     private EditText mNote;
     private boolean isNoAction = true;
+    private boolean isNoteAddSelected = false;
     String mCallType;
     ContactCard contactCard;
     String mContactName;
@@ -108,6 +109,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 mNoteButton.setVisibility(View.GONE);
                 mReminderButton.setVisibility(View.GONE);
                 isNoAction = false;
+                isNoteAddSelected = true;
                 mNote.setVisibility(View.VISIBLE);
             }
         });
@@ -164,7 +166,9 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        NoteRecord.insert(mNoteText, CallRecord.getRecordById(mRecordId));
+        if (mNoteText != null && mNoteText.length() > 0 ) {
+            NoteRecord.insert(mNoteText, CallRecord.getRecordById(mRecordId));
+        }
     }
 
     ////////////////////////////////////////////////////////
