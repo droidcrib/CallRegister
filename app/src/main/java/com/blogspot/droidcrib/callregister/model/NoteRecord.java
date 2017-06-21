@@ -3,6 +3,9 @@ package com.blogspot.droidcrib.callregister.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
+import java.util.List;
 
 /**
  *
@@ -22,19 +25,22 @@ public class NoteRecord extends Model {
         super();
     }
 
-    public static long insert(String memoText, CallRecord callRecord){
+    public static long insert(String memoText, CallRecord callRecord) {
         NoteRecord noteRecord = new NoteRecord();
         noteRecord.memoText = memoText;
         noteRecord.callRecord = callRecord;
         noteRecord.save();
-
         return noteRecord.getId();
     }
 
 
-
-
-
+    // query all records
+    public static List<NoteRecord> queryAll() {
+        return new Select()
+                .from(NoteRecord.class)
+                .orderBy("_id ASC")
+                .execute();
+    }
 
 
 }

@@ -6,6 +6,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -65,6 +66,15 @@ public class AlarmRecord extends Model {
                 .from(AlarmRecord.class)
                 .where("_id = ?", id)
                 .executeSingle();
+    }
+
+    // query all records
+    public static List<AlarmRecord> queryAll() {
+
+        return new Select()
+                .from(AlarmRecord.class)
+                .orderBy("_id ASC")
+                .execute();
     }
 
     @Override

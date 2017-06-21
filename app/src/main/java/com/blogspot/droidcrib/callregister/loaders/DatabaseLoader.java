@@ -9,18 +9,18 @@ import com.blogspot.droidcrib.callregister.model.CallRecord;
 import java.util.List;
 
 
-public abstract class DatabaseLoader extends AsyncTaskLoader<List<CallRecord>> {
+public abstract class DatabaseLoader extends AsyncTaskLoader<List<?>> {
 
     private static final String TAG = "DatabaseLoader";
 
-    private List<CallRecord> mList;
+    private List<?> mList;
 
-    public abstract List<CallRecord> loadList();
+    public abstract List<?> loadList();
 
     @Override
-    public List<CallRecord> loadInBackground() {
+    public List<?> loadInBackground() {
         Log.d(TAG, "loadInBackground() ");
-        List<CallRecord> list = loadList();
+        List<?> list = loadList();
         if(!list.isEmpty()){
             // check content window is filled
             list.size();
@@ -34,7 +34,7 @@ public abstract class DatabaseLoader extends AsyncTaskLoader<List<CallRecord>> {
     }
 
     @Override
-    public void deliverResult(List<CallRecord> data) {
+    public void deliverResult(List<?> data) {
         super.deliverResult(data);
         mList = data;
         Log.d(TAG, "deliverResult() ");
