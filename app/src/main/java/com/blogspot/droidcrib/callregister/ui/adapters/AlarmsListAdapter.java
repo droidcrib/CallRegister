@@ -64,19 +64,7 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         }
 
         AlarmRecord record = (AlarmRecord) getItem(position);
-
-        // Set alarm date
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.YEAR, record.year);
-        calendar.set(Calendar.MONTH, record.month);
-        calendar.set(Calendar.DAY_OF_MONTH, record.dayOfMonth);
-        calendar.set(Calendar.HOUR_OF_DAY, record.hourOfDay);
-        calendar.set(Calendar.MINUTE, record.minute);
-
-        String convertedTime = new SimpleDateFormat("dd MMM yyyy HH:mm").format(calendar.getTimeInMillis());
-
+        String convertedTime = new SimpleDateFormat("HH:mm").format(record.alarmDateInMillis);
         holder.alarmDate.setText(convertedTime);
         holder.memo.setText(record.memoText);
 
@@ -94,12 +82,9 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         } else {
             holder = (AlarmsListAdapter.HeaderViewHolder) convertView.getTag();
         }
-        //set header headerNoteDate as first char in name
-        //String headerText = "" + countries[position].subSequence(0, 1).charAt(0);
-        //holder.headerNoteDate.setText(record.name);
 
         AlarmRecord record = (AlarmRecord) getItem(position);
-        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateId);
+        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
         holder.headerAlarmDate.setText(convertedDate);
 
         return convertView;
@@ -107,11 +92,9 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
 
     @Override
     public long getHeaderId(int position) {
-        //return the first character of the country as ID because this is what headers are based upon
         AlarmRecord record = (AlarmRecord) getItem(position);
-//        return countries[position].subSequence(0, 1).charAt(0);
-        // TODO: dateToLong(alarmDate)
-        return record.alarmDateId;
+        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
+        return (long)convertedDate.hashCode();
     }
 
     class HeaderViewHolder {

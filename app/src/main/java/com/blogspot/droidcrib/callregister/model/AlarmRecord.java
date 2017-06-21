@@ -37,8 +37,8 @@ public class AlarmRecord extends Model {
     @Column(name = "memoText")
     public String memoText;
 
-    @Column(name = "alarmDateId")
-    public long alarmDateId;
+    @Column(name = "alarmDateInMillis")
+    public long alarmDateInMillis;
 
     @Column(name = "callRecord", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public CallRecord callRecord;
@@ -51,6 +51,14 @@ public class AlarmRecord extends Model {
 
     public static long insert(int year, int month, int dayOfMonth, int hourOfDay, int minute, CallRecord callRecord, String memoText) {
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+
         AlarmRecord alarmRecord = new AlarmRecord();
         alarmRecord.year = year;
         alarmRecord.month = month;
@@ -62,7 +70,7 @@ public class AlarmRecord extends Model {
         alarmRecord.callRecord.name = callRecord.name;
         alarmRecord.callRecord.phone = callRecord.phone;
         alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
-        alarmRecord.alarmDateId = dateToLong(new Date());
+        alarmRecord.alarmDateInMillis = calendar.getTimeInMillis();
         alarmRecord.save();
 
         return alarmRecord.getId();
@@ -85,16 +93,6 @@ public class AlarmRecord extends Model {
     }
 
 
-    private static long dateToLong(Date date){
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-            String str = sdf.format(date);
-            date = sdf.parse(str);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        return date.getTime();
-    }
 
     @Override
     public String toString() {
