@@ -131,7 +131,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         //return the first character of the country as ID because this is what headers are based upon
         CallRecord record = (CallRecord)getItem(position);
 //        return countries[position].subSequence(0, 1).charAt(0);
-        return record.callDateId;
+        return record.callDateInMillis;
     }
 
     class HeaderViewHolder {

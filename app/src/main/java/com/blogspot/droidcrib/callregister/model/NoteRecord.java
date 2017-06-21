@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ public class NoteRecord extends Model {
     @Column(name = "memoText")
     public String memoText;
 
+    @Column(name = "noteDateInMillis")
+    public long noteDateInMillis;
+
     @Column(name = "callRecord", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     public CallRecord callRecord;
 
@@ -26,9 +30,14 @@ public class NoteRecord extends Model {
     }
 
     public static long insert(String memoText, CallRecord callRecord) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
         NoteRecord noteRecord = new NoteRecord();
         noteRecord.memoText = memoText;
         noteRecord.callRecord = callRecord;
+        noteRecord.noteDateInMillis = calendar.getTimeInMillis();
         noteRecord.save();
         return noteRecord.getId();
     }

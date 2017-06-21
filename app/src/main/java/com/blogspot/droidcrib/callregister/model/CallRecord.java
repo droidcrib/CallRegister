@@ -29,8 +29,8 @@ public class CallRecord extends Model {
     @Column(name = "callStartTime")
     public Date callStartTime;
 
-    @Column(name = "callDateId")
-    public long callDateId;
+    @Column(name = "callDateInMillis")
+    public long callDateInMillis;
 
     public CallRecord() {
         super();
@@ -46,7 +46,7 @@ public class CallRecord extends Model {
         record.avatarUri = avatarUri;
         record.callType = callType;
         record.callStartTime = callTime;
-        record.callDateId = dateToLong(callTime);
+        record.callDateInMillis = dateToLong(callTime);
         record.save();
 
         return record.getId();

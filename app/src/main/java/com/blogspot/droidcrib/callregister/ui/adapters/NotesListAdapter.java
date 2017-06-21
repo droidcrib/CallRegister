@@ -61,11 +61,6 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         }
 
         NoteRecord record = (NoteRecord)getItem(position);
-
-        // TODO: Set alarm date
-//        holder.alarmDate.setText(record.);
-        // Set call time
-//        String convertedTime = new SimpleDateFormat("HH:mm").format(record.memoText);
         holder.memo.setText(record.memoText);
 
         return convertView;
@@ -82,13 +77,9 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         } else {
             holder = (NotesListAdapter.HeaderViewHolder) convertView.getTag();
         }
-        //set header headerNoteDate as first char in name
-        //String headerText = "" + countries[position].subSequence(0, 1).charAt(0);
-        //holder.headerNoteDate.setText(record.name);
-
         NoteRecord record = (NoteRecord)getItem(position);
-//        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.memoText);
-        holder.headerNoteDate.setText("text");
+        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.noteDateInMillis);
+        holder.headerNoteDate.setText(convertedDate);
 
         return convertView;
     }
@@ -97,9 +88,8 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
     public long getHeaderId(int position) {
         //return the first character of the country as ID because this is what headers are based upon
         NoteRecord record = (NoteRecord)getItem(position);
-//        return countries[position].subSequence(0, 1).charAt(0);
-        // TODO: dateToLong(alarmDate)
-        return record.getId();
+        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.noteDateInMillis);
+        return (long)convertedDate.hashCode();
     }
 
     class HeaderViewHolder {
