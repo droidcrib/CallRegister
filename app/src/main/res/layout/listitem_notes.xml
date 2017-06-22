@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="wrap_content"
+    android:minHeight="72dp"
     android:paddingTop="8dp">
 
     <ImageView
@@ -31,6 +32,60 @@
         android:ellipsize="end"
         android:hint="Memo"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/fake"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/id_alarm_image"/>
+
+    <RelativeLayout
+        android:id="@+id/hidden_rel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fake"
+        android:visibility="gone"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/id_alarm_imageq"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:scaleType="centerCrop"
+            android:alpha="0.5"
+            android:src="@drawable/ic_message_envelope"
+
+            />
+
+
+        <TextView
+            android:id="@+id/id_tv_noteq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/id_alarm_imageq"
+            android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
+            android:fontFamily="sans-serif"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:hint="Memo"
+            android:textSize="16sp" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/id_tv_note"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@id/id_alarm_image"-->
+        <!--android:layout_toRightOf="@id/id_alarm_image"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_weight="50"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:hint="Note"-->
+        <!--android:textSize="14sp" />-->
+
+    </RelativeLayout>
 
     <!--<TextView-->
         <!--android:id="@+id/id_tv_note"-->

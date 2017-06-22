@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
@@ -54,6 +55,8 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
             holder = new NotesListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_notes, parent, false);
             holder.memo =(TextView) convertView.findViewById(R.id.id_tv_note);
+            holder.hidden =(RelativeLayout) convertView.findViewById(R.id.hidden_rel);
+            holder.hidden.setTag(this);
             convertView.setTag(holder);
 
         } else {
@@ -96,8 +99,9 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         TextView headerNoteDate;
     }
 
-    class ViewHolder {
-        TextView memo;
+    public class ViewHolder {
+        public TextView memo;
+        public RelativeLayout hidden;
     }
 
 }

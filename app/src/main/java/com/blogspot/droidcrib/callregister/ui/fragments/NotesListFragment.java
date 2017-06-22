@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,13 +81,9 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                MainActivity activity = (MainActivity) getActivity();
-//                activity.setDetailsFragment(id);
-//                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-//                intent.putExtra(EXTRA_CALL_RECORD_ID, id);
-//                getActivity().startActivity(intent);
 
-
+                NotesListAdapter.ViewHolder holder = (NotesListAdapter.ViewHolder)(view.getTag());
+                holder.hidden.setVisibility(holder.hidden.isShown() ? View.GONE  : View.VISIBLE);
             }
         });
         // Set text to Toolbar header
