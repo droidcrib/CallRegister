@@ -65,11 +65,10 @@ public class AlarmsReceiver extends BroadcastReceiver {
 //        }
 
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(alarmRecordId);
-
+        mMemo = alarmRecord.memoText;
         if (alarmRecord.callRecord != null) {
 //        Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
             mName = alarmRecord.callRecord.name;
-            mMemo = alarmRecord.memoText;
 
             Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
             Drawable currentState = d.getCurrent();
@@ -89,8 +88,6 @@ public class AlarmsReceiver extends BroadcastReceiver {
         }
 
 
-
-
         Intent intentAction = new Intent(context, SingleFragmentActivity.class);
         intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
@@ -108,8 +105,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(mMemo))
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
                 .setAutoCancel(true);
-        nm.notify((int) alarmRecordId, notification.build());
-
+                nm.notify((int) alarmRecordId, notification.build());
     }
 
 
