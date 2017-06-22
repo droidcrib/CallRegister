@@ -57,7 +57,7 @@ public class CallRecord extends Model {
 
         return new Select()
                 .from(CallRecord.class)
-                .orderBy("callStartTime ASC")
+                .orderBy("callStartTime DESC")
                 .execute();
     }
 

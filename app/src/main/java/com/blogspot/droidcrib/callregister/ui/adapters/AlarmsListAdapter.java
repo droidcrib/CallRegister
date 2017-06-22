@@ -26,11 +26,15 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
     private List<AlarmRecord> mRecordsList;
     private LayoutInflater inflater;
     private Context mContext;
+    private String header;
+    private int headerId;
+    private long mCurrentTime = System.currentTimeMillis();
 
     public AlarmsListAdapter(Context context, List<AlarmRecord> list) {
         mContext = context;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRecordsList = list;
+
     }
 
     @Override
@@ -64,7 +68,7 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         }
 
         AlarmRecord record = (AlarmRecord) getItem(position);
-        String convertedTime = new SimpleDateFormat("HH:mm").format(record.alarmDateInMillis);
+        String convertedTime = new SimpleDateFormat("dd MMM yyyy  HH:mm").format(record.alarmDateInMillis);
         holder.alarmDate.setText(convertedTime);
         holder.memo.setText(record.memoText);
 
@@ -84,8 +88,14 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         }
 
         AlarmRecord record = (AlarmRecord) getItem(position);
-        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
-        holder.headerAlarmDate.setText(convertedDate);
+        if (mCurrentTime < record.alarmDateInMillis){
+            header = "Actual";
+        } else {
+            header = "Outdated";
+        }
+        holder.headerAlarmDate.setText(header);
+//        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
+//        holder.headerAlarmDate.setText(convertedDate);
 
         return convertView;
     }
@@ -93,8 +103,13 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
     @Override
     public long getHeaderId(int position) {
         AlarmRecord record = (AlarmRecord) getItem(position);
-        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
-        return (long)convertedDate.hashCode();
+        if (mCurrentTime < record.alarmDateInMillis){
+            headerId = 1;
+        } else {
+            headerId = 2;
+        }
+//        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
+        return headerId;
     }
 
     class HeaderViewHolder {

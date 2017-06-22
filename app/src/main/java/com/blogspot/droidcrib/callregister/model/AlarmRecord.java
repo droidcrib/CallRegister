@@ -88,7 +88,7 @@ public class AlarmRecord extends Model {
 
         return new Select()
                 .from(AlarmRecord.class)
-                .orderBy("_id ASC")
+                .orderBy("alarmDateInMillis DESC")
                 .execute();
     }
 

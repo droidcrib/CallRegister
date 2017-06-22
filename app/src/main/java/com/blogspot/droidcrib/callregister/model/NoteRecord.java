@@ -47,7 +47,7 @@ public class NoteRecord extends Model {
     public static List<NoteRecord> queryAll() {
         return new Select()
                 .from(NoteRecord.class)
-                .orderBy("_id ASC")
+                .orderBy("noteDateInMillis DESC")
                 .execute();
     }
 
