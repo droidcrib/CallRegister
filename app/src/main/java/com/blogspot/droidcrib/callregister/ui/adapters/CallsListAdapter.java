@@ -12,9 +12,11 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
+import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -76,9 +78,12 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         String convertedTime = new SimpleDateFormat("HH:mm").format(record.callStartTime);
         holder.callTime.setText(convertedTime);
         // Set comment icon
-//        if (!record.memoText.equals("")) {
-//            holder.comment.setVisibility(View.VISIBLE);
-//        }
+        if (record.getNotes().size() > 0) {
+            holder.comment.setImageResource(R.drawable.ic_comment_black_48dp);
+        }
+        if (record.getAlarms().size() > 0) {
+            holder.comment.setImageResource(R.drawable.ic_alarm_black_48dp);
+        }
         // Set avatar
         if(record.avatarUri != null){
             holder.avatar.setImageURI(Uri.parse(record.avatarUri));
