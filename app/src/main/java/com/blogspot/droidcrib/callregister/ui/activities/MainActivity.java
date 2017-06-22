@@ -11,6 +11,7 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,16 +34,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.eventbus.NewNoteEvent;
+import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.ui.adapters.MainTabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.adapters.ReminderTabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
@@ -65,6 +78,7 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mPrefs;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private String mNoteText;
 
 
     private static final String TAG = "AlarmsReceiver";
@@ -189,7 +203,6 @@ public class MainActivity extends AppCompatActivity
         readPhoneStateWrapper();
 
 
-
     }
 
     @Override
@@ -237,7 +250,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_missed) {
 
         } else if (id == R.id.nav_note) {
-
+            newMemoDialog();
         } else if (id == R.id.nav_alarm) {
 
         }
@@ -247,28 +260,80 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * Moved from SingleFragmentActivity
-     */
+//    /**
+//     * Moved from SingleFragmentActivity
+//     */
+//
+//    public void setDetailsFragment(long id) {
+//
+//
+//        mFragment = CallDetailsFragment.newInstance(id);
+//
+//        Log.d(TAG, "mFragment is null = " + mFragment);
+//        Log.d(TAG, "mFragmentManager is null = " + mFragmentManager);
+//
+//        mFragmentManager.beginTransaction()
+//                .replace(R.id.id_fragment_container, mFragment)
+//                .commit();
+//    }
+//
+//    public void setListFragment() {
+//        mFragment = CallsListFragment.getInstance();
+//        mFragmentManager.beginTransaction()
+//                .replace(R.id.id_fragment_container, mFragment)
+//                .commit();
+//    }
 
-    public void setDetailsFragment(long id) {
 
+    private void newMemoDialog() {
+        // Messages
+        String msg = getString(R.string.memo);
+        String buttonYes = getString(R.string.close);
+        // EditText setup
+        final EditText input = new EditText(MainActivity.this);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setLines(5);
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        mFragment = CallDetailsFragment.newInstance(id);
+            }
 
-        Log.d(TAG, "mFragment is null = " + mFragment);
-        Log.d(TAG, "mFragmentManager is null = " + mFragmentManager);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        mFragmentManager.beginTransaction()
-                .replace(R.id.id_fragment_container, mFragment)
-                .commit();
-    }
+            }
 
-    public void setListFragment() {
-        mFragment = CallsListFragment.getInstance();
-        mFragmentManager.beginTransaction()
-                .replace(R.id.id_fragment_container, mFragment)
-                .commit();
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    mNoteText = s.toString();
+                }
+            }
+        });
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        .setView(input)
+        .setMessage(msg)
+        .setCancelable(false)
+        .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+            public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
+                                @SuppressWarnings("unused") final int id) {
+                Log.d(TAG, "Saving new memo here :" + mNoteText);
+                NoteRecord.insert(mNoteText, null);
+                EventBus.getDefault().post(new NewNoteEvent());
+            }
+        });
+
+        final AlertDialog alert = builder.create();
+        alert.show();
+        // Center button
+        final Button positiveButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        ViewGroup.LayoutParams positiveButtonLL = positiveButton.getLayoutParams();
+        positiveButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        positiveButton.setLayoutParams(positiveButtonLL);
     }
 
 

@@ -34,7 +34,6 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         mContext = context;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRecordsList = list;
-
     }
 
     @Override

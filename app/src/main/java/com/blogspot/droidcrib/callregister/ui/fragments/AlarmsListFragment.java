@@ -73,7 +73,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     public void onResume() {
         super.onResume();
 
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().restartLoader(0, null, this);
 
         // List items click processing
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

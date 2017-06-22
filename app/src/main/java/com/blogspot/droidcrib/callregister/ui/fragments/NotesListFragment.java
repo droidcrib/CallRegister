@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
+import com.blogspot.droidcrib.callregister.eventbus.NewNoteEvent;
 import com.blogspot.droidcrib.callregister.loaders.NoteRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
@@ -73,7 +74,7 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
     public void onResume() {
         super.onResume();
 
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().restartLoader(0, null, this);
 
         // List items click processing
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -120,8 +121,8 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     @Subscribe
-    public void onEvent(NewCallEvent event){
-        Log.d("onEvent", "Event received. Restarting loader");
+    public void onEvent(NewNoteEvent event){
+        Log.d("onEvent", "NewNoteEvent received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
 }
