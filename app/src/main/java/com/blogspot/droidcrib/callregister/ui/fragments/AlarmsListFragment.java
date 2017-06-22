@@ -17,6 +17,7 @@ import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.AlarmsListAdapter;
+import com.blogspot.droidcrib.callregister.ui.adapters.NotesListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,13 +80,9 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                MainActivity activity = (MainActivity) getActivity();
-//                activity.setDetailsFragment(id);
-//                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-//                intent.putExtra(EXTRA_CALL_RECORD_ID, id);
-//                getActivity().startActivity(intent);
-
-
+                AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder)(view.getTag());
+                holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE  : View.VISIBLE);
+                holder.memo.setVisibility(holder.memo.isShown() ? View.GONE  : View.VISIBLE);
             }
         });
         // Set text to Toolbar header

@@ -57,8 +57,9 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         if (convertView == null) {
             holder = new AlarmsListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_alarms, parent, false);
-            holder.alarmDate = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
-            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_alarms_note_short);
+//            holder.alarmDate = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
+            holder.memoShort = (TextView) convertView.findViewById(R.id.id_tv_alarms_note_short);
+            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_alarms_note);
             convertView.setTag(holder);
 
         } else {
@@ -67,7 +68,8 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
 
         AlarmRecord record = (AlarmRecord) getItem(position);
         String convertedTime = new SimpleDateFormat("dd MMM yyyy  HH:mm").format(record.alarmDateInMillis);
-        holder.alarmDate.setText(convertedTime);
+//        holder.alarmDate.setText(convertedTime);
+        holder.memoShort.setText(record.memoText);
         holder.memo.setText(record.memoText);
 
         return convertView;
@@ -86,14 +88,12 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         }
 
         AlarmRecord record = (AlarmRecord) getItem(position);
-        if (mCurrentTime < record.alarmDateInMillis){
+        if (mCurrentTime < record.alarmDateInMillis) {
             header = "Actual";
         } else {
             header = "Outdated";
         }
         holder.headerAlarmDate.setText(header);
-//        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
-//        holder.headerAlarmDate.setText(convertedDate);
 
         return convertView;
     }
@@ -101,12 +101,12 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
     @Override
     public long getHeaderId(int position) {
         AlarmRecord record = (AlarmRecord) getItem(position);
-        if (mCurrentTime < record.alarmDateInMillis){
+        if (mCurrentTime < record.alarmDateInMillis) {
             headerId = 1;
         } else {
             headerId = 2;
         }
-//        String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.alarmDateInMillis);
+
         return headerId;
     }
 
@@ -114,9 +114,10 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         TextView headerAlarmDate;
     }
 
-    class ViewHolder {
-        TextView alarmDate;
-        TextView memo;
+    public class ViewHolder {
+        public TextView alarmDate;
+        public TextView memoShort;
+        public TextView memo;
     }
 
 }
