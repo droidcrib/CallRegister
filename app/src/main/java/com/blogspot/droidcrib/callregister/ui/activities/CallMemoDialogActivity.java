@@ -117,7 +117,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Insert new call record
                 Intent intent = new Intent(CallMemoDialogActivity.this, NewReminderActivity.class);
                 intent.putExtra(EXTRA_CALL_RECORD_ID, mRecordId);
                 CallMemoDialogActivity.this.startActivity(intent);

@@ -55,6 +55,7 @@ import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 import org.greenrobot.eventbus.EventBus;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
@@ -252,7 +253,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_note) {
             newMemoDialog();
         } else if (id == R.id.nav_alarm) {
-
+            Intent intent = new Intent(this, NewReminderActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -315,17 +317,17 @@ public class MainActivity extends AppCompatActivity
         });
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-        .setView(input)
-        .setMessage(msg)
-        .setCancelable(false)
-        .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
-            public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
-                                @SuppressWarnings("unused") final int id) {
-                Log.d(TAG, "Saving new memo here :" + mNoteText);
-                NoteRecord.insert(mNoteText, null);
-                EventBus.getDefault().post(new NewNoteEvent());
-            }
-        });
+                .setView(input)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
+                                        @SuppressWarnings("unused") final int id) {
+                        Log.d(TAG, "Saving new memo here :" + mNoteText);
+                        NoteRecord.insert(mNoteText, null);
+                        EventBus.getDefault().post(new NewNoteEvent());
+                    }
+                });
 
         final AlertDialog alert = builder.create();
         alert.show();

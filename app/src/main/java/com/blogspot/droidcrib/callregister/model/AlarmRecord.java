@@ -67,9 +67,11 @@ public class AlarmRecord extends Model {
         alarmRecord.minute = minute;
         alarmRecord.memoText = memoText;
         alarmRecord.callRecord = callRecord;
-        alarmRecord.callRecord.name = callRecord.name;
-        alarmRecord.callRecord.phone = callRecord.phone;
-        alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+        if(callRecord != null) {
+            alarmRecord.callRecord.name = callRecord.name;
+            alarmRecord.callRecord.phone = callRecord.phone;
+            alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+        }
         alarmRecord.alarmDateInMillis = calendar.getTimeInMillis();
         alarmRecord.save();
 

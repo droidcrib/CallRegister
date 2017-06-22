@@ -49,7 +49,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private static final String TAG = "trace_notifications";
 
     private MeasuredViewPager mViewPager;
-    private long mRecordId;
+    private long mCallRecordId;
     private TextView mDisplayName;
     private EditText mNote;
     private ImageView mDisplayCallType;
@@ -69,36 +69,38 @@ public class NewReminderActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
-        mRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, 0);
-        CallRecord callRecord = CallRecord.getRecordById(mRecordId);
+        mCallRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, -1);
+        CallRecord callRecord = CallRecord.getRecordById(mCallRecordId);
 
         mDisplayName = (TextView) findViewById(R.id.id_person_name);
         mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
         mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
         mNote = (EditText) findViewById(R.id.id_dialog_note);
 
+        // If callRecord id received in intent
+        if(mCallRecordId != -1) {
+            // Name
+            mDisplayName.setText(callRecord.name);
+            // Avatar
+            if (callRecord.avatarUri != null) {
+                mDisplayAvatar.setImageURI(Uri.parse(callRecord.avatarUri));
+            } else {
+                mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+            }
+            // Call type
+            switch (callRecord.callType) {
+                case Constants.INCOMING_CALL:
+                    mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
+                    break;
 
-        // Name
-        mDisplayName.setText(callRecord.name);
-        // Avatar
-        if (callRecord.avatarUri != null) {
-            mDisplayAvatar.setImageURI(Uri.parse(callRecord.avatarUri));
-        } else {
-            mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
-        }
-        // Call type
-        switch (callRecord.callType) {
-            case Constants.INCOMING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
-                break;
+                case Constants.OUTGOING_CALL:
+                    mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
+                    break;
 
-            case Constants.OUTGOING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
-                break;
-
-            case Constants.MISSED_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
-                break;
+                case Constants.MISSED_CALL:
+                    mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
+                    break;
+            }
         }
 
 
@@ -183,7 +185,6 @@ public class NewReminderActivity extends AppCompatActivity {
 
                 // TODO: delete below after test
                 final AlarmRecord rec = AlarmRecord.getRecordById(recId);
-                Log.d(TAG, "-- rec send: " + rec.toString());
 
                 // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

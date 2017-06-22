@@ -41,6 +41,11 @@ public class AlarmsReceiver extends BroadcastReceiver {
 
     private static final String TAG = "trace_notifications";
 
+    private String mName;
+    private String mMemo;
+    private Bitmap mAvatar;
+    private Bitmap circeAvatar;
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -59,35 +64,37 @@ public class AlarmsReceiver extends BroadcastReceiver {
 //            return;
 //        }
 
-
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(alarmRecordId);
+
+        if (alarmRecord.callRecord != null) {
 //        Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
-        String name = alarmRecord.callRecord.name;
-        String memo = alarmRecord.memoText;
+            mName = alarmRecord.callRecord.name;
+            mMemo = alarmRecord.memoText;
 
-        Bitmap avatar = null;
-        Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
-        Drawable currentState = d.getCurrent();
-        if (currentState instanceof BitmapDrawable)
-            avatar = ((BitmapDrawable) currentState).getBitmap();
+            Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
+            Drawable currentState = d.getCurrent();
+            if (currentState instanceof BitmapDrawable)
+                mAvatar = ((BitmapDrawable) currentState).getBitmap();
 
-        if (alarmRecord.callRecord.avatarUri != null) {
-            Uri imageUri = Uri.parse(alarmRecord.callRecord.avatarUri);
-            try {
-                avatar = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (alarmRecord.callRecord.avatarUri != null) {
+                Uri imageUri = Uri.parse(alarmRecord.callRecord.avatarUri);
+                try {
+                    mAvatar = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            circeAvatar = getCircledBitmap(mAvatar, 96);
+            //avatar.recycle();
         }
 
-        Bitmap circeAvatar = getCircledBitmap(avatar, 96);
-        //avatar.recycle();
+
 
 
         Intent intentAction = new Intent(context, SingleFragmentActivity.class);
         intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
-        PendingIntent pIntentAction = PendingIntent.getActivity(context, (int)alarmRecordId, intentAction,
+        PendingIntent pIntentAction = PendingIntent.getActivity(context, (int) alarmRecordId, intentAction,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -95,10 +102,10 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setPriority(Notification.PRIORITY_MAX)
                 .setWhen(0)
                 .setSmallIcon(R.drawable.ic_watch_later_white_24dp)
-               // .setLargeIcon(circeAvatar)                               // User avatar here
-                .setContentTitle(name)                              // User name or phone number here
-                .setContentText(memo)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(memo))
+                .setLargeIcon(circeAvatar)                               // User avatar here
+                .setContentTitle(mName)                              // User name or phone number here
+                .setContentText(mMemo)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(mMemo))
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
                 .setAutoCancel(true);
         nm.notify((int) alarmRecordId, notification.build());
