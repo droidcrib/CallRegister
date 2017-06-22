@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
@@ -54,16 +53,17 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         if (convertView == null) {
             holder = new NotesListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_notes, parent, false);
-            holder.memo =(TextView) convertView.findViewById(R.id.id_tv_note);
-            holder.hidden =(RelativeLayout) convertView.findViewById(R.id.hidden_rel);
-            holder.hidden.setTag(this);
+            holder.memoShort = (TextView) convertView.findViewById(R.id.id_tv_note_short);
+            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_note);
+            holder.memo.setTag(this);
             convertView.setTag(holder);
 
         } else {
             holder = (NotesListAdapter.ViewHolder) convertView.getTag();
         }
 
-        NoteRecord record = (NoteRecord)getItem(position);
+        NoteRecord record = (NoteRecord) getItem(position);
+        holder.memoShort.setText(record.memoText);
         holder.memo.setText(record.memoText);
 
         return convertView;
@@ -80,7 +80,7 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         } else {
             holder = (NotesListAdapter.HeaderViewHolder) convertView.getTag();
         }
-        NoteRecord record = (NoteRecord)getItem(position);
+        NoteRecord record = (NoteRecord) getItem(position);
         String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.noteDateInMillis);
         holder.headerNoteDate.setText(convertedDate);
 
@@ -90,9 +90,9 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
     @Override
     public long getHeaderId(int position) {
         //return the first character of the country as ID because this is what headers are based upon
-        NoteRecord record = (NoteRecord)getItem(position);
+        NoteRecord record = (NoteRecord) getItem(position);
         String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.noteDateInMillis);
-        return (long)convertedDate.hashCode();
+        return (long) convertedDate.hashCode();
     }
 
     class HeaderViewHolder {
@@ -100,8 +100,8 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
     }
 
     public class ViewHolder {
+        public TextView memoShort;
         public TextView memo;
-        public RelativeLayout hidden;
     }
 
 }

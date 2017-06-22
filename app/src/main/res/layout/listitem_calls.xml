@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_call_missed_black_48dp" />
 
             <TextView
-                android:id="@+id/id_tv_note"
+                android:id="@+id/id_tv_note_short"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -12,11 +12,9 @@ import android.widget.TextView;
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
-import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -59,7 +57,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_calls, parent, false);
             holder.personName = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
-            holder.callTime =(TextView) convertView.findViewById(R.id.id_tv_note);
+            holder.callTime =(TextView) convertView.findViewById(R.id.id_tv_note_short);
             holder.comment = (ImageView) convertView.findViewById(R.id.id_image_view_comment);
             holder.callType = (ImageView) convertView.findViewById(R.id.id_image_view_call_type);
             holder.avatar = (SimpleDraweeView ) convertView.findViewById(R.id.id_alarm_image);

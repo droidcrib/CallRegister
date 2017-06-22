@@ -61,9 +61,9 @@ public class CallRecord extends Model {
                 .execute();
     }
 
-//    public static void updateMemo(long id, String memo){
+//    public static void updateMemo(long id, String memoShort){
 //        CallRecord record = CallRecord.load(CallRecord.class, id);
-//        record.memoText = memo;
+//        record.memoText = memoShort;
 //        record.save();
 //    }
 

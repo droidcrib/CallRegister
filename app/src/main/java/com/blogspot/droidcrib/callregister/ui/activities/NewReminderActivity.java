@@ -160,7 +160,7 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmHolder.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
         alarmHolder.minute = mCalendar.get(Calendar.MINUTE);
         alarmHolder.callRecord = callRecord;
-        alarmHolder.memoText = "this is memo text. some very very long text here. " +
+        alarmHolder.memoText = "this is memoShort text. some very very long text here. " +
                 "Еще и на русском добавим, чтоб больше было. І українською звичайно ж";
 
         Log.d(TAG, "-- AlarmHolder initial values: " + alarmHolder.toString());

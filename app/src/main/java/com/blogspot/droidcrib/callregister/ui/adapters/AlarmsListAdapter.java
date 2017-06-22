@@ -12,7 +12,6 @@ import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -59,7 +58,7 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
             holder = new AlarmsListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_alarms, parent, false);
             holder.alarmDate = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
-            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_note);
+            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_note_short);
             convertView.setTag(holder);
 
         } else {

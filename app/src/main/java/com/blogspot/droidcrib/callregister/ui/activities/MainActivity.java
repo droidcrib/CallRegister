@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
                                         @SuppressWarnings("unused") final int id) {
-                        Log.d(TAG, "Saving new memo here :" + mNoteText);
+                        Log.d(TAG, "Saving new memoShort here :" + mNoteText);
                         NoteRecord.insert(mNoteText, null);
                         EventBus.getDefault().post(new NewNoteEvent());
                     }

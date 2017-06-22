@@ -34,7 +34,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/id_tv_note"
+            android:id="@+id/id_tv_note_short"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/id_alarm_image"

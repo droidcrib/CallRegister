@@ -83,7 +83,8 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 NotesListAdapter.ViewHolder holder = (NotesListAdapter.ViewHolder)(view.getTag());
-                holder.hidden.setVisibility(holder.hidden.isShown() ? View.GONE  : View.VISIBLE);
+                holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE  : View.VISIBLE);
+                holder.memo.setVisibility(holder.memo.isShown() ? View.GONE  : View.VISIBLE);
             }
         });
         // Set text to Toolbar header
