@@ -21,7 +21,7 @@
 
 
     <TextView
-        android:id="@+id/id_tv_note_short"
+        android:id="@+id/id_tv_notes_note_short"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/id_alarm_image"
@@ -35,7 +35,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/id_tv_note"
+        android:id="@+id/id_tv_notes_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/id_alarm_image"

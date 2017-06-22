@@ -53,8 +53,8 @@ public class NotesListAdapter extends BaseAdapter implements StickyListHeadersAd
         if (convertView == null) {
             holder = new NotesListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_notes, parent, false);
-            holder.memoShort = (TextView) convertView.findViewById(R.id.id_tv_note_short);
-            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_note);
+            holder.memoShort = (TextView) convertView.findViewById(R.id.id_tv_notes_note_short);
+            holder.memo = (TextView) convertView.findViewById(R.id.id_tv_notes_note);
             holder.memo.setTag(this);
             convertView.setTag(holder);
 
