@@ -33,7 +33,7 @@ public class CallDetailsFragment extends Fragment {
     private NoteRecord mNoteRecord;
     private AlarmRecord mAlarmRecord;
     private String mToolbarTextHeader;
-    private  String mMemoText;
+    private String mMemoText;
     private LinearLayout mNoteLayout;
     private RelativeLayout mAlarmLayout;
 
@@ -68,12 +68,13 @@ public class CallDetailsFragment extends Fragment {
 
         mRecordId = getArguments().getLong(Constants.EXTRA_CALL_RECORD_ID);
         mCallRecord = CallRecord.getRecordById(mRecordId);
-        mNoteRecordsList =  new ArrayList<>(mCallRecord.getNotes());
-        mAlarmRecordsList =  new ArrayList<>(mCallRecord.getAlarms());
+        if (mCallRecord != null) {
+            mNoteRecordsList = new ArrayList<>(mCallRecord.getNotes());
+            mAlarmRecordsList = new ArrayList<>(mCallRecord.getAlarms());
 
-        Log.d(TAG, "Related notes: " + mCallRecord.getNotes().size());
-        Log.d(TAG, "Related alarms: " + mCallRecord.getAlarms().size());
-
+            Log.d(TAG, "Related notes: " + mCallRecord.getNotes().size());
+            Log.d(TAG, "Related alarms: " + mCallRecord.getAlarms().size());
+        }
 
 
     }
@@ -100,13 +101,12 @@ public class CallDetailsFragment extends Fragment {
         collapsingToolbarLayout.setTitle(mCallRecord.name);
 
 
-
-        if (mNoteRecordsList.size() > 0){
+        if (mNoteRecordsList != null && mNoteRecordsList.size() > 0) {
             mNoteLayout.setVisibility(View.VISIBLE);
             mDisplayCallMemo.setText(mNoteRecordsList.get(0).memoText);
         }
 
-        if (mAlarmRecordsList.size() > 0){
+        if (mAlarmRecordsList != null && mAlarmRecordsList.size() > 0) {
             mAlarmLayout.setVisibility(View.VISIBLE);
             String date = String.valueOf(mAlarmRecordsList.get(0).year);
             String memo = mAlarmRecordsList.get(0).memoText;

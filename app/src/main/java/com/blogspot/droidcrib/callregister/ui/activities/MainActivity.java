@@ -58,6 +58,7 @@ import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS_IN_LIST;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity
     private TabLayout mTabLayout;
     private String mNoteText;
     private MainTabsPagerAdapter adapter;
+    long alarmRecordId;
+    String action;
 
 
     private static final String TAG = "MainActivity";
@@ -137,15 +140,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-//        mFragmentManager = getSupportFragmentManager();
-//        mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
-
-        String action = getIntent().getAction();
-        long alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        action = getIntent().getAction();
+        alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
 
         Log.d(TAG, "main activity action received = " + action);
         Log.d(TAG, "main activity extra received = " + alarmRecordId);
+
+        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
+            Log.d(TAG, "setup alarms tab ");
+            mViewPager.setCurrentItem(1);
+        }
+
+
 
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -213,16 +219,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent ");
+        action = getIntent().getAction();
+        alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        Log.d(TAG, "onNewIntent main activity action received = " + action);
+        Log.d(TAG, "onNewIntent main activity extra received = " + alarmRecordId);
+        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
+            Log.d(TAG, "onNewIntent setup alarms tab ");
+            mViewPager.setCurrentItem(1);
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        mViewPager.setCurrentItem(1);
+//        mViewPager.setCurrentItem(1);
         Log.d(TAG, "Registered fragment 1: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
 
     }
@@ -408,8 +429,9 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe
     public void onEvent(AlarmsListLoadFinishedEvent event) {
-        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
-        fragment.scrollToListItem(7);
+        Log.d(TAG, "AlarmsListLoadFinishedEvent ");
+//        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
+//        fragment.scrollToListItem(alarmRecordId);
     }
 
 }

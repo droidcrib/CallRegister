@@ -25,6 +25,7 @@ public class Constants {
     public static final String ACTION_REMOVE_NOTIFICATION = "com.blogspot.droidcrib.callregister.ACTION_REMOVE_NOTIFICATION";
     public static final String ACTION_CREATE_NOTIFICATION = "com.blogspot.droidcrib.callregister.ACTION_CREATE_NOTIFICATION";
     public static final String ACTION_SHOW_ALARM_DETAILS = "com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS";
+    public static final String ACTION_SHOW_ALARM_DETAILS_IN_LIST = "com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS_IN_LIST";
 
 
 }

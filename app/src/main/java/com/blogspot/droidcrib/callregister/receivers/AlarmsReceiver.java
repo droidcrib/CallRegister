@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_REMOVE_NOTIFICATION;
 import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS_IN_LIST;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_PHONE_NUMBER;
 
@@ -45,6 +46,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
     private String mMemo;
     private Bitmap mAvatar;
     private Bitmap circeAvatar;
+    Intent intentAction;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -88,8 +90,17 @@ public class AlarmsReceiver extends BroadcastReceiver {
         }
 
 
-        Intent intentAction = new Intent(context, SingleFragmentActivity.class);
-        intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
+
+        if (alarmRecord.callRecord != null) {
+            // TODO: different intents here
+            intentAction = new Intent(context, SingleFragmentActivity.class);
+            intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
+
+        } else {
+            // TODO: different intents here
+            intentAction = new Intent(context, MainActivity.class);
+            intentAction.setAction(ACTION_SHOW_ALARM_DETAILS_IN_LIST);
+        }
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
         PendingIntent pIntentAction = PendingIntent.getActivity(context, (int) alarmRecordId, intentAction,
                 PendingIntent.FLAG_UPDATE_CURRENT);
