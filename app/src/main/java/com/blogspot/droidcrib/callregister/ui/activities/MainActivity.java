@@ -45,14 +45,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.eventbus.AlarmsListLoadFinishedEvent;
+import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.eventbus.NewNoteEvent;
 import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.ui.adapters.MainTabsPagerAdapter;
 import com.blogspot.droidcrib.callregister.ui.adapters.ReminderTabsPagerAdapter;
+import com.blogspot.droidcrib.callregister.ui.fragments.AlarmsListFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallDetailsFragment;
 import com.blogspot.droidcrib.callregister.ui.fragments.CallsListFragment;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
@@ -80,9 +84,10 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private String mNoteText;
+    private MainTabsPagerAdapter adapter;
 
 
-    private static final String TAG = "AlarmsReceiver";
+    private static final String TAG = "MainActivity";
 
 
     @Override
@@ -101,7 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         //  Setup ViewPager
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        final MainTabsPagerAdapter adapter = new MainTabsPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
+        adapter = new MainTabsPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout) {
             @Override
@@ -120,6 +125,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+                Log.d(TAG, "Registered fragment: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
             }
 
             @Override
@@ -204,6 +210,28 @@ public class MainActivity extends AppCompatActivity
         readPhoneStateWrapper();
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mViewPager.setCurrentItem(1);
+        Log.d(TAG, "Registered fragment 1: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
+
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -367,7 +395,6 @@ public class MainActivity extends AppCompatActivity
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         int state = telephonyManager.getCallState();
         Log.d("Tel_EXTRA_STATE", "Call state:" + state);
-
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
@@ -378,4 +405,11 @@ public class MainActivity extends AppCompatActivity
                 .create()
                 .show();
     }
+
+    @Subscribe
+    public void onEvent(AlarmsListLoadFinishedEvent event) {
+        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
+        fragment.scrollToListItem(7);
+    }
+
 }

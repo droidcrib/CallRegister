@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.blogspot.droidcrib.callregister.R;
+import com.blogspot.droidcrib.callregister.eventbus.AlarmsListLoadFinishedEvent;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
@@ -30,12 +32,13 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * Created by BulanovA on 21.06.2017.
  */
 
-public class AlarmsListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
+public class AlarmsListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     public static AlarmsListFragment sAlarmsListFragment;
     List<AlarmRecord> mAlarmRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
+    private static final String TAG = "MainActivity";
 
     //
     // Provides instance of AlarmsListFragment
@@ -80,9 +83,9 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder)(view.getTag());
-                holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE  : View.VISIBLE);
-                holder.memo.setVisibility(holder.memo.isShown() ? View.GONE  : View.VISIBLE);
+                AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder) (view.getTag());
+                holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE : View.VISIBLE);
+                holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
             }
         });
         // Set text to Toolbar header
@@ -97,17 +100,57 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     }
 
 
+    public void scrollToListItem(long id) {
+        for (int i = 0; i < stickyList.getCount(); i++) {
+            Log.d(TAG, "stickyList.pos = " + i + " stickyList.pos.id = " + stickyList.getItemIdAtPosition(i));
+            if (stickyList.getItemIdAtPosition(i) == id) {
+                stickyList.setSelection(i);
+                return;
+            }
+        }
+    }
+
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         return new AlarmRecordsLoader(getActivity());
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         mAlarmRecordsList = (List<AlarmRecord>) data;
         AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mAlarmRecordsList);
         stickyList.setAdapter(adapter);
+
+        EventBus.getDefault().post(new AlarmsListLoadFinishedEvent());
+
+//        scrollToListItem(8);
+
+//        final View view = stickyList.getAdapter().getView(0, null, stickyList);
+//        view.setBackgroundColor(Color.BLUE);
+
+//        AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder) (view.getTag());
+//        holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE : View.VISIBLE);
+//        holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
+
+
+//        stickyList.setSelection(8);
+//        View view = stickyList.getChildAt(0);
+//        AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder) (view.getTag());
+//        holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE : View.VISIBLE);
+//        holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
+
+//        for(int i=0; i<stickyList.getCount(); i++){
+//            Log.d(TAG, "stickyList.pos = " + i + " stickyList.pos.id = " + stickyList.getItemIdAtPosition(i));
+//        }
+//
+//        stickyList.setSelection(2);
+//        Log.d(TAG, "stickyList.getCount() = " + stickyList.getCount());
+//        long itemIdAtPos = stickyList.getItemIdAtPosition(2);
+//        Log.d(TAG, "stickyList.getItemIdAtPosition(2) = " + itemIdAtPos);
+//        stickyList.getItemAtPosition(1).getClass();
+////        Log.d(TAG, "getItemAtPosition instance of = " + stickyList.getAdapter().getView());
     }
 
     @Override
@@ -116,7 +159,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     }
 
     @Subscribe
-    public void onEvent(NewCallEvent event){
+    public void onEvent(NewCallEvent event) {
         Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
