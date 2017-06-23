@@ -19,19 +19,19 @@
         />
 
 
-    <!--<TextView-->
-        <!--android:id="@+id/id_tv_alarm_date"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignTop="@id/id_al_image"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_toRightOf="@id/id_al_image"-->
-        <!--android:ellipsize="end"-->
-        <!--android:fontFamily="sans-serif"-->
-        <!--android:hint="1.1.2017"-->
-        <!--android:lines="1"-->
-        <!--android:scrollHorizontally="true"-->
-        <!--android:textSize="16sp" />-->
+    <TextView
+        android:id="@+id/id_tv_alarm_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/id_al_image"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/id_al_image"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:hint="1.1.2017"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/id_tv_alarms_note_short"
@@ -51,6 +51,7 @@
         android:id="@+id/id_tv_alarms_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="128dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/id_al_image"
