@@ -144,8 +144,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -324,9 +322,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    mNoteText = s.toString();
-                }
+                mNoteText = s.toString();
             }
         });
 
@@ -338,8 +334,10 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
                                         @SuppressWarnings("unused") final int id) {
                         Log.d(TAG, "Saving new memoShort here :" + mNoteText);
-                        NoteRecord.insert(mNoteText, null);
-                        EventBus.getDefault().post(new NewNoteEvent());
+                        if (mNoteText != null && mNoteText.length() > 0) {
+                            NoteRecord.insert(mNoteText, null);
+                            EventBus.getDefault().post(new NewNoteEvent());
+                        }
                     }
                 });
 
