@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+
         //  Setup TabLayout
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.addTab(mTabLayout.newTab().setText("Calls"));
@@ -130,7 +132,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                //Log.d(TAG, "Registered fragment: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
             }
 
             @Override
@@ -142,30 +143,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        action = getIntent().getAction();
-        alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
-        extra = getIntent().getStringExtra(INTENT_TXT);
-
-        Log.d(TAG, "main activity action received = " + action);
-        Log.d(TAG, "main activity extra received = " + alarmRecordId);
-        Log.d(TAG, "main activity extra received = " + extra);
-
-        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
-            Log.d(TAG, "--- setup alarms tab ");
-            mViewPager.setCurrentItem(1);
-        }
 
 
-        mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -213,9 +192,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //Setup list fragment
         // Explicitly call to get permission in Android 6
         readPhoneStateWrapper();
+
+        //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
 
     }
@@ -230,33 +217,24 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         Intent intent = getIntent();
-
-        Log.d(TAG, "onNewIntent ");
         action = intent.getAction();
         alarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
         extra = intent.getStringExtra(INTENT_TXT);
-
-        Log.d(TAG, "onResume onNewIntent main activity action received = " + action);
-        Log.d(TAG, "onResume onNewIntent main activity extra received = " + alarmRecordId);
-        Log.d(TAG, "onResume onNewIntent main activity extra received = " + extra);
+//
+//        Log.d(TAG, "onResume onNewIntent main activity action received = " + action);
+//        Log.d(TAG, "onResume onNewIntent main activity extra received = " + alarmRecordId);
+//        Log.d(TAG, "onResume onNewIntent main activity extra received = " + extra);
 
         if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
-            Log.d(TAG, "onNewIntent setup alarms tab ");
+//            Log.d(TAG, "onNewIntent setup alarms tab ");
             mViewPager.setCurrentItem(1);
         }
-
-
-//        mViewPager.setCurrentItem(1);
-        //Log.d(TAG, "Registered fragment 1: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
-
     }
 
 
@@ -321,30 +299,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-//    /**
-//     * Moved from SingleFragmentActivity
-//     */
-//
-//    public void setDetailsFragment(long id) {
-//
-//
-//        mFragment = CallDetailsFragment.newInstance(id);
-//
-//        Log.d(TAG, "mFragment is null = " + mFragment);
-//        Log.d(TAG, "mFragmentManager is null = " + mFragmentManager);
-//
-//        mFragmentManager.beginTransaction()
-//                .replace(R.id.id_fragment_container, mFragment)
-//                .commit();
-//    }
-//
-//    public void setListFragment() {
-//        mFragment = CallsListFragment.getInstance();
-//        mFragmentManager.beginTransaction()
-//                .replace(R.id.id_fragment_container, mFragment)
-//                .commit();
-//    }
 
 
     private void newMemoDialog() {
