@@ -30,7 +30,11 @@
         android:layout_below="@id/appbar"
         android:background="?attr/colorPrimary"
         android:elevation="6dp"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        app:tabTextColor="@color/accent"
+        app:tabSelectedTextColor="@color/accent"
+
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
