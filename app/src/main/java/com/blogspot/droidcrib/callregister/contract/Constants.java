@@ -27,5 +27,6 @@ public class Constants {
     public static final String ACTION_SHOW_ALARM_DETAILS = "com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS";
     public static final String ACTION_SHOW_ALARM_DETAILS_IN_LIST = "com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS_IN_LIST";
 
+    public static final String INTENT_TXT = "com.blogspot.droidcrib.callregister.INTENT_TXT";
 
 }

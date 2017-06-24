@@ -61,6 +61,7 @@ import org.greenrobot.eventbus.Subscribe;
 import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS_IN_LIST;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
@@ -88,9 +89,10 @@ public class MainActivity extends AppCompatActivity
     private MainTabsPagerAdapter adapter;
     long alarmRecordId;
     String action;
+    String extra;
 
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "trace_notifications";
 
 
     @Override
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                Log.d(TAG, "Registered fragment: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
+                //Log.d(TAG, "Registered fragment: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
             }
 
             @Override
@@ -142,16 +144,16 @@ public class MainActivity extends AppCompatActivity
 
         action = getIntent().getAction();
         alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        extra = getIntent().getStringExtra(INTENT_TXT);
 
         Log.d(TAG, "main activity action received = " + action);
         Log.d(TAG, "main activity extra received = " + alarmRecordId);
+        Log.d(TAG, "main activity extra received = " + extra);
 
         if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
-            Log.d(TAG, "setup alarms tab ");
+            Log.d(TAG, "--- setup alarms tab ");
             mViewPager.setCurrentItem(1);
         }
-
-
 
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -221,15 +223,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d(TAG, "onNewIntent ");
-        action = getIntent().getAction();
-        alarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
-        Log.d(TAG, "onNewIntent main activity action received = " + action);
-        Log.d(TAG, "onNewIntent main activity extra received = " + alarmRecordId);
-        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
-            Log.d(TAG, "onNewIntent setup alarms tab ");
-            mViewPager.setCurrentItem(1);
-        }
+        setIntent(intent);
     }
 
     @Override
@@ -243,8 +237,25 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
+        Intent intent = getIntent();
+
+        Log.d(TAG, "onNewIntent ");
+        action = intent.getAction();
+        alarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        extra = intent.getStringExtra(INTENT_TXT);
+
+        Log.d(TAG, "onResume onNewIntent main activity action received = " + action);
+        Log.d(TAG, "onResume onNewIntent main activity extra received = " + alarmRecordId);
+        Log.d(TAG, "onResume onNewIntent main activity extra received = " + extra);
+
+        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
+            Log.d(TAG, "onNewIntent setup alarms tab ");
+            mViewPager.setCurrentItem(1);
+        }
+
+
 //        mViewPager.setCurrentItem(1);
-        Log.d(TAG, "Registered fragment 1: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
+        //Log.d(TAG, "Registered fragment 1: " + adapter.getRegisteredFragment(mViewPager.getCurrentItem()));
 
     }
 
@@ -430,8 +441,8 @@ public class MainActivity extends AppCompatActivity
     @Subscribe
     public void onEvent(AlarmsListLoadFinishedEvent event) {
         Log.d(TAG, "AlarmsListLoadFinishedEvent ");
-//        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
-//        fragment.scrollToListItem(alarmRecordId);
+        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
+        fragment.scrollToListItem(alarmRecordId);
     }
 
 }

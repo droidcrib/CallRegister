@@ -33,6 +33,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW
 import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS_IN_LIST;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_PHONE_NUMBER;
+import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 
 /**
  *
@@ -100,6 +101,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
             // TODO: different intents here
             intentAction = new Intent(context, MainActivity.class);
             intentAction.setAction(ACTION_SHOW_ALARM_DETAILS_IN_LIST);
+            intentAction.putExtra(INTENT_TXT, "+++ ABC +++");
         }
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
         PendingIntent pIntentAction = PendingIntent.getActivity(context, (int) alarmRecordId, intentAction,

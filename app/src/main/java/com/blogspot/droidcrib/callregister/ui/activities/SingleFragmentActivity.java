@@ -43,7 +43,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
     private long mRecordId;
     private long mAlarmRecordId;
 
-    private static final String TAG = "SingleFragmentActivity";
+    private static final String TAG = "trace_notifications";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,13 +60,13 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
         String action = getIntent().getAction();
 
-        Log.d(TAG, "mRecordId = " + mRecordId);
-        Log.d(TAG, "mAlarmRecordId = " + mAlarmRecordId);
-        Log.d(TAG, "action = " + action);
+//        Log.d(TAG, "SingleFragmentActivity mRecordId = " + mRecordId);
+//        Log.d(TAG, "SingleFragmentActivity mAlarmRecordId = " + mAlarmRecordId);
+        Log.d(TAG, "SingleFragmentActivity action = " + action);
 
         if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
             AlarmRecord record = AlarmRecord.getRecordById(mAlarmRecordId);
-            Log.d(TAG, "record.callRecord.getId() = " + record.callRecord.getId());
+//            Log.d(TAG, "record.callRecord.getId() = " + record.callRecord.getId());
             setDetailsFragment(record.callRecord.getId());
         } else {
             setDetailsFragment(mRecordId);
