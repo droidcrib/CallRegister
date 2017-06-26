@@ -2,6 +2,7 @@ package com.blogspot.droidcrib.callregister.ui.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -41,6 +42,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     private String mToolbarTextHeader;
     private long mRecordId;
     private static final String TAG = "MainActivity";
+    private Parcelable state;
 
     //
     // Provides instance of AlarmsListFragment
@@ -96,6 +98,13 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         // Set text to Toolbar header
         MainActivity activity = (MainActivity) getActivity();
         mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
+    }
+
+    @Override
+    public void onPause() {
+        // Save ListView state @ onPause
+        state = stickyList.onSaveInstanceState();
+        super.onPause();
     }
 
     @Override
@@ -155,6 +164,11 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         stickyList.setAdapter(adapter);
 
         EventBus.getDefault().post(new AlarmsListLoadFinishedEvent());
+
+        // Restore previous state (including selected item index and scroll position)
+        if (state != null) {
+            stickyList.onRestoreInstanceState(state);
+        }
 
     }
 

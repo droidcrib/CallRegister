@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.ui.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -42,6 +43,7 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
     private long mRecordId;
+    private Parcelable state;
 
     //
     // Provides instance of CallsListFragment
@@ -103,6 +105,14 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
     }
 
+
+    @Override
+    public void onPause() {
+        // Save ListView state @ onPause
+        state = stickyList.onSaveInstanceState();
+        super.onPause();
+    }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -147,6 +157,10 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         mCallRecordsList = (List<CallRecord>) data;
         CallsListAdapter adapter = new CallsListAdapter(getActivity(), mCallRecordsList);
         stickyList.setAdapter(adapter);
+        // Restore previous state (including selected item index and scroll position)
+        if (state != null) {
+            stickyList.onRestoreInstanceState(state);
+        }
     }
 
     @Override
