@@ -41,7 +41,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 
 public class AlarmsReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "trace_notifications";
+    private static final String TAG = "_receiver_";
 
     private String mName;
     private String mMemo;

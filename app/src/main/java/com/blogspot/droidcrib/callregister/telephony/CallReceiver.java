@@ -21,7 +21,7 @@ public class CallReceiver extends PhonecallReceiver {
 
 
 
-    private static final String TAG = "CallReceiver";
+    private static final String TAG = "_receiver_";
 
 
 

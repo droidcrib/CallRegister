@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.NewReminderActivity;
@@ -28,23 +29,30 @@ public class AlarmsResetReceiver extends BroadcastReceiver {
     private static Date mDate = new Date();
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
+    private static final String TAG = "_receiver_";
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        Log.d(TAG, "AlarmsResetReceiver onReceive");
+
         mAlarmRecordsList = AlarmRecord.queryAll();
 
+        Log.d(TAG, "AlarmsResetReceiver mAlarmRecordsList size = " + mAlarmRecordsList.size());
+
         for (AlarmRecord record : mAlarmRecordsList) {
+            Log.d(TAG, "AlarmsResetReceiver record = " + record.getId());
             if (mCurrentTime < record.alarmDateInMillis) {
+                Log.d(TAG, "AlarmsResetReceiver Active alarm detected. Resetting record = " + record.getId());
                 // Set new AlarmManager here
-                alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmMgr = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 
                 // Set intent with notification message
                 Intent i = new Intent();
                 i.putExtra(EXTRA_ALARM_RECORD_ID, record.getId());
                 i.setAction(ACTION_CREATE_NOTIFICATION);
                 long recId = record.getId();
-                alarmIntent = PendingIntent.getBroadcast(context, (int)recId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmIntent = PendingIntent.getBroadcast(context.getApplicationContext(), (int)recId, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
