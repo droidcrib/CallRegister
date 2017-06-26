@@ -26,6 +26,7 @@ import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.ui.adapters.MeasuredViewPager;
 import com.blogspot.droidcrib.callregister.ui.adapters.ReminderTabsPagerAdapter;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,7 +54,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private TextView mDisplayName;
     private EditText mNote;
     private ImageView mDisplayCallType;
-    private ImageView mDisplayAvatar;
+    private SimpleDraweeView mDisplayAvatar;
     private TabLayout mTabLayout;
     private static Calendar mCalendar = Calendar.getInstance();
     private static Date mDate = new Date();
@@ -74,7 +75,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
         mDisplayName = (TextView) findViewById(R.id.id_person_name);
         mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
-        mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
+        mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_avatar);
         mNote = (EditText) findViewById(R.id.id_dialog_note);
 
         // If callRecord id received in intent

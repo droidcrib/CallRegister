@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,14 +13,16 @@
         android:layout_height="56dp">
 
 
-        <ImageView
-            android:id="@+id/id_avatar"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/id_user_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_person_black_48dp" />
+            fresco:placeholderImage="@drawable/ic_person_black_48dp"
+            fresco:roundAsCircle="true"
+            />
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -69,6 +72,7 @@
         android:id="@+id/buttons_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <Button

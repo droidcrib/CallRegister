@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -26,6 +27,7 @@ import com.blogspot.droidcrib.callregister.model.CallRecord;
 import com.blogspot.droidcrib.callregister.model.ContactCard;
 import com.blogspot.droidcrib.callregister.model.NoteRecord;
 import com.blogspot.droidcrib.callregister.telephony.ContactsProvider;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,7 +62,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
 
         TextView mDisplayName = (TextView) findViewById(R.id.id_person_name);
         ImageView mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
-        ImageView mDisplayAvatar = (ImageView) findViewById(R.id.id_avatar);
+        SimpleDraweeView mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_user_avatar);
         mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
         mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
         Button mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
@@ -84,7 +86,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         // Setup views
         mDisplayName.setText(mContactName);
         if (mAvatarBitmap != null) {
-            mDisplayAvatar.setImageBitmap(mAvatarBitmap);
+            mDisplayAvatar.setImageURI(Uri.parse(mAvatarUri));
         } else {
             mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
         }
