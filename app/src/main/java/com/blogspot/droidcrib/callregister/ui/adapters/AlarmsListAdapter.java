@@ -89,9 +89,9 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
 
         AlarmRecord record = (AlarmRecord) getItem(position);
         if (mCurrentTime < record.alarmDateInMillis) {
-            header = "Actual";
+            header = mContext.getResources().getString(R.string.actual);
         } else {
-            header = "Outdated";
+            header = mContext.getResources().getString(R.string.outdated);
         }
         holder.headerAlarmDate.setText(header);
 

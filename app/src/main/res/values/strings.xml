@@ -21,6 +21,8 @@
     <string name="close">Close</string>
     <string name="memo">New memo</string>
     <string name="no_memo">No memo created here</string>
+    <string name="actual">Actual</string>
+    <string name="outdated">Outdated</string>
 
 
 </resources>

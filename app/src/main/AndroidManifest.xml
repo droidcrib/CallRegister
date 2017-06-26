@@ -73,6 +73,14 @@
                 <action android:name="com.blogspot.droidcrib.callregister.ACTION_CREATE_NOTIFICATION" />
             </intent-filter>
         </receiver>
-    </application>
 
+        <receiver android:name=".receivers.AlarmsResetReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
