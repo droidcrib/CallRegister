@@ -1,19 +1,21 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.blogspot.droidcrib.callregister.R;
-import com.blogspot.droidcrib.callregister.contract.Constants;
 import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.CallRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.CallRecord;
@@ -24,7 +26,6 @@ import com.blogspot.droidcrib.callregister.ui.adapters.CallsListAdapter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.Date;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -34,12 +35,13 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 /**
  * Created by Andrey Bulanov on 04.10.2016.
  */
-public class CallsListFragment extends Fragment implements LoaderManager.LoaderCallbacks{
+public class CallsListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     public static CallsListFragment sCallsListFragment;
     List<CallRecord> mCallRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
+    private long mRecordId;
 
     //
     // Provides instance of CallsListFragment
@@ -78,6 +80,9 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
     public void onResume() {
         super.onResume();
 
+        // List items long click processing
+        stickyList.setOnCreateContextMenuListener(this);
+
         getLoaderManager().restartLoader(0, null, this);
 
         // List items click processing
@@ -105,6 +110,31 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
     }
 
 
+    //
+    // Context menu
+    //
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.item_list_menu_context_calls, menu);
+        // Get long-pressed item id
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        mRecordId = info.id;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.context_menu_item_delete_call:
+                new RemoveRecordTask().execute(mRecordId);
+                getLoaderManager().restartLoader(0, null, this);
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
@@ -125,8 +155,23 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     @Subscribe
-    public void onEvent(NewCallEvent event){
+    public void onEvent(NewCallEvent event) {
         Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
+    }
+
+    /**
+     * Removes record from database and correspondent data directory from storage
+     */
+    private class RemoveRecordTask extends AsyncTask<Long, Void, Void> {
+
+        protected Void doInBackground(Long... args) {
+            CallRecord.deleteRecordById(args[0]);
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            getLoaderManager().restartLoader(0, null, CallsListFragment.this);
+        }
     }
 }

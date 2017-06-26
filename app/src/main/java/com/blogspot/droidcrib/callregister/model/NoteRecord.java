@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.util.Calendar;
@@ -48,6 +49,14 @@ public class NoteRecord extends Model {
         return new Select()
                 .from(NoteRecord.class)
                 .orderBy("noteDateInMillis DESC")
+                .execute();
+    }
+
+    // remove record from table
+    public static void deleteRecordById(long recordId) {
+        new Delete()
+                .from(NoteRecord.class)
+                .where("_id = ?", recordId)
                 .execute();
     }
 

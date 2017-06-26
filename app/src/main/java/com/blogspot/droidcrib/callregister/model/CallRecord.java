@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.text.ParseException;
@@ -72,6 +73,14 @@ public class CallRecord extends Model {
                 .from(CallRecord.class)
                 .where("_id = ?", id)
                 .executeSingle();
+    }
+
+    // remove record from table
+    public static void deleteRecordById(long recordId) {
+        new Delete()
+                .from(CallRecord.class)
+                .where("_id = ?", recordId)
+                .execute();
     }
 
 

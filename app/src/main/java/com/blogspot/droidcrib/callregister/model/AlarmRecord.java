@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import java.text.ParseException;
@@ -91,6 +92,14 @@ public class AlarmRecord extends Model {
         return new Select()
                 .from(AlarmRecord.class)
                 .orderBy("alarmDateInMillis DESC")
+                .execute();
+    }
+
+    // remove record from table
+    public static void deleteRecordById(long recordId) {
+        new Delete()
+                .from(AlarmRecord.class)
+                .where("_id = ?", recordId)
                 .execute();
     }
 

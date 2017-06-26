@@ -1,13 +1,15 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,7 +21,6 @@ import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.AlarmsListAdapter;
-import com.blogspot.droidcrib.callregister.ui.adapters.NotesListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,6 +39,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     List<AlarmRecord> mAlarmRecordsList;
     StickyListHeadersListView stickyList;
     private String mToolbarTextHeader;
+    private long mRecordId;
     private static final String TAG = "MainActivity";
 
     //
@@ -77,6 +79,9 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     public void onResume() {
         super.onResume();
 
+        // List items long click processing
+        stickyList.setOnCreateContextMenuListener(this);
+
         getLoaderManager().restartLoader(0, null, this);
 
         // List items click processing
@@ -111,6 +116,32 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     }
 
 
+    //
+    // Context menu
+    //
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.item_list_menu_context_alarms, menu);
+        // Get long-pressed item id
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        mRecordId = info.id;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.context_menu_item_delete_alarm:
+                new RemoveRecordTask().execute(mRecordId);
+                getLoaderManager().restartLoader(0, null, this);
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         return new AlarmRecordsLoader(getActivity());
@@ -125,32 +156,6 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
 
         EventBus.getDefault().post(new AlarmsListLoadFinishedEvent());
 
-//        scrollToListItem(8);
-
-//        final View view = stickyList.getAdapter().getView(0, null, stickyList);
-//        view.setBackgroundColor(Color.BLUE);
-
-//        AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder) (view.getTag());
-//        holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE : View.VISIBLE);
-//        holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
-
-
-//        stickyList.setSelection(8);
-//        View view = stickyList.getChildAt(0);
-//        AlarmsListAdapter.ViewHolder holder = (AlarmsListAdapter.ViewHolder) (view.getTag());
-//        holder.memoShort.setVisibility(holder.memoShort.isShown() ? View.GONE : View.VISIBLE);
-//        holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
-
-//        for(int i=0; i<stickyList.getCount(); i++){
-//            Log.d(TAG, "stickyList.pos = " + i + " stickyList.pos.id = " + stickyList.getItemIdAtPosition(i));
-//        }
-//
-//        stickyList.setSelection(2);
-//        Log.d(TAG, "stickyList.getCount() = " + stickyList.getCount());
-//        long itemIdAtPos = stickyList.getItemIdAtPosition(2);
-//        Log.d(TAG, "stickyList.getItemIdAtPosition(2) = " + itemIdAtPos);
-//        stickyList.getItemAtPosition(1).getClass();
-////        Log.d(TAG, "getItemAtPosition instance of = " + stickyList.getAdapter().getView());
     }
 
     @Override
@@ -162,5 +167,20 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     public void onEvent(NewCallEvent event) {
         Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
+    }
+
+    /**
+     * Removes record from database and correspondent data directory from storage
+     */
+    private class RemoveRecordTask extends AsyncTask<Long, Void, Void> {
+
+        protected Void doInBackground(Long... args) {
+            AlarmRecord.deleteRecordById(args[0]);
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            getLoaderManager().restartLoader(0, null, AlarmsListFragment.this);
+        }
     }
 }
