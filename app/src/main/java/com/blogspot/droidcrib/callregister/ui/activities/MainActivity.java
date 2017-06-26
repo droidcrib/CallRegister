@@ -4,6 +4,9 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 // TODO: Отработка разрешений в реальном времени - сделать правильно
 // TODO: картинка в заголовок
 // TODO: manage keep list position
+// TODO: reminder reset after device reboot
+// TODO: remove menu from toolbar
+// TODO: do something with toolbar header
 
 
 import android.Manifest;
