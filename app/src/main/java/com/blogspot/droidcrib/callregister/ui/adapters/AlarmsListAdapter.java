@@ -57,7 +57,7 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
         if (convertView == null) {
             holder = new AlarmsListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.listitem_alarms, parent, false);
-//            holder.alarmDate = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
+            holder.alarmDate = (TextView) convertView.findViewById(R.id.id_tv_alarm_date);
             holder.memoShort = (TextView) convertView.findViewById(R.id.id_tv_alarms_note_short);
             holder.memo = (TextView) convertView.findViewById(R.id.id_tv_alarms_note);
             convertView.setTag(holder);
@@ -68,7 +68,7 @@ public class AlarmsListAdapter extends BaseAdapter implements StickyListHeadersA
 
         AlarmRecord record = (AlarmRecord) getItem(position);
         String convertedTime = new SimpleDateFormat("dd MMM yyyy  HH:mm").format(record.alarmDateInMillis);
-//        holder.alarmDate.setText(convertedTime);
+        holder.alarmDate.setText(convertedTime);
         holder.memoShort.setText(record.memoText);
         holder.memo.setText(record.memoText);
 

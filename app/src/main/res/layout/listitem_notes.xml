@@ -10,12 +10,12 @@
         android:id="@+id/id_note_image"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:paddingTop="8dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/regular_offset"
         android:alpha="0.5"
-        android:src="@drawable/ic_message_envelope"/>
+        android:paddingTop="@dimen/padding_8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_message_envelope" />
 
 
     <TextView
@@ -23,14 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/regular_offset"
         android:layout_toRightOf="@id/id_note_image"
-        android:layout_marginLeft="16dp"
-        android:gravity="center|start"
-        android:fontFamily="sans-serif"
-        android:scrollHorizontally="true"
         android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:gravity="center|start"
+        android:hint="@string/no_memo"
         android:lines="1"
-        android:hint="Memo Memo Memo Memo Memo Memo Memo"
+        android:scrollHorizontally="true"
         android:textSize="16sp" />
 
     <TextView
@@ -38,14 +38,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/regular_offset"
         android:layout_toRightOf="@id/id_note_image"
-        android:layout_marginLeft="16dp"
-        android:gravity="center|start"
-        android:fontFamily="sans-serif"
-        android:scrollHorizontally="true"
         android:ellipsize="end"
-        android:hint="Memo"
+        android:fontFamily="sans-serif"
+        android:gravity="center|start"
+        android:scrollHorizontally="true"
         android:textSize="16sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

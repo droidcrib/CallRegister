@@ -55,10 +55,10 @@ public class ContactsProvider {
                     mContactCard.setAvatarUri(image_uri);
                     Log.d(TAG, "\n getNameByPhoneNumber -- Image in Bitmap:" + bitmap);
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
+                    //  Auto-generated catch block
                     e.printStackTrace();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    //  Auto-generated catch block
                     e.printStackTrace();
                 }
             }

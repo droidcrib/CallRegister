@@ -40,6 +40,8 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="listview_height">64dp</dimen>
+    <dimen name="avatar_size">64dp</dimen>
 
 
 </resources>
