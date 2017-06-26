@@ -5,7 +5,6 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 // TODO: add FABs to alarms and notes
 
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -81,7 +83,8 @@ public class MainActivity extends AppCompatActivity
     long alarmRecordId;
     String action;
     String extra;
-
+    FloatingActionButton fab;
+    private int mPagePosition;
 
     private static final String TAG = "trace_notifications";
 
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        fab = (FloatingActionButton) findViewById(R.id.fab_main);
 
         //  Setup TabLayout
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -110,11 +114,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                mPagePosition = position;
                 if (position == 0) {
                     // do something with content
+                    fab.setVisibility(View.INVISIBLE);
                 }
                 if (position == 1) {
                     // do something with content
+                    fab.setVisibility(View.VISIBLE);
+                }
+                if (position == 2) {
+                    // do something with content
+                    fab.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -184,14 +195,24 @@ public class MainActivity extends AppCompatActivity
         // Explicitly call to get permission in Android 6
         readPhoneStateWrapper();
 
-        //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mPagePosition == 1) {
+                    // do something with content
+                    Snackbar.make(view, "Add new alarm", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                if (mPagePosition == 2) {
+                    // do something with content
+                    Snackbar.make(view, "Add new note", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
+            }
+        });
 
 
     }
