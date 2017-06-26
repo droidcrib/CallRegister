@@ -41,6 +41,20 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS_IN_LIST" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".telephony.CallReceiver">
             <intent-filter>
@@ -59,21 +73,6 @@
                 <action android:name="com.blogspot.droidcrib.callregister.ACTION_CREATE_NOTIFICATION" />
             </intent-filter>
         </receiver>
-
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:launchMode="singleInstance"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="com.blogspot.droidcrib.callregister.ACTION_SHOW_ALARM_DETAILS_IN_LIST" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
