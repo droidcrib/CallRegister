@@ -2,11 +2,9 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 
 // TODO: Переделать экран детализации под материал дизайн с координатор лейаутом + две фаб: позвонить, сообщение (смс, вайбер етс)
 // TODO: Отработка разрешений в реальном времени - сделать правильно
-// TODO: картинка в заголовок
-// TODO: manage keep list position
 // TODO: reminder reset after device reboot
-// TODO: remove menu from toolbar
-// TODO: do something with toolbar header
+// TODO: add FABs to alarms and notes
+
 
 
 import android.Manifest;

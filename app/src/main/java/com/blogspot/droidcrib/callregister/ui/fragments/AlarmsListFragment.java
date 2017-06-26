@@ -162,13 +162,12 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         mAlarmRecordsList = (List<AlarmRecord>) data;
         AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mAlarmRecordsList);
         stickyList.setAdapter(adapter);
-
-        EventBus.getDefault().post(new AlarmsListLoadFinishedEvent());
-
         // Restore previous state (including selected item index and scroll position)
         if (state != null) {
             stickyList.onRestoreInstanceState(state);
         }
+
+        EventBus.getDefault().post(new AlarmsListLoadFinishedEvent());
 
     }
 
