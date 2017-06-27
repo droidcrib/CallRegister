@@ -1,8 +1,5 @@
 package com.blogspot.droidcrib.callregister.eventbus;
 
-/**
- * Created by BulanovA on 12.06.2017.
- */
 
 public class PickerTimeCangedEvent {
 

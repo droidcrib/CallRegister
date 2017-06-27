@@ -12,10 +12,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- */
-
 
 @Table(name = "AlarmRecords", id = "_id")
 public class AlarmRecord extends Model {
@@ -68,7 +64,7 @@ public class AlarmRecord extends Model {
         alarmRecord.minute = minute;
         alarmRecord.memoText = memoText;
         alarmRecord.callRecord = callRecord;
-        if(callRecord != null) {
+        if (callRecord != null) {
             alarmRecord.callRecord.name = callRecord.name;
             alarmRecord.callRecord.phone = callRecord.phone;
             alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
@@ -102,7 +98,6 @@ public class AlarmRecord extends Model {
                 .where("_id = ?", recordId)
                 .execute();
     }
-
 
 
     @Override

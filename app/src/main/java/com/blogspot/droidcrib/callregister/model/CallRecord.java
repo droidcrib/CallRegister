@@ -68,7 +68,7 @@ public class CallRecord extends Model {
 //        record.save();
 //    }
 
-    public static CallRecord getRecordById(long id){
+    public static CallRecord getRecordById(long id) {
         return new Select()
                 .from(CallRecord.class)
                 .where("_id = ?", id)
@@ -94,13 +94,11 @@ public class CallRecord extends Model {
     }
 
 
-
-
-    private static long dateToLong(Date date){
+    private static long dateToLong(Date date) {
         try {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
-        String str = sdf.format(date);
-        date = sdf.parse(str);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+            String str = sdf.format(date);
+            date = sdf.parse(str);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

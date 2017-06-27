@@ -7,9 +7,6 @@ import com.blogspot.droidcrib.callregister.model.CallRecord;
 
 import java.util.List;
 
-/**
- * Created by BulanovA on 21.06.2017.
- */
 
 public class AlarmRecordsLoader  extends DatabaseLoader {
 

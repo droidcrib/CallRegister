@@ -2,9 +2,6 @@ package com.blogspot.droidcrib.callregister.model;
 
 import android.graphics.Bitmap;
 
-/**
- *
- */
 
 public class ContactCard {
 

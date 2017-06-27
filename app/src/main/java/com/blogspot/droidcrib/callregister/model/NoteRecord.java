@@ -9,9 +9,6 @@ import com.activeandroid.query.Select;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- *
- */
 
 @Table(name = "NoteRecords", id = "_id")
 public class NoteRecord extends Model {

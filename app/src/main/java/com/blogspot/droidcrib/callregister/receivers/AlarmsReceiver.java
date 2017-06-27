@@ -35,49 +35,29 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_PHONE_NUMBER;
 import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 
-/**
- *
- */
-
 public class AlarmsReceiver extends BroadcastReceiver {
-
-    private static final String TAG = "_receiver_";
 
     private String mName;
     private String mMemo;
     private Bitmap mAvatar;
     private Bitmap circeAvatar;
-    Intent intentAction;
+    private Intent intentAction;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
         String action = intent.getAction();
         long alarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
-
-        Log.d(TAG, "<== AlarmsReceiver intent received = " + intent.toString());
-        Log.d(TAG, "<== AlarmsReceiver action received = " + action);
-        Log.d(TAG, "<== AlarmsReceiver extra alarm id received = " + alarmRecordId);
-
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        if (action != null && intent.getAction().equals(ACTION_REMOVE_NOTIFICATION)) {
-////            Log.d(TAG, "Cancelling notification with id = " + alarmRecordId);
-//            nm.cancel((int) alarmRecordId);
-//            return;
-//        }
-
         AlarmRecord alarmRecord = AlarmRecord.getRecordById(alarmRecordId);
         mMemo = alarmRecord.memoText;
-        if (alarmRecord.callRecord != null) {
-//        Log.d(TAG, "-- alarmRecord received : " + alarmRecord.toString());
-            mName = alarmRecord.callRecord.name;
 
+        if (alarmRecord.callRecord != null) {
+            mName = alarmRecord.callRecord.name;
             Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
             Drawable currentState = d.getCurrent();
             if (currentState instanceof BitmapDrawable)
                 mAvatar = ((BitmapDrawable) currentState).getBitmap();
-
             if (alarmRecord.callRecord.avatarUri != null) {
                 Uri imageUri = Uri.parse(alarmRecord.callRecord.avatarUri);
                 try {
@@ -87,37 +67,31 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 }
             }
             circeAvatar = getCircledBitmap(mAvatar, 96);
-            //avatar.recycle();
         }
-
 
         if (alarmRecord.callRecord != null) {
-            // TODO: different intents here
             intentAction = new Intent(context, SingleFragmentActivity.class);
             intentAction.setAction(ACTION_SHOW_ALARM_DETAILS);
-
         } else {
-            // TODO: different intents here
             intentAction = new Intent(context, MainActivity.class);
             intentAction.setAction(ACTION_SHOW_ALARM_DETAILS_IN_LIST);
-            intentAction.putExtra(INTENT_TXT, "+++ ABC +++");
         }
+
         intentAction.putExtra(EXTRA_ALARM_RECORD_ID, alarmRecordId);
         PendingIntent pIntentAction = PendingIntent.getActivity(context, (int) alarmRecordId, intentAction,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setWhen(0)
                 .setSmallIcon(R.drawable.ic_watch_later_white_24dp)
-                .setLargeIcon(circeAvatar)                               // User avatar here
-                .setContentTitle(mName)                              // User name or phone number here
+                .setLargeIcon(circeAvatar)
+                .setContentTitle(mName)
                 .setContentText(mMemo)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(mMemo))
                 .setVibrate(new long[]{500, 500, 500, 500, 500})
                 .setLights(Color.GREEN, 3000, 3000)
-                .setContentIntent(pIntentAction)                    // goto reminder details on click
+                .setContentIntent(pIntentAction)
                 .setAutoCancel(true);
         nm.notify((int) alarmRecordId, notification.build());
     }
