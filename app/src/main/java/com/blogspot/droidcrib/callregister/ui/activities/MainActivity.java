@@ -369,35 +369,6 @@ public class MainActivity extends AppCompatActivity
         positiveButton.setLayoutParams(positiveButtonLL);
     }
 
-
-//    private void readPhoneStateWrapper() {
-//        int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
-//                Manifest.permission.READ_PHONE_STATE);
-//        // Check permission
-//        if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
-//            // Show explanation about permission reason request if denied before
-//            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.READ_PHONE_STATE)) {
-//                showMessageOKCancel(getResources().getString(R.string.access_phone_state),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                ActivityCompat.requestPermissions(MainActivity.this,
-//                                        new String[]{Manifest.permission.READ_PHONE_STATE},
-//                                        REQUEST_CODE_ASK_PERMISSIONS);
-//                            }
-//                        });
-//                return;
-//            }
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
-//            return;
-//        }
-//        // PERMISSION_GRANTED. Do action here
-//        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//        int state = telephonyManager.getCallState();
-//        Log.d(TAG, "Call state:" + state);
-//    }
-
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
@@ -416,26 +387,6 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        switch (requestCode) {
-//            case REQUEST_CODE_ASK_PERMISSIONS:
-//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    // Permission Granted
-//                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//                    int state = telephonyManager.getCallState();
-//                    Log.d(TAG, "Call state:" + state);
-//                } else {
-//                    // Permission Denied
-//                    Toast.makeText(MainActivity.this, "READ_PHONE_STATE Denied", Toast.LENGTH_SHORT)
-//                            .show();
-//                }
-//                break;
-//            default:
-//                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//    }
 
     @Subscribe
     public void onEvent(AlarmsListLoadFinishedEvent event) {
