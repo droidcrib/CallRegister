@@ -58,16 +58,20 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     private String mNoteText;
     Button mNoteButton;
     Button mReminderButton;
+    TextView mDisplayName;
+    ImageView mDisplayCallType;
+    SimpleDraweeView mDisplayAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_request_action);
         this.setFinishOnTouchOutside(false);
 
-        TextView mDisplayName = (TextView) findViewById(R.id.id_person_name);
-        ImageView mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
-        SimpleDraweeView mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_user_avatar);
+        mDisplayName = (TextView) findViewById(R.id.id_person_name);
+        mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
+        mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_user_avatar);
         mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
         mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
         Button mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
@@ -78,38 +82,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         long dateMilliseconds = getIntent().getLongExtra(Constants.EXTRA_DATE, -1);
         mCallDate.setTime(dateMilliseconds);
         mCallType = getIntent().getStringExtra(Constants.EXTRA_CALL_TYPE);
-        contactCard = readContactsWrapper(mPhoneNumber);
-        mContactName = contactCard.getName();
-        mAvatarBitmap = contactCard.getAavatar();
-        mAvatarUri = contactCard.getAvatarUri();
-
-        // Insert new call record
-        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
-        EventBus.getDefault().post(new NewCallEvent());
-
-
-        // Setup views
-        mDisplayName.setText(mContactName);
-        if (mAvatarBitmap != null) {
-            mDisplayAvatar.setImageURI(Uri.parse(mAvatarUri));
-            mDisplayAvatar.setAlpha(1f);
-        } else {
-            mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
-        }
-        switch (mCallType) {
-            case Constants.INCOMING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
-                break;
-
-            case Constants.OUTGOING_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
-                break;
-
-            case Constants.MISSED_CALL:
-                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
-                break;
-        }
-
+        readContactsWrapper(mPhoneNumber);
 
         mNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,15 +138,22 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                     CallMemoDialogActivity.this.finish();
                 }
             }
-        }, 4000);
+        }, 400000);
 
 
     }
 
     @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart");
+        super.onStart();
+    }
+
+    @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
-        if (mNoteText != null && mNoteText.length() > 0 ) {
+        if (mNoteText != null && mNoteText.length() > 0) {
             NoteRecord.insert(mNoteText, CallRecord.getRecordById(mRecordId));
         }
     }
@@ -182,7 +162,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     // Handling permissions for API >= 23
     ////////////////////////////////////////////////////////
 
-    private ContactCard readContactsWrapper(String phoneNumber) {
+    private void readContactsWrapper(String phoneNumber) {
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS);
         // Check permission
@@ -199,15 +179,19 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                                         REQUEST_CODE_ASK_PERMISSIONS);
                             }
                         });
-                return new ContactCard(phoneNumber);
+                Log.d(TAG, "readContactsWrapper - !ActivityCompat.shouldShowRequestPermissionRationale");
+                return;
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     REQUEST_CODE_ASK_PERMISSIONS);
-            return new ContactCard(phoneNumber);
+            Log.d(TAG, "readContactsWrapper - hasReadContactsPermission != PackageManager.PERMISSION_GRANTED");
+            return;
         }
         // PERMISSION_GRANTED. Do action here
-        return ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber);
+        Log.d(TAG, "readContactsWrapper - PERMISSION_GRANTED");
+        setupView(ContactsProvider.getNameByPhoneNumber(this, phoneNumber));
+        return;
 
     }
 
@@ -226,15 +210,52 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
-                    contactCard = ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber);
+                    Log.d(TAG, "onRequestPermissionsResult - PERMISSION_GRANTED");
+                    setupView(ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber));
                 } else {
                     // Permission Denied
+                    Log.d(TAG, "onRequestPermissionsResult - PERMISSION denied");
+                    setupView(new ContactCard(mPhoneNumber));
                     Toast.makeText(CallMemoDialogActivity.this, "READ_CONTACTS Denied", Toast.LENGTH_SHORT)
                             .show();
                 }
                 break;
             default:
+                Log.d(TAG, "onRequestPermissionsResult - super.onRequestPermissionsResult");
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void setupView(ContactCard contactCard) {
+        mContactName = contactCard.getName();
+        mAvatarBitmap = contactCard.getAavatar();
+        mAvatarUri = contactCard.getAvatarUri();
+
+        // Insert new call record
+        mRecordId = CallRecord.insert(mContactName, mPhoneNumber, mAvatarUri, mCallType, mCallDate);
+        EventBus.getDefault().post(new NewCallEvent());
+
+
+        // Setup views
+        mDisplayName.setText(mContactName);
+        if (mAvatarBitmap != null) {
+            mDisplayAvatar.setImageURI(Uri.parse(mAvatarUri));
+            mDisplayAvatar.setAlpha(1f);
+        } else {
+            mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
+        }
+        switch (mCallType) {
+            case Constants.INCOMING_CALL:
+                mDisplayCallType.setImageResource(R.drawable.ic_call_received_black_48dp);
+                break;
+
+            case Constants.OUTGOING_CALL:
+                mDisplayCallType.setImageResource(R.drawable.ic_call_made_black_48dp);
+                break;
+
+            case Constants.MISSED_CALL:
+                mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
+                break;
         }
     }
 
