@@ -87,8 +87,9 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mDisplayName.setText(mContactName);
         if (mAvatarBitmap != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mAvatarUri));
+            mDisplayAvatar.setAlpha(1f);
         } else {
-            mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+            mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
         }
         switch (mCallType) {
             case Constants.INCOMING_CALL:

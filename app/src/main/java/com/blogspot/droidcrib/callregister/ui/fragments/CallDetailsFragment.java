@@ -119,8 +119,10 @@ public class CallDetailsFragment extends Fragment {
         Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
         if (mCallRecord.avatarUri != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
+            mDisplayAvatar.setAlpha(1f);
         } else {
-            mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+            mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
+
         }
 
 

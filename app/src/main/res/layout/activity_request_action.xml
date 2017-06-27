@@ -20,7 +20,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:scaleType="centerCrop"
-            fresco:placeholderImage="@drawable/ic_person_black_48dp"
+            android:alpha="0.2"
+            fresco:placeholderImage="@drawable/ic_account_circle_black_48dp"
             fresco:roundAsCircle="true"
             />
 

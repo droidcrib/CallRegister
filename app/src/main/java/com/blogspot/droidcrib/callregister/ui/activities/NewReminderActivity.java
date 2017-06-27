@@ -89,8 +89,10 @@ public class NewReminderActivity extends AppCompatActivity {
             // Avatar
             if (callRecord.avatarUri != null) {
                 mDisplayAvatar.setImageURI(Uri.parse(callRecord.avatarUri));
+                mDisplayAvatar.setAlpha(1f);
             } else {
-                mDisplayAvatar.setImageResource(R.drawable.ic_person_black_48dp);
+                mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
+
             }
             // Call type
             switch (callRecord.callType) {
