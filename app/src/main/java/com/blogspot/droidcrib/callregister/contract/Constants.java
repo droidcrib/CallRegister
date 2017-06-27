@@ -29,4 +29,6 @@ public class Constants {
 
     public static final String INTENT_TXT = "com.blogspot.droidcrib.callregister.INTENT_TXT";
 
+    public static final int REQUEST_CODE_ASK_PERMISSIONS = 111;
+
 }

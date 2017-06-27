@@ -1,6 +1,7 @@
 package com.blogspot.droidcrib.callregister.ui.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,13 +13,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
@@ -34,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Date;
 
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
+import static com.blogspot.droidcrib.callregister.contract.Constants.REQUEST_CODE_ASK_PERMISSIONS;
 
 public class CallMemoDialogActivity extends AppCompatActivity {
 
@@ -191,14 +196,14 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(CallMemoDialogActivity.this,
                                         new String[]{Manifest.permission.READ_CONTACTS},
-                                        111);
+                                        REQUEST_CODE_ASK_PERMISSIONS);
                             }
                         });
                 return new ContactCard(phoneNumber);
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
-                    111);
+                    REQUEST_CODE_ASK_PERMISSIONS);
             return new ContactCard(phoneNumber);
         }
         // PERMISSION_GRANTED. Do action here
@@ -213,6 +218,24 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 .setNegativeButton(getResources().getString(R.string.cancel), null)
                 .create()
                 .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    contactCard = ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(CallMemoDialogActivity.this, "READ_CONTACTS Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 }

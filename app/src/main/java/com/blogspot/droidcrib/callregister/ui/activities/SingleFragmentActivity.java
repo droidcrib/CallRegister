@@ -55,9 +55,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragment = mFragmentManager.findFragmentById(R.id.id_fragment_container);
 
-        // Explicitly call to get permission in Android 6
-        readPhoneStateWrapper();
-
         String action = getIntent().getAction();
 
 //        Log.d(TAG, "SingleFragmentActivity mRecordId = " + mRecordId);
@@ -93,46 +90,4 @@ public class SingleFragmentActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
-    private void readPhoneStateWrapper() {
-        int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE);
-        // Check permission
-        if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            // Show explanation about permission reason request if denied before
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_PHONE_STATE)) {
-                showMessageOKCancel(getResources().getString(R.string.access_phone_state),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(SingleFragmentActivity.this,
-                                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                                        111);
-                            }
-                        });
-                return;
-            }
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    111);
-            return;
-        }
-        // PERMISSION_GRANTED. Do action here
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        int state = telephonyManager.getCallState();
-        Log.d("Tel_EXTRA_STATE", "Call state:" + state);
-
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton(getResources().getString(R.string.ok), okListener)
-                .setNegativeButton(getResources().getString(R.string.cancel), null)
-                .create()
-                .show();
-    }
-
-
 }

@@ -40,6 +40,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.AlarmsListLoadFinishedEvent;
@@ -57,6 +58,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.REQUEST_CODE_ASK_PERMISSIONS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.SHARED_PREFS;
 
 public class MainActivity extends AppCompatActivity
@@ -375,20 +377,18 @@ public class MainActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions(MainActivity.this,
                                         new String[]{Manifest.permission.READ_PHONE_STATE},
-                                        111);
+                                        REQUEST_CODE_ASK_PERMISSIONS);
                             }
                         });
                 return;
             }
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    111);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
             return;
         }
         // PERMISSION_GRANTED. Do action here
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         int state = telephonyManager.getCallState();
-        Log.d("Tel_EXTRA_STATE", "Call state:" + state);
+        Log.d(TAG, "Call state:" + state);
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
@@ -398,6 +398,27 @@ public class MainActivity extends AppCompatActivity
                 .setNegativeButton(getResources().getString(R.string.cancel), null)
                 .create()
                 .show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    int state = telephonyManager.getCallState();
+                    Log.d(TAG, "Call state:" + state);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MainActivity.this, "READ_PHONE_STATE Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Subscribe
