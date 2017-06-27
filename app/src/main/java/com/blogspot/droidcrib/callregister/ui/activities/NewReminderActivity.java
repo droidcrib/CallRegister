@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.contract.Constants;
@@ -41,14 +42,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_CREA
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
-/**
- *
- */
-
 public class NewReminderActivity extends AppCompatActivity {
-
-
-    private static final String TAG = "trace_notifications";
 
     private MeasuredViewPager mViewPager;
     private long mCallRecordId;
@@ -167,11 +161,7 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmHolder.hourOfDay = mCalendar.get(Calendar.HOUR_OF_DAY);
         alarmHolder.minute = mCalendar.get(Calendar.MINUTE);
         alarmHolder.callRecord = callRecord;
-        alarmHolder.memoText = "this is memoShort text. some very very long text here. " +
-                "Еще и на русском добавим, чтоб больше было. І українською звичайно ж";
-
-        Log.d(TAG, "-- AlarmHolder initial values: " + alarmHolder.toString());
-
+        alarmHolder.memoText = "";
 
         // FAB mIntentAction
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -209,11 +199,8 @@ public class NewReminderActivity extends AppCompatActivity {
 
                 // Set new alarm
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
-                Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(NewReminderActivity.this, "New alarm set", Toast.LENGTH_SHORT).show();
 
-                Log.d(TAG, "==> NewReminderActivity mIntentExtra alarm id send = " + recId);
-                Log.d(TAG, "==> NewReminderActivity  alarm intent send = " + alarmIntent.toString());
                 NewReminderActivity.this.finish();
             }
         });
@@ -253,9 +240,6 @@ public class NewReminderActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(PickerTimeCangedEvent event) {
-        Log.d("onEvent", "PickerTimeCangedEvent " + event.getHourOfDay() + " " + event.getMinute());
-
-
         alarmHolder.hourOfDay = event.getHourOfDay();
         alarmHolder.minute = event.getMinute();
         // Setup tab header
@@ -269,11 +253,8 @@ public class NewReminderActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(PickerTextChangedEvent event) {
-        Log.d("onEvent", "PickerTextChangedEvent " + event.getText());
         alarmHolder.memoText = event.getText().toString();
-
     }
-
 
     private static class AlarmHolder {
          int year;

@@ -43,16 +43,12 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.REQUEST_COD
 
 public class CallMemoDialogActivity extends AppCompatActivity {
 
-    private static final String TAG = "CallMemoDialogActivity";
-
     private String mPhoneNumber;
     private Date mCallDate = new Date();
     private long mRecordId;
     private EditText mNote;
     private boolean isNoAction = true;
-    private boolean isNoteAddSelected = false;
     String mCallType;
-    ContactCard contactCard;
     String mContactName;
     Bitmap mAvatarBitmap;
     String mAvatarUri;
@@ -66,7 +62,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
+
         setContentView(R.layout.activity_request_action);
         this.setFinishOnTouchOutside(false);
 
@@ -91,7 +87,6 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 mNoteButton.setVisibility(View.GONE);
                 mReminderButton.setVisibility(View.GONE);
                 isNoAction = false;
-                isNoteAddSelected = true;
                 mNote.setVisibility(View.VISIBLE);
             }
         });
@@ -139,20 +134,13 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                     CallMemoDialogActivity.this.finish();
                 }
             }
-        }, 400000);
+        }, 6000);
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d(TAG, "onStart");
-        super.onStart();
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause");
         super.onPause();
         if (mNoteText != null && mNoteText.length() > 0) {
             NoteRecord.insert(mNoteText, CallRecord.getRecordById(mRecordId));
@@ -180,17 +168,14 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                                         REQUEST_CODE_ASK_PERMISSIONS);
                             }
                         });
-                Log.d(TAG, "readContactsWrapper - !ActivityCompat.shouldShowRequestPermissionRationale");
                 return;
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS},
                     REQUEST_CODE_ASK_PERMISSIONS);
-            Log.d(TAG, "readContactsWrapper - hasReadContactsPermission != PackageManager.PERMISSION_GRANTED");
             return;
         }
         // PERMISSION_GRANTED. Do mIntentAction here
-        Log.d(TAG, "readContactsWrapper - PERMISSION_GRANTED");
         setupView(ContactsProvider.getNameByPhoneNumber(this, phoneNumber));
         return;
 
@@ -220,18 +205,15 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
-                    Log.d(TAG, "onRequestPermissionsResult - PERMISSION_GRANTED");
                     setupView(ContactsProvider.getNameByPhoneNumber(this, mPhoneNumber));
                 } else {
                     // Permission Denied
-                    Log.d(TAG, "onRequestPermissionsResult - PERMISSION denied");
                     setupView(new ContactCard(mPhoneNumber));
                     Toast.makeText(CallMemoDialogActivity.this, "READ_CONTACTS Denied", Toast.LENGTH_SHORT)
                             .show();
                 }
                 break;
             default:
-                Log.d(TAG, "onRequestPermissionsResult - super.onRequestPermissionsResult");
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

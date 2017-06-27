@@ -76,9 +76,6 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton mFab;
     private int mPagePosition;
 
-    private static final String TAG = "trace_notifications";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,7 +315,6 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
                                         @SuppressWarnings("unused") final int id) {
-                        Log.d(TAG, "Saving new memoShort here :" + mNoteText);
                         if (mNoteText != null && mNoteText.length() > 0) {
                             NoteRecord.insert(mNoteText, null);
                             EventBus.getDefault().post(new NewNoteEvent());
@@ -433,7 +429,6 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe
     public void onEvent(AlarmsListLoadFinishedEvent event) {
-        Log.d(TAG, "AlarmsListLoadFinishedEvent ");
         AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
         fragment.scrollToListItem(mAlarmRecordId);
     }

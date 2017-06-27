@@ -33,9 +33,7 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_RECORD_ID;
 
-/**
- *
- */
+
 public class SingleFragmentActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
