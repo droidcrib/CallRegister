@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
@@ -61,6 +62,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private AlarmHolder alarmHolder = new AlarmHolder();
+    private RelativeLayout idCallInfo;
 
 
     @Override
@@ -73,6 +75,7 @@ public class NewReminderActivity extends AppCompatActivity {
         mCallRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, -1);
         CallRecord callRecord = CallRecord.getRecordById(mCallRecordId);
 
+        idCallInfo = (RelativeLayout) findViewById(R.id.id_call_info);
         mDisplayName = (TextView) findViewById(R.id.id_person_name);
         mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);
         mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_avatar);
@@ -80,6 +83,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
         // If callRecord id received in intent
         if(mCallRecordId != -1) {
+            idCallInfo.setVisibility(View.VISIBLE);
             // Name
             mDisplayName.setText(callRecord.name);
             // Avatar
@@ -183,9 +187,6 @@ public class NewReminderActivity extends AppCompatActivity {
                         alarmHolder.callRecord,
                         alarmHolder.memoText
                 );
-
-                // TODO: delete below after test
-                final AlarmRecord rec = AlarmRecord.getRecordById(recId);
 
                 // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

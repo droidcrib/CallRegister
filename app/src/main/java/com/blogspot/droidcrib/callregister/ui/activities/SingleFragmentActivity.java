@@ -72,16 +72,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
             setDetailsFragment(mRecordId);
         }
 
-
-//
-//
-//        if (mFragment == null) {
-//            mFragment = CallDetailsFragment.newInstance(mRecordId);
-//            mFragmentManager.beginTransaction()
-//                    .add(R.id.id_fragment_container, mFragment)
-//                    .commit();
-//        }
-
         // Toolbar setup
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,7 +85,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
     }
 
 
-
     public void setDetailsFragment(long id) {
         if (mFragment == null) {
             mFragment = CallDetailsFragment.newInstance(id);
@@ -104,19 +93,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void readPhoneStateWrapper() {
         int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
@@ -157,7 +133,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
-
 
 
 }

@@ -3,6 +3,7 @@ package com.blogspot.droidcrib.callregister.ui.activities;
 // TODO: Переделать экран детализации под материал дизайн с координатор лейаутом + две фаб: позвонить, сообщение (смс, вайбер етс)
 // TODO: Отработка разрешений в реальном времени - сделать правильно
 // TODO: add FABs to alarms and notes
+// TODO: vibration on reminder
 
 
 import android.Manifest;
@@ -122,10 +123,12 @@ public class MainActivity extends AppCompatActivity
                 if (position == 1) {
                     // do something with content
                     fab.setVisibility(View.VISIBLE);
+                    fab.setImageResource(R.drawable.ic_alarm_add_white_24dp);
                 }
                 if (position == 2) {
                     // do something with content
                     fab.setVisibility(View.VISIBLE);
+                    fab.setImageResource(R.drawable.ic_note_add_white_24dp);
                 }
             }
         });
@@ -201,14 +204,11 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
 
                 if (mPagePosition == 1) {
-                    // do something with content
-                    Snackbar.make(view, "Add new alarm", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    Intent i = new Intent(MainActivity.this, NewReminderActivity.class);
+                    startActivity(i);
                 }
                 if (mPagePosition == 2) {
-                    // do something with content
-                    Snackbar.make(view, "Add new note", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    newMemoDialog();
                 }
 
             }

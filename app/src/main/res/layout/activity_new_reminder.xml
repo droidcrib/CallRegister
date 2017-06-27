@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/id_call_info"
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="56dp"
+        android:visibility="gone">
 
 
         <com.facebook.drawee.view.SimpleDraweeView
