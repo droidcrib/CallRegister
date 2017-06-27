@@ -10,10 +10,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -52,13 +53,18 @@ import com.blogspot.droidcrib.callregister.ui.fragments.AlarmsListFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static com.blogspot.droidcrib.callregister.contract.Constants.ACTION_SHOW_ALARM_DETAILS_IN_LIST;
 import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 import static com.blogspot.droidcrib.callregister.contract.Constants.INTENT_TXT;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_INCOMINGS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_MISSED;
 import static com.blogspot.droidcrib.callregister.contract.Constants.IS_CATCH_OUTGOINGS;
-import static com.blogspot.droidcrib.callregister.contract.Constants.REQUEST_CODE_ASK_PERMISSIONS;
+import static com.blogspot.droidcrib.callregister.contract.Constants.REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS;
 import static com.blogspot.droidcrib.callregister.contract.Constants.SHARED_PREFS;
 
 public class MainActivity extends AppCompatActivity
@@ -196,7 +202,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         // Explicitly call to get permission in Android 6
-        readPhoneStateWrapper();
+        requestAllPermissionsAtFirstStart();
+//        readPhoneStateWrapper();
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -363,69 +370,151 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void readPhoneStateWrapper() {
-        int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE);
-        // Check permission
-        if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            // Show explanation about permission reason request if denied before
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_PHONE_STATE)) {
-                showMessageOKCancel(getResources().getString(R.string.access_phone_state),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                                        REQUEST_CODE_ASK_PERMISSIONS);
-                            }
-                        });
-                return;
-            }
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
-            return;
-        }
-        // PERMISSION_GRANTED. Do action here
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        int state = telephonyManager.getCallState();
-        Log.d(TAG, "Call state:" + state);
-    }
+//    private void readPhoneStateWrapper() {
+//        int hasReadContactsPermission = ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.READ_PHONE_STATE);
+//        // Check permission
+//        if (hasReadContactsPermission != PackageManager.PERMISSION_GRANTED) {
+//            // Show explanation about permission reason request if denied before
+//            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_PHONE_STATE)) {
+//                showMessageOKCancel(getResources().getString(R.string.access_phone_state),
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                ActivityCompat.requestPermissions(MainActivity.this,
+//                                        new String[]{Manifest.permission.READ_PHONE_STATE},
+//                                        REQUEST_CODE_ASK_PERMISSIONS);
+//                            }
+//                        });
+//                return;
+//            }
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_CODE_ASK_PERMISSIONS);
+//            return;
+//        }
+//        // PERMISSION_GRANTED. Do action here
+//        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        int state = telephonyManager.getCallState();
+//        Log.d(TAG, "Call state:" + state);
+//    }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
-                .setPositiveButton(getResources().getString(R.string.ok), okListener)
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                })
                 .setNegativeButton(getResources().getString(R.string.cancel), null)
                 .create()
                 .show();
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
-                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                    int state = telephonyManager.getCallState();
-                    Log.d(TAG, "Call state:" + state);
-                } else {
-                    // Permission Denied
-                    Toast.makeText(MainActivity.this, "READ_PHONE_STATE Denied", Toast.LENGTH_SHORT)
-                            .show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_CODE_ASK_PERMISSIONS:
+//                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    // Permission Granted
+//                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//                    int state = telephonyManager.getCallState();
+//                    Log.d(TAG, "Call state:" + state);
+//                } else {
+//                    // Permission Denied
+//                    Toast.makeText(MainActivity.this, "READ_PHONE_STATE Denied", Toast.LENGTH_SHORT)
+//                            .show();
+//                }
+//                break;
+//            default:
+//                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        }
+//    }
 
     @Subscribe
     public void onEvent(AlarmsListLoadFinishedEvent event) {
         Log.d(TAG, "AlarmsListLoadFinishedEvent ");
         AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
         fragment.scrollToListItem(alarmRecordId);
+    }
+
+
+    private void requestAllPermissionsAtFirstStart() {
+        List<String> permissionsNeeded = new ArrayList<String>();
+
+        final List<String> permissionsList = new ArrayList<String>();
+        if (!addPermission(permissionsList, Manifest.permission.READ_PHONE_STATE))
+            permissionsNeeded.add("READ_PHONE_STATE");
+        if (!addPermission(permissionsList, Manifest.permission.READ_CONTACTS))
+            permissionsNeeded.add("READ_CONTACTS");
+
+        if (permissionsList.size() > 0) {
+            if (permissionsNeeded.size() > 0) {
+                // Need Rationale
+                String message = "You need to grant access to " + permissionsNeeded.get(0);
+                for (int i = 1; i < permissionsNeeded.size(); i++)
+                    message = message + ", " + permissionsNeeded.get(i);
+                showMessageOKCancel(message,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(MainActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
+                                        REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                            }
+                        });
+                return;
+            }
+            ActivityCompat.requestPermissions(MainActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
+                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            return;
+        }
+
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+    }
+
+    private boolean addPermission(List<String> permissionsList, String permission) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+            // Check for Rationale Option
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission))
+                return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+                Map<String, Integer> perms = new HashMap<String, Integer>();
+                // Initial
+                perms.put(Manifest.permission.READ_PHONE_STATE, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.READ_CONTACTS, PackageManager.PERMISSION_GRANTED);
+                // Fill with results
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+                // Check for all perms
+                if (perms.get(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+                        && perms.get(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                    // All Permissions Granted
+                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MainActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+            break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 }
