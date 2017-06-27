@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -86,6 +87,7 @@ public class CallDetailsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_call_notes, container, false);
 
+        mFab = (FloatingActionButton) v.findViewById(R.id.fab_call) ;
         mDisplayCallType = (ImageView) v.findViewById(R.id.id_image_view_details_call_type);
         mDisplayCallTime = (TextView) v.findViewById(R.id.id_text_view_details_call_time);
         mDisplayCallMemo = (TextView) v.findViewById(R.id.id_detail_note);
@@ -139,6 +141,18 @@ public class CallDetailsFragment extends Fragment {
         }
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mCallRecord.phone));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

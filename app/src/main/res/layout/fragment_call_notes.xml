@@ -44,12 +44,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_sendto"
+        android:id="@+id/fab_call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/ic_done_white_48dp"
+        android:src="@drawable/ic_phone_white_24dp"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 
