@@ -17,8 +17,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -70,27 +68,12 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.SHARED_PREF
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager mFragmentManager;
-    private Fragment mFragment;
-    private boolean doubleBackToExitPressedOnce = false;
-    private CheckBox mCheckBoxIncoming;
-    private CheckBox mCheckBoxOutgoing;
-    private CheckBox mCheckBoxMissed;
-    private MenuItem mCheckBoxItemIncoming;
-    private MenuItem mCheckBoxItemOutgoing;
-    private MenuItem mCheckBoxItemMissed;
-    private Boolean isCatchIncomings;
-    private Boolean isCatchOutgoings;
-    private Boolean isCatchMissed;
     private SharedPreferences mPrefs;
     private ViewPager mViewPager;
-    private TabLayout mTabLayout;
     private String mNoteText;
     private MainTabsPagerAdapter adapter;
-    long alarmRecordId;
-    String action;
-    String extra;
-    FloatingActionButton fab;
+    private long mAlarmRecordId;
+    private FloatingActionButton mFab;
     private int mPagePosition;
 
     private static final String TAG = "trace_notifications";
@@ -104,10 +87,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mPrefs = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        fab = (FloatingActionButton) findViewById(R.id.fab_main);
+        mFab = (FloatingActionButton) findViewById(R.id.fab_main);
 
         //  Setup TabLayout
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.ic_call_white_24dp));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.ic_alarm_white_24dp));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(R.drawable.ic_message_white_24dp));
@@ -123,18 +106,15 @@ public class MainActivity extends AppCompatActivity
                 super.onPageSelected(position);
                 mPagePosition = position;
                 if (position == 0) {
-                    // do something with content
-                    fab.setVisibility(View.INVISIBLE);
+                    mFab.setVisibility(View.INVISIBLE);
                 }
                 if (position == 1) {
-                    // do something with content
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setImageResource(R.drawable.ic_alarm_add_white_24dp);
+                    mFab.setVisibility(View.VISIBLE);
+                    mFab.setImageResource(R.drawable.ic_alarm_add_white_24dp);
                 }
                 if (position == 2) {
-                    // do something with content
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setImageResource(R.drawable.ic_note_add_white_24dp);
+                    mFab.setVisibility(View.VISIBLE);
+                    mFab.setImageResource(R.drawable.ic_note_add_white_24dp);
                 }
             }
         });
@@ -154,29 +134,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Set NavigationView
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         nav.setNavigationItemSelectedListener(this);
 
-
         // Get elements of navigation view
-        mCheckBoxItemIncoming = nav.getMenu().findItem(R.id.nav_incoming);
-        mCheckBoxItemOutgoing = nav.getMenu().findItem(R.id.nav_outgoing);
-        mCheckBoxItemMissed = nav.getMenu().findItem(R.id.nav_missed);
-        mCheckBoxIncoming = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemIncoming);
-        mCheckBoxOutgoing = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemOutgoing);
-        mCheckBoxMissed = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemMissed);
+        MenuItem mCheckBoxItemIncoming = nav.getMenu().findItem(R.id.nav_incoming);
+        MenuItem mCheckBoxItemOutgoing = nav.getMenu().findItem(R.id.nav_outgoing);
+        MenuItem mCheckBoxItemMissed = nav.getMenu().findItem(R.id.nav_missed);
+        CheckBox mCheckBoxIncoming = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemIncoming);
+        CheckBox mCheckBoxOutgoing = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemOutgoing);
+        CheckBox mCheckBoxMissed = (CheckBox) MenuItemCompat.getActionView(mCheckBoxItemMissed);
 
         //Get here checkbox values from shared prefs and apply to views
-        isCatchIncomings = mPrefs.getBoolean(IS_CATCH_INCOMINGS, true);
-        isCatchOutgoings = mPrefs.getBoolean(IS_CATCH_OUTGOINGS, true);
-        isCatchMissed = mPrefs.getBoolean(IS_CATCH_MISSED, true);
+        Boolean isCatchIncomings = mPrefs.getBoolean(IS_CATCH_INCOMINGS, true);
+        Boolean isCatchOutgoings = mPrefs.getBoolean(IS_CATCH_OUTGOINGS, true);
+        Boolean isCatchMissed = mPrefs.getBoolean(IS_CATCH_MISSED, true);
 
         // Setup textboxes
         mCheckBoxIncoming.setChecked(isCatchIncomings);
@@ -203,10 +182,8 @@ public class MainActivity extends AppCompatActivity
 
         // Explicitly call to get permission in Android 6
         requestAllPermissionsAtFirstStart();
-//        readPhoneStateWrapper();
 
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -217,11 +194,8 @@ public class MainActivity extends AppCompatActivity
                 if (mPagePosition == 2) {
                     newMemoDialog();
                 }
-
             }
         });
-
-
     }
 
     @Override
@@ -240,16 +214,9 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
-        action = intent.getAction();
-        alarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
-        extra = intent.getStringExtra(INTENT_TXT);
-//
-//        Log.d(TAG, "onResume onNewIntent main activity action received = " + action);
-//        Log.d(TAG, "onResume onNewIntent main activity extra received = " + alarmRecordId);
-//        Log.d(TAG, "onResume onNewIntent main activity extra received = " + extra);
-
-        if (action.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
-//            Log.d(TAG, "onNewIntent setup alarms tab ");
+        String mIntentAction = intent.getAction();
+        mAlarmRecordId = intent.getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        if (mIntentAction.equals(ACTION_SHOW_ALARM_DETAILS_IN_LIST)) {
             mViewPager.setCurrentItem(1);
         }
     }
@@ -271,21 +238,20 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    //////////////////////////////////////
+    // Options menu callbacks
+    //////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the mIntentAction bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -369,6 +335,10 @@ public class MainActivity extends AppCompatActivity
         positiveButton.setLayoutParams(positiveButtonLL);
     }
 
+
+    //////////////////////////////////////
+    // Permissions API 23
+    //////////////////////////////////////
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
@@ -385,14 +355,6 @@ public class MainActivity extends AppCompatActivity
                 .setNegativeButton(getResources().getString(R.string.cancel), null)
                 .create()
                 .show();
-    }
-
-
-    @Subscribe
-    public void onEvent(AlarmsListLoadFinishedEvent event) {
-        Log.d(TAG, "AlarmsListLoadFinishedEvent ");
-        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
-        fragment.scrollToListItem(alarmRecordId);
     }
 
 
@@ -425,8 +387,8 @@ public class MainActivity extends AppCompatActivity
                     REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
             return;
         }
+        // All Permissions Granted
 
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
     }
 
     private boolean addPermission(List<String> permissionsList, String permission) {
@@ -455,7 +417,7 @@ public class MainActivity extends AppCompatActivity
                 if (perms.get(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
                         && perms.get(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
-                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
                 } else {
                     // Permission Denied
                     Toast.makeText(MainActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
@@ -467,5 +429,14 @@ public class MainActivity extends AppCompatActivity
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
+
+    @Subscribe
+    public void onEvent(AlarmsListLoadFinishedEvent event) {
+        Log.d(TAG, "AlarmsListLoadFinishedEvent ");
+        AlarmsListFragment fragment = (AlarmsListFragment) adapter.getRegisteredFragment(mViewPager.getCurrentItem());
+        fragment.scrollToListItem(mAlarmRecordId);
+    }
+
 
 }

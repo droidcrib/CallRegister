@@ -173,7 +173,7 @@ public class NewReminderActivity extends AppCompatActivity {
         Log.d(TAG, "-- AlarmHolder initial values: " + alarmHolder.toString());
 
 
-        // FAB action
+        // FAB mIntentAction
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,7 +212,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 Snackbar.make(view, "Reminder set", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                Log.d(TAG, "==> NewReminderActivity extra alarm id send = " + recId);
+                Log.d(TAG, "==> NewReminderActivity mIntentExtra alarm id send = " + recId);
                 Log.d(TAG, "==> NewReminderActivity  alarm intent send = " + alarmIntent.toString());
                 NewReminderActivity.this.finish();
             }

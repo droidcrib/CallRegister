@@ -4,14 +4,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
-    <string name="incoming">Incoming</string>
-    <string name="outgoing">Outgoing</string>
-    <string name="missed">Missed</string>
-
     <string name="access_contacts">You need to allow access to Contacts</string>
-    <string name="access_phone_state">You need to allow access to get Phone calls info</string>
-    <string name="conversation_result">Conversation result:</string>
-    <string name="press_back_to_exit">Please click BACK again to exit</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

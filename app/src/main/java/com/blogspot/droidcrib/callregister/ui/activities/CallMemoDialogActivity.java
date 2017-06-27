@@ -130,7 +130,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         });
 
 
-        // Close activity if no action performed during 4 seconds
+        // Close activity if no mIntentAction performed during 4 seconds
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -189,7 +189,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             Log.d(TAG, "readContactsWrapper - hasReadContactsPermission != PackageManager.PERMISSION_GRANTED");
             return;
         }
-        // PERMISSION_GRANTED. Do action here
+        // PERMISSION_GRANTED. Do mIntentAction here
         Log.d(TAG, "readContactsWrapper - PERMISSION_GRANTED");
         setupView(ContactsProvider.getNameByPhoneNumber(this, phoneNumber));
         return;

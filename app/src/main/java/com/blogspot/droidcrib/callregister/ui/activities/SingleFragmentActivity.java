@@ -59,7 +59,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
 //        Log.d(TAG, "SingleFragmentActivity mRecordId = " + mRecordId);
 //        Log.d(TAG, "SingleFragmentActivity mAlarmRecordId = " + mAlarmRecordId);
-        Log.d(TAG, "SingleFragmentActivity action = " + action);
+        Log.d(TAG, "SingleFragmentActivity mIntentAction = " + action);
 
         if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
             AlarmRecord record = AlarmRecord.getRecordById(mAlarmRecordId);

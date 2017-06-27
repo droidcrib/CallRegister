@@ -14,23 +14,6 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="HintStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/accent</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="ToolbarIconsSize">
-        <item name="android:layout_width">@dimen/toolbar_icon_size</item>
-        <item name="android:layout_height">@dimen/toolbar_icon_size</item>
-    </style>
-
-    <style name="ToolbarIconsFrameSize">
-        <item name="android:layout_width">@dimen/toolbar_icon_size</item>
-        <item name="android:layout_height">@dimen/toolbar_icon_size</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -4,15 +4,7 @@
     <string name="ok">ОК</string>
     <string name="cancel">Відміна</string>
 
-    <string name="incoming">Вхідний</string>
-    <string name="outgoing">Вихідний</string>
-    <string name="missed">Пропущений</string>
-
     <string name="access_contacts">Вам необхідно надати доступ до контактів</string>
-    <string name="access_phone_state">Вам необхідно надати доступ до інформації про дзвінки</string>
-    <string name="conversation_result">Результат розмови:</string>
-    <string name="press_back_to_exit">Натисніть ще раз для виходу</string>
-
 
 
 </resources>
