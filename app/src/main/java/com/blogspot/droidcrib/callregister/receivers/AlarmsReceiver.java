@@ -91,7 +91,6 @@ public class AlarmsReceiver extends BroadcastReceiver {
         }
 
 
-
         if (alarmRecord.callRecord != null) {
             // TODO: different intents here
             intentAction = new Intent(context, SingleFragmentActivity.class);
@@ -116,9 +115,11 @@ public class AlarmsReceiver extends BroadcastReceiver {
                 .setContentTitle(mName)                              // User name or phone number here
                 .setContentText(mMemo)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(mMemo))
+                .setVibrate(new long[]{500, 500, 500, 500, 500})
+                .setLights(Color.GREEN, 3000, 3000)
                 .setContentIntent(pIntentAction)                    // goto reminder details on click
                 .setAutoCancel(true);
-                nm.notify((int) alarmRecordId, notification.build());
+        nm.notify((int) alarmRecordId, notification.build());
     }
 
 
