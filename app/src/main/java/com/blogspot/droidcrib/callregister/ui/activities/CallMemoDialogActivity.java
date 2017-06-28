@@ -64,7 +64,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_request_action);
-//        this.setFinishOnTouchOutside(false);
+        this.setFinishOnTouchOutside(false);
 
         mDisplayName = (TextView) findViewById(R.id.id_person_name);
         mDisplayCallType = (ImageView) findViewById(R.id.id_call_type);

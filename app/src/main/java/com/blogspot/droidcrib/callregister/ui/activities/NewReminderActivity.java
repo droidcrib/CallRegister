@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +14,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,7 +79,7 @@ public class NewReminderActivity extends AppCompatActivity {
         mNote = (EditText) findViewById(R.id.id_dialog_note);
 
         // If callRecord id received in intent
-        if(mCallRecordId != -1) {
+        if (mCallRecordId != -1) {
             idCallInfo.setVisibility(View.VISIBLE);
             // Name
             mDisplayName.setText(callRecord.name);
@@ -106,11 +109,19 @@ public class NewReminderActivity extends AppCompatActivity {
 
 
         //  Setup TabLayout
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Date"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Time"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Memo"));
+        mTabLayout = (TabLayout) findViewById(R.id.reminder_tab_layout);
+        mTabLayout.addTab(mTabLayout.newTab());
+        mTabLayout.addTab(mTabLayout.newTab());
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.note_alarm));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        mTabLayout.setTabTextColors(
+//                getResources().getColor(R.color.primary_light),
+//                getResources().getColor(R.color.icons)
+//        );
+
+
+
+
 
         //  Setup ViewPager
         mViewPager = (MeasuredViewPager) findViewById(R.id.pager);
@@ -133,6 +144,7 @@ public class NewReminderActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -187,7 +199,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
                 intent.setAction(ACTION_CREATE_NOTIFICATION);
-                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), (int)recId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) recId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -257,13 +269,13 @@ public class NewReminderActivity extends AppCompatActivity {
     }
 
     private static class AlarmHolder {
-         int year;
-         int month;
-         int dayOfMonth;
-         int hourOfDay;
-         int minute;
-         CallRecord callRecord;
-         String memoText;
+        int year;
+        int month;
+        int dayOfMonth;
+        int hourOfDay;
+        int minute;
+        CallRecord callRecord;
+        String memoText;
 
         @Override
         public String toString() {
