@@ -28,11 +28,14 @@
         <string name="perm_read_phone_state"> созданию и управлению телефонными звонками </string>
         <string name="perm_read_contacts"> вашим контактам </string>
         <string name="perm_access_contacts"> Вам нужно предоставить доступ к вашим контактам </string>
+    <string name="perm_denied_message"> Некоторые разрешения отклонены. Проверьте настройки приложения. </string>
 
         <string name="navigation_drawer_open"> Открыть навигационную панель </string>
         <string name="navigation_drawer_close"> Закрыть навигационную панель </string>
 
     <string name="empty_list_message">Здесь еще нечего показать. Сделайте что-нибудь, и тут что-то появится. Или нет.</string>
+
+    <string name="new_alarm_created_message">Новое напоминание установлено</string>
 
 
 

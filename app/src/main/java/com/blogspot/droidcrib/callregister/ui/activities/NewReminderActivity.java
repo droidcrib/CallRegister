@@ -212,7 +212,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
                 // Set new alarm
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), alarmIntent);
-                Toast.makeText(NewReminderActivity.this, "New alarm set", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewReminderActivity.this, R.string.new_alarm_created_message, Toast.LENGTH_SHORT).show();
 
                 NewReminderActivity.this.finish();
             }

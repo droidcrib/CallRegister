@@ -28,10 +28,14 @@
     <string name="perm_read_phone_state"> створення та управління телефонними дзвінками </string>
     <string name="perm_read_contacts"> ваших контактів </string>
     <string name="perm_access_contacts"> Вам необхідно надати доступ до ваших контактів </string>
+    <string name="perm_denied_message"> Деякі дозволи відхилено. Будь ласка, перевірте налаштування застосунку. </string>
 
     <string name="navigation_drawer_open"> Відкрити навігаційну панель </string>
     <string name="navigation_drawer_close"> Закрити навігаційну панель </string>
 
     <string name="empty_list_message">Тут ще нема чого показати. Зробіть бодай щось, і тут щось з\'явиться. Або ні.</string>
+
+    <string name="new_alarm_created_message">Нове нагадування встановлено</string>
+
 
 </resources>

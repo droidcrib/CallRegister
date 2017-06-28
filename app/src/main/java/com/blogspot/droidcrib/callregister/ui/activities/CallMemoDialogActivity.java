@@ -209,7 +209,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
                 } else {
                     // Permission Denied
                     setupView(new ContactCard(mPhoneNumber));
-                    Toast.makeText(CallMemoDialogActivity.this, "READ_CONTACTS Denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(CallMemoDialogActivity.this, R.string.perm_denied_message, Toast.LENGTH_SHORT)
                             .show();
                 }
                 break;

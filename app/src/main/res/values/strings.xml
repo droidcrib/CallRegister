@@ -23,18 +23,23 @@
     <string name="new_note_done">Done</string>
     <string name="new_note_add_comment">Please add comment</string>
 
-
     <string name="note_alarm">Note</string>
 
     <string name="perm_access_info">You need to grant access to \</string>
     <string name="perm_read_phone_state">make and manage phone calls</string>
     <string name="perm_read_contacts">access your contacts</string>
     <string name="perm_access_contacts">You need to allow access your contacts</string>
+    <string name="perm_denied_message"> Some Permission is Denied. Please check application settings </string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="empty_list_message">There is nothing to show here yet. Do something and you get something. Or not.</string>
+
+    <string name="new_alarm_created_message">New reminder set</string>
+
+
+
 
 
 </resources>

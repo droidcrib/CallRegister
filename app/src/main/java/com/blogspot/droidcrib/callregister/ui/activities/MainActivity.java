@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity
 
                 } else {
                     // Permission Denied
-                    Toast.makeText(MainActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
+                    Toast.makeText(MainActivity.this, R.string.perm_denied_message, Toast.LENGTH_SHORT)
                             .show();
                 }
             }
