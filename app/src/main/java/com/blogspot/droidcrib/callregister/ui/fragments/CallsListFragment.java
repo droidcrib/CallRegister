@@ -39,9 +39,8 @@ import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_CALL_
 public class CallsListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     public static CallsListFragment sCallsListFragment;
-    List<CallRecord> mCallRecordsList;
-    StickyListHeadersListView stickyList;
-    private String mToolbarTextHeader;
+    private List<CallRecord> mCallRecordsList;
+    private StickyListHeadersListView stickyList;
     private long mRecordId;
     private Parcelable state;
 
@@ -91,8 +90,6 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
         stickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                MainActivity activity = (MainActivity) getActivity();
-//                activity.setDetailsFragment(id);
                 Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                 intent.putExtra(EXTRA_CALL_RECORD_ID, id);
                 getActivity().startActivity(intent);
@@ -100,9 +97,6 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
 
             }
         });
-        // Set text to Toolbar header
-        MainActivity activity = (MainActivity) getActivity();
-        mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
     }
 
 
@@ -170,12 +164,11 @@ public class CallsListFragment extends Fragment implements LoaderManager.LoaderC
 
     @Subscribe
     public void onEvent(NewCallEvent event) {
-        Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
 
     /**
-     * Removes record from database and correspondent data directory from storage
+     * Removes record from database
      */
     private class RemoveRecordTask extends AsyncTask<Long, Void, Void> {
 

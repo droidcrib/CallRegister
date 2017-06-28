@@ -120,9 +120,6 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        //set header headerNoteDate as first char in name
-        //String headerText = "" + countries[position].subSequence(0, 1).charAt(0);
-        //holder.headerNoteDate.setText(record.name);
 
         CallRecord record = (CallRecord)getItem(position);
         String convertedDate = new SimpleDateFormat("dd MMM yyyy").format(record.callStartTime);
@@ -133,9 +130,7 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
 
     @Override
     public long getHeaderId(int position) {
-        //return the first character of the country as ID because this is what headers are based upon
         CallRecord record = (CallRecord)getItem(position);
-//        return countries[position].subSequence(0, 1).charAt(0);
         return record.callDateInMillis;
     }
 

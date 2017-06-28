@@ -42,8 +42,6 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
     int mNumOfTabs;
 
 
-    private static final String TAG = "ReminderTabsPagerAdapter";
-
     public ReminderTabsPagerAdapter(Context context, int numOfTabs) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,7 +77,6 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
 
                     @Override
                     public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        Log.d(TAG, "Year=" + year + " Month=" + (month + 1) + " day=" + dayOfMonth);
                         EventBus.getDefault().post(new PickerDateChangedEvent(year, month, dayOfMonth));
                     }
                 });
@@ -95,7 +92,6 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
                     @Override
                     public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                         view.setIs24HourView(true);
-                        Log.d(TAG, "hourOfDay = " + hourOfDay + " minute " + minute);
                         EventBus.getDefault().post(new PickerTimeCangedEvent(hourOfDay, minute));
                     }
                 });
@@ -116,25 +112,16 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        Log.d(TAG, "Memo text = " + s);
                         EventBus.getDefault().post(new PickerTextChangedEvent(s));
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
                 break;
 
         }
-
-//        itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
         container.addView(itemView);
 

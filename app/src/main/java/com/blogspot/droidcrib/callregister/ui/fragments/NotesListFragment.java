@@ -36,9 +36,8 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class NotesListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     public static NotesListFragment sNotesListFragment;
-    List<NoteRecord> mNoteRecordsList;
-    StickyListHeadersListView stickyList;
-    private String mToolbarTextHeader;
+    private List<NoteRecord> mNoteRecordsList;
+    private StickyListHeadersListView stickyList;
     private long mRecordId;
     private Parcelable state;
 
@@ -94,9 +93,6 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
                 holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
             }
         });
-        // Set text to Toolbar header
-        MainActivity activity = (MainActivity) getActivity();
-        mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
     }
 
 
@@ -164,12 +160,11 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
 
     @Subscribe
     public void onEvent(NewNoteEvent event) {
-        Log.d("onEvent", "NewNoteEvent received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
 
     /**
-     * Removes record from database and correspondent data directory from storage
+     * Removes record from database
      */
     private class RemoveRecordTask extends AsyncTask<Long, Void, Void> {
 

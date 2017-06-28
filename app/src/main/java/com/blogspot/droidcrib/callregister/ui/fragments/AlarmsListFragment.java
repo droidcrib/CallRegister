@@ -37,11 +37,9 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class AlarmsListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     public static AlarmsListFragment sAlarmsListFragment;
-    List<AlarmRecord> mAlarmRecordsList;
-    StickyListHeadersListView stickyList;
-    private String mToolbarTextHeader;
+    private List<AlarmRecord> mAlarmRecordsList;
+    private StickyListHeadersListView stickyList;
     private long mRecordId;
-    private static final String TAG = "MainActivity";
     private Parcelable state;
 
     //
@@ -59,7 +57,6 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //insertDummyCallRecords();
     }
 
     @Override
@@ -95,9 +92,6 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
                 holder.memo.setVisibility(holder.memo.isShown() ? View.GONE : View.VISIBLE);
             }
         });
-        // Set text to Toolbar header
-        MainActivity activity = (MainActivity) getActivity();
-        mToolbarTextHeader = activity.getResources().getString(R.string.app_name);
     }
 
     @Override
@@ -116,7 +110,6 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
 
     public void scrollToListItem(long id) {
         for (int i = 0; i < stickyList.getCount(); i++) {
-            Log.d(TAG, "stickyList.pos = " + i + " stickyList.pos.id = " + stickyList.getItemIdAtPosition(i));
             if (stickyList.getItemIdAtPosition(i) == id) {
                 stickyList.setSelection(i);
                 return;

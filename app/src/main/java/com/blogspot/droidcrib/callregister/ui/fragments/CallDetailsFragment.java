@@ -31,17 +31,10 @@ import java.util.ArrayList;
 public class CallDetailsFragment extends Fragment {
     private Long mRecordId;
     private CallRecord mCallRecord;
-    private NoteRecord mNoteRecord;
-    private AlarmRecord mAlarmRecord;
-    private String mToolbarTextHeader;
-    private String mMemoText;
     private LinearLayout mNoteLayout;
     private RelativeLayout mAlarmLayout;
-
-    ArrayList<NoteRecord> mNoteRecordsList;
-    ArrayList<AlarmRecord> mAlarmRecordsList;
-
-
+    private ArrayList<NoteRecord> mNoteRecordsList;
+    private ArrayList<AlarmRecord> mAlarmRecordsList;
     private ImageView mDisplayCallType;
     private TextView mDisplayCallTime;
     private TextView mDisplayCallMemo;
@@ -49,9 +42,6 @@ public class CallDetailsFragment extends Fragment {
     private TextView mDisplayAlarmTime;
     private TextView mDisplayAlarmMemo;
     private FloatingActionButton mFab;
-
-    private static final String TAG = "CallDetailsFragment";
-
 
     // Fragment instance
     public static CallDetailsFragment newInstance(long id) {
@@ -62,7 +52,6 @@ public class CallDetailsFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,9 +61,6 @@ public class CallDetailsFragment extends Fragment {
         if (mCallRecord != null) {
             mNoteRecordsList = new ArrayList<>(mCallRecord.getNotes());
             mAlarmRecordsList = new ArrayList<>(mCallRecord.getAlarms());
-
-            Log.d(TAG, "Related notes: " + mCallRecord.getNotes().size());
-            Log.d(TAG, "Related alarms: " + mCallRecord.getAlarms().size());
         }
 
 
@@ -83,7 +69,6 @@ public class CallDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         View v = inflater.inflate(R.layout.fragment_call_notes, container, false);
 
@@ -116,13 +101,11 @@ public class CallDetailsFragment extends Fragment {
             mDisplayAlarmMemo.setText(memo);
         }
 
-        Log.d(TAG, "mCallRecord.avatarUri: " + mCallRecord.avatarUri);
         if (mCallRecord.avatarUri != null) {
             mDisplayAvatar.setImageURI(Uri.parse(mCallRecord.avatarUri));
             mDisplayAvatar.setAlpha(1f);
         } else {
             mDisplayAvatar.setImageResource(R.drawable.ic_account_circle_black_48dp);
-
         }
 
 
@@ -141,7 +124,6 @@ public class CallDetailsFragment extends Fragment {
                 mDisplayCallType.setImageResource(R.drawable.ic_call_missed_black_48dp);
                 break;
         }
-
         return v;
     }
 
@@ -160,7 +142,6 @@ public class CallDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
 

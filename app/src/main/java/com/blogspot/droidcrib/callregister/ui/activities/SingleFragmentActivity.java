@@ -41,7 +41,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
     private long mRecordId;
     private long mAlarmRecordId;
 
-    private static final String TAG = "trace_notifications";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,13 +54,8 @@ public class SingleFragmentActivity extends AppCompatActivity {
 
         String action = getIntent().getAction();
 
-//        Log.d(TAG, "SingleFragmentActivity mRecordId = " + mRecordId);
-//        Log.d(TAG, "SingleFragmentActivity mAlarmRecordId = " + mAlarmRecordId);
-        Log.d(TAG, "SingleFragmentActivity mIntentAction = " + action);
-
         if (action != null && action.equals(ACTION_SHOW_ALARM_DETAILS)) {
             AlarmRecord record = AlarmRecord.getRecordById(mAlarmRecordId);
-//            Log.d(TAG, "record.callRecord.getId() = " + record.callRecord.getId());
             setDetailsFragment(record.callRecord.getId());
         } else {
             setDetailsFragment(mRecordId);
@@ -76,9 +70,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
     }
-
 
     public void setDetailsFragment(long id) {
         if (mFragment == null) {
