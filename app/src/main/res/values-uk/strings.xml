@@ -23,7 +23,7 @@
 
     <string name="note_alarm"> Нотатка </string>
 
-    <string name="perm_access_info"> Вам необхідно надати доступ до \ s </string>
+    <string name="perm_access_info"> Вам необхідно надати доступ до \</string>
     <string name="perm_read_phone_state"> створення та управління телефонними дзвінками </string>
     <string name="perm_read_contacts"> вашим контактам </string>
     <string name="perm_access_contacts"> Вам необхідно надати доступ до ваших контактів </string>

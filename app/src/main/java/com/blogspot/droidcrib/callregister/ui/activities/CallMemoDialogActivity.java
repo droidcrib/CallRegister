@@ -159,7 +159,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             // Show explanation about permission reason request if denied before
             if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_CONTACTS)) {
-                showMessageOKCancel(getResources().getString(R.string.access_contacts),
+                showMessageOKCancel(getResources().getString(R.string.perm_access_contacts),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

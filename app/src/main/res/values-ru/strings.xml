@@ -23,7 +23,7 @@
 
         <string name="note_alarm"> Заметка </string>
 
-        <string name="perm_access_info"> Вам необходимо предоставить доступ к \s </string>
+        <string name="perm_access_info"> Вам необходимо предоставить доступ к \</string>
         <string name="perm_read_phone_state"> созданию и управлению телефонными звонками </string>
         <string name="perm_read_contacts"> вашим контактам </string>
         <string name="perm_access_contacts"> Вам нужно предоставить доступ к вашим контактам </string>

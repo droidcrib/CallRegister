@@ -24,7 +24,7 @@
 
     <string name="note_alarm">Note</string>
 
-    <string name="perm_access_info">You need to grant access to \s</string>
+    <string name="perm_access_info">You need to grant access to \</string>
     <string name="perm_read_phone_state">make and manage phone calls</string>
     <string name="perm_read_contacts">access your contacts</string>
     <string name="perm_access_contacts">You need to allow access your contacts</string>
