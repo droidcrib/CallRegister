@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.AlarmsListLoadFinishedEvent;
@@ -41,6 +42,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
     private StickyListHeadersListView stickyList;
     private long mRecordId;
     private Parcelable state;
+    private TextView mEmptyView;
 
     //
     // Provides instance of AlarmsListFragment
@@ -70,6 +72,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
 
         View v = inflater.inflate(R.layout.fragment_sticky_list, container, false);
         stickyList = (StickyListHeadersListView) v.findViewById(R.id.list_sticky);
+        mEmptyView = (TextView) v.findViewById(R.id.empty_message_1);
 
         return v;
     }
@@ -155,6 +158,7 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
         mAlarmRecordsList = (List<AlarmRecord>) data;
         AlarmsListAdapter adapter = new AlarmsListAdapter(getActivity(), mAlarmRecordsList);
         stickyList.setAdapter(adapter);
+        stickyList.setEmptyView(mEmptyView);
         // Restore previous state (including selected item index and scroll position)
         if (state != null) {
             stickyList.onRestoreInstanceState(state);

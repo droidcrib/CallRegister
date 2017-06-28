@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewNoteEvent;
@@ -40,6 +41,7 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
     private StickyListHeadersListView stickyList;
     private long mRecordId;
     private Parcelable state;
+    private TextView mEmptyView;
 
     //
     // Provides instance of NotesListFragment
@@ -70,6 +72,7 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
 
         View v = inflater.inflate(R.layout.fragment_sticky_list, container, false);
         stickyList = (StickyListHeadersListView) v.findViewById(R.id.list_sticky);
+        mEmptyView = (TextView) v.findViewById(R.id.empty_message_1);
 
         return v;
     }
@@ -147,6 +150,7 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
         mNoteRecordsList = (List<NoteRecord>) data;
         NotesListAdapter adapter = new NotesListAdapter(getActivity(), mNoteRecordsList);
         stickyList.setAdapter(adapter);
+        stickyList.setEmptyView(mEmptyView);
         // Restore previous state (including selected item index and scroll position)
         if (state != null) {
             stickyList.onRestoreInstanceState(state);

@@ -32,4 +32,8 @@
         <string name="navigation_drawer_open"> Открыть навигационную панель </string>
         <string name="navigation_drawer_close"> Закрыть навигационную панель </string>
 
+    <string name="empty_list_message">Здесь еще нечего показать. Сделайте что-нибудь, и тут что-то появится. Или нет.</string>
+
+
+
 </resources>

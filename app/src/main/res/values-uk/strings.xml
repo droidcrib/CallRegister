@@ -32,4 +32,6 @@
     <string name="navigation_drawer_open"> Відкрити навігаційну панель </string>
     <string name="navigation_drawer_close"> Закрити навігаційну панель </string>
 
+    <string name="empty_list_message">Тут ще нема чого показати. Зробіть бодай щось, і тут щось з\'явиться. Або ні.</string>
+
 </resources>
