@@ -2,7 +2,7 @@
     <string name="app_name"> Call Register </string>
         <string name="action_settings"> Настройки </string>
         <string name="incoming"> Входящие </string>
-        <string name="исходящий"> Исходящие</string>
+        <string name="outgoing"> Исходящие</string>
         <string name="missed"> Пропущенные </string>
         <string name="action_create"> Создать </string>
         <string name="create_new_reminder"> Напоминание </string>
@@ -15,7 +15,7 @@
         <string name="edit"> Редактировать </string>
 
         <string name="actual"> Активные </string>
-        <string name="устаревший"> Устаревшие </string>
+        <string name="outdated"> Устаревшие </string>
 
         <string name="new_note"> Новая заметка </string>
         <string name="new_note_hint"> Заметка будет автоматически сохранена </string>

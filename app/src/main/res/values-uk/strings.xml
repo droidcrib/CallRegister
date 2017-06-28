@@ -2,7 +2,7 @@
     <string name="app_name"> Call Register </string>
     <string name="action_settings"> Налаштування </string>
     <string name="incoming"> Вхідні </string>
-    <string name="вихідний"> Вихідні </string>
+    <string name="outgoing"> Вихідні </string>
     <string name="missed"> Пропущені </string>
     <string name="action_create"> Створити </string>
     <string name="create_new_reminder"> Нагадування </string>
@@ -15,7 +15,7 @@
     <string name="edit"> Редагувати </string>
 
     <string name="actual"> Активні </string>
-    <string name="застарілий"> Застарілі </string>
+    <string name="outdated"> Застарілі </string>
 
     <string name="new_note"> Нова нотатка </string>
     <string name="new_note_hint"> Нотатка буде автоматично збережена </string>

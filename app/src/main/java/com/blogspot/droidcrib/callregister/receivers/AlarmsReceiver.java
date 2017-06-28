@@ -54,7 +54,7 @@ public class AlarmsReceiver extends BroadcastReceiver {
 
         if (alarmRecord.callRecord != null) {
             mName = alarmRecord.callRecord.name;
-            Drawable d = context.getResources().getDrawable(R.drawable.ic_person_outline_white_48dp);
+            Drawable d = context.getResources().getDrawable(R.drawable.ic_alarm_notif);
             Drawable currentState = d.getCurrent();
             if (currentState instanceof BitmapDrawable)
                 mAvatar = ((BitmapDrawable) currentState).getBitmap();
