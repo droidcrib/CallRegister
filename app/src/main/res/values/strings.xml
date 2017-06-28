@@ -1,8 +1,36 @@
 <resources>
     <string name="app_name">Call Register</string>
 
-    <string name="ok">OK</string>
+    <string name="action_settings">Settings</string>
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="missed">Missed</string>
+    <string name="action_create">Create</string>
+    <string name="create_new_reminder">Reminder</string>
+    <string name="create_new_note">Note</string>
+
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+
+    <string name="actual">Actual</string>
+    <string name="outdated">Outdated</string>
+
+    <string name="new_note">New note</string>
+    <string name="new_note_hint">Note will be saved automatically</string>
+    <string name="new_note_done">Done</string>
+
+    <string name="note_alarm">Note</string>
+
+    <string name="perm_access_info">You need to grant access to \s</string>
+    <string name="perm_read_phone_state">make and manage phone calls</string>
+    <string name="perm_read_contacts">access your contacts</string>
+
+
+
+
 
     <string name="access_contacts">You need to allow access to Contacts</string>
     <string name="title_activity_main">MainActivity</string>
@@ -10,12 +38,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="close">Close</string>
-    <string name="memo">New memo</string>
+
+
     <string name="no_memo">No memo created here</string>
-    <string name="actual">Actual</string>
-    <string name="outdated">Outdated</string>
+
 
 
 </resources>

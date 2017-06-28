@@ -171,7 +171,6 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
 
     @Subscribe
     public void onEvent(NewCallEvent event) {
-        Log.d("onEvent", "Event received. Restarting loader");
         getLoaderManager().restartLoader(0, null, this);
     }
 

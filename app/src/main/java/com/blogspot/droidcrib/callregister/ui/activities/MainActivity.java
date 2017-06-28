@@ -283,8 +283,8 @@ public class MainActivity extends AppCompatActivity
 
     private void newMemoDialog() {
         // Messages
-        String msg = getString(R.string.memo);
-        String buttonYes = getString(R.string.close);
+        String msg = getString(R.string.new_note);
+        String buttonYes = getString(R.string.new_note_done);
         // EditText setup
         final EditText input = new EditText(MainActivity.this);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
@@ -335,19 +335,11 @@ public class MainActivity extends AppCompatActivity
     //////////////////////////////////////
     // Permissions API 23
     //////////////////////////////////////
+
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
-                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                    }
-                })
+                .setPositiveButton(getResources().getString(R.string.ok), okListener)
                 .setNegativeButton(getResources().getString(R.string.cancel), null)
                 .create()
                 .show();
@@ -355,31 +347,37 @@ public class MainActivity extends AppCompatActivity
 
 
     private void requestAllPermissionsAtFirstStart() {
+        String needGrandAccess = getResources().getString(R.string.perm_access_info);
+        String readPhoneState = getResources().getString(R.string.perm_read_phone_state);
+        String readContacts = getResources().getString(R.string.perm_read_contacts);
+
         List<String> permissionsNeeded = new ArrayList<String>();
 
         final List<String> permissionsList = new ArrayList<String>();
         if (!addPermission(permissionsList, Manifest.permission.READ_PHONE_STATE))
-            permissionsNeeded.add("READ_PHONE_STATE");
+            permissionsNeeded.add(readPhoneState);
         if (!addPermission(permissionsList, Manifest.permission.READ_CONTACTS))
-            permissionsNeeded.add("READ_CONTACTS");
+            permissionsNeeded.add(readContacts);
 
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {
                 // Need Rationale
-                String message = "You need to grant access to " + permissionsNeeded.get(0);
+                String message = needGrandAccess + permissionsNeeded.get(0);
                 for (int i = 1; i < permissionsNeeded.size(); i++)
                     message = message + ", " + permissionsNeeded.get(i);
                 showMessageOKCancel(message,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(MainActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        permissionsList.toArray(new String[permissionsList.size()]),
                                         REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
                             }
                         });
                 return;
             }
-            ActivityCompat.requestPermissions(MainActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    permissionsList.toArray(new String[permissionsList.size()]),
                     REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
             return;
         }
