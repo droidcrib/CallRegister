@@ -27,21 +27,9 @@
     <string name="perm_access_info">You need to grant access to \s</string>
     <string name="perm_read_phone_state">make and manage phone calls</string>
     <string name="perm_read_contacts">access your contacts</string>
-
-
-
-
-
-    <string name="access_contacts">You need to allow access to Contacts</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="perm_access_contacts">You need to allow access your contacts</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-
-
-    <string name="no_memo">No memo created here</string>
-
-
 
 </resources>

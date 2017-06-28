@@ -46,7 +46,6 @@
 
         <activity
             android:name=".ui.activities.MainActivity"
-            android:label="@string/title_activity_main"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme">
             <intent-filter>

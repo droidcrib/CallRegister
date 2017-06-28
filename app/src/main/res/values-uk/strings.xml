@@ -1,10 +1,34 @@
 <resources>
-    <string name="app_name">Менеджер дзвінків</string>
+    <string name="app_name"> Call Register </string>
+    <string name="action_settings"> Налаштування </string>
+    <string name="incoming"> Вхідні </string>
+    <string name="вихідний"> Вихідні </string>
+    <string name="missed"> Пропущені </string>
+    <string name="action_create"> Створити </string>
+    <string name="create_new_reminder"> Нагадування </string>
+    <string name="create_new_note"> Нотатка </string>
 
-    <string name="ok">ОК</string>
-    <string name="cancel">Відміна</string>
+    <string name="ok"> Ок </string>
+    <string name="cancel"> Скасувати </string>
 
-    <string name="access_contacts">Вам необхідно надати доступ до контактів</string>
+    <string name="delete"> Видалити </string>
+    <string name="edit"> Редагувати </string>
 
+    <string name="actual"> Активні </string>
+    <string name="застарілий"> Застарілі </string>
+
+    <string name="new_note"> Нова нотатка </string>
+    <string name="new_note_hint"> Нотатка буде автоматично збережена </string>
+    <string name="new_note_done"> Готово </string>
+
+    <string name="note_alarm"> Нотатка </string>
+
+    <string name="perm_access_info"> Вам необхідно надати доступ до \ s </string>
+    <string name="perm_read_phone_state"> створення та управління телефонними дзвінками </string>
+    <string name="perm_read_contacts"> вашим контактам </string>
+    <string name="perm_access_contacts"> Вам необхідно надати доступ до ваших контактів </string>
+
+    <string name="navigation_drawer_open"> Відкрити навігаційну панель </string>
+    <string name="navigation_drawer_close"> Закрити навігаційну панель </string>
 
 </resources>
