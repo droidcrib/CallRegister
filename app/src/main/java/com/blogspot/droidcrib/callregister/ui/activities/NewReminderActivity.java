@@ -114,13 +114,6 @@ public class NewReminderActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab());
         mTabLayout.addTab(mTabLayout.newTab().setText(R.string.note_alarm));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        mTabLayout.setTabTextColors(
-//                getResources().getColor(R.color.primary_light),
-//                getResources().getColor(R.color.icons)
-//        );
-
-
-
 
 
         //  Setup ViewPager
@@ -182,6 +175,8 @@ public class NewReminderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (mCallRecordId == -1 && alarmHolder.memoText.length() == 0) {
+
+                    mViewPager.setCurrentItem(2);
                     Snackbar.make(view, R.string.new_note_add_comment, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                     return;
