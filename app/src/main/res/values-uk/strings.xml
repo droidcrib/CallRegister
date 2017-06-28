@@ -25,7 +25,7 @@
 
     <string name="perm_access_info"> Вам необхідно надати доступ до \</string>
     <string name="perm_read_phone_state"> створення та управління телефонними дзвінками </string>
-    <string name="perm_read_contacts"> вашим контактам </string>
+    <string name="perm_read_contacts"> ваших контактів </string>
     <string name="perm_access_contacts"> Вам необхідно надати доступ до ваших контактів </string>
 
     <string name="navigation_drawer_open"> Відкрити навігаційну панель </string>
