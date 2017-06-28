@@ -77,10 +77,13 @@ public class CallsListAdapter extends BaseAdapter implements StickyListHeadersAd
         holder.callTime.setText(convertedTime);
         // Set comment icon
         if (record.getNotes().size() > 0) {
+            holder.comment.setVisibility(View.VISIBLE);
             holder.comment.setImageResource(R.drawable.ic_comment_black_48dp);
-        }
-        if (record.getAlarms().size() > 0) {
+        } else if (record.getAlarms().size() > 0) {
+            holder.comment.setVisibility(View.VISIBLE);
             holder.comment.setImageResource(R.drawable.ic_alarm_black_48dp);
+        } else {
+            holder.comment.setVisibility(View.INVISIBLE);
         }
         // Set avatar
         if(record.avatarUri != null){
