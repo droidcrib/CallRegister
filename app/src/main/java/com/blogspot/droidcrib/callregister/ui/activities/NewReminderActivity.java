@@ -181,6 +181,12 @@ public class NewReminderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (mCallRecordId == -1 && alarmHolder.memoText.length() == 0) {
+                    Snackbar.make(view, R.string.new_note_add_comment, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    return;
+                }
+
                 // TODO: do this in asynctask
                 long recId = AlarmRecord.insert(
                         alarmHolder.year,

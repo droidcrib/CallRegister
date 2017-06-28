@@ -20,6 +20,7 @@
         <string name="new_note"> Новая заметка </string>
         <string name="new_note_hint"> Заметка будет автоматически сохранена </string>
         <string name="new_note_done"> Готово </string>
+        <string name="new_note_add_comment">Пожалуйста добавьте комментарий</string>
 
         <string name="note_alarm"> Заметка </string>
 

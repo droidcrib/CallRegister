@@ -21,6 +21,8 @@
     <string name="new_note">New note</string>
     <string name="new_note_hint">Note will be saved automatically</string>
     <string name="new_note_done">Done</string>
+    <string name="new_note_add_comment">Please add comment</string>
+
 
     <string name="note_alarm">Note</string>
 
