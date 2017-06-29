@@ -254,7 +254,6 @@ public class NewReminderActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(PickerDateChangedEvent event) {
-        Log.d("onEvent", "PickerDateChangedEvent " + event.getYear() + " " + event.getMonth() + " " + event.getDayOfMonth());
         alarmHolder.year = event.getYear();
         alarmHolder.month = event.getMonth();
         alarmHolder.dayOfMonth = event.getDayOfMonth();
