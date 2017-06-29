@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -7,20 +8,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blogspot.droidcrib.callregister.R;
 import com.blogspot.droidcrib.callregister.eventbus.NewNoteEvent;
 import com.blogspot.droidcrib.callregister.loaders.NoteRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.NoteRecord;
-import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.NotesListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,6 +47,8 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
     private long mRecordId;
     private Parcelable state;
     private TextView mEmptyView;
+    String memoText;
+
 
     //
     // Provides instance of NotesListFragment
@@ -134,6 +141,9 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
                 new RemoveRecordTask().execute(mRecordId);
                 getLoaderManager().restartLoader(0, null, this);
                 return true;
+            case R.id.context_menu_item_edit_note:
+                editMemoDialog();
+                return true;
         }
         return super.onContextItemSelected(item);
     }
@@ -180,5 +190,60 @@ public class NotesListFragment extends Fragment implements LoaderManager.LoaderC
         protected void onPostExecute(Void result) {
             getLoaderManager().restartLoader(0, null, NotesListFragment.this);
         }
+    }
+
+    public void editMemoDialog() {
+
+        NoteRecord noteRecord = NoteRecord.load(NoteRecord.class, mRecordId);
+        memoText = noteRecord.memoText;
+
+        // Messages
+        String msg = getString(R.string.new_note);
+        String buttonYes = getString(R.string.new_note_done);
+        // EditText setup
+        final EditText input = new EditText(getActivity());
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setLines(5);
+        input.setText(memoText);
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                memoText = s.toString();
+            }
+        });
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setView(input)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton(buttonYes, new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog,
+                                        @SuppressWarnings("unused") final int id) {
+                        if (memoText != null && memoText.length() > 0) {
+                            NoteRecord.update(mRecordId, memoText);
+                            EventBus.getDefault().post(new NewNoteEvent());
+                        }
+                    }
+                });
+
+        final AlertDialog alert = builder.create();
+        alert.show();
+        // Center button
+        final Button positiveButton = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+        ViewGroup.LayoutParams positiveButtonLL = positiveButton.getLayoutParams();
+        positiveButtonLL.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        positiveButton.setLayoutParams(positiveButtonLL);
     }
 }

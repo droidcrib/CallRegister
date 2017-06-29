@@ -38,8 +38,8 @@
 
     <string name="new_alarm_created_message">New reminder set</string>
 
-
-
+    <string name="context_menu_edit"> Edit </string>
+    <string name="context_menu_delete"> Delete </string>
 
 
 </resources>

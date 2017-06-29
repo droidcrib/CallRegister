@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void newMemoDialog() {
+    public void newMemoDialog() {
         // Messages
         String msg = getString(R.string.new_note);
         String buttonYes = getString(R.string.new_note_done);

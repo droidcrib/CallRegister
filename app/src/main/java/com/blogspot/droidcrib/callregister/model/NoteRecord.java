@@ -57,5 +57,12 @@ public class NoteRecord extends Model {
                 .execute();
     }
 
+    public static void update(long recordId, String memoText){
+        NoteRecord noteRecord = NoteRecord.load(NoteRecord.class, recordId);
+        noteRecord.memoText = memoText;
+        noteRecord.save();
+
+    }
+
 
 }

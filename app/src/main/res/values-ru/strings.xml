@@ -37,6 +37,9 @@
 
     <string name="new_alarm_created_message">Новое напоминание установлено</string>
 
+    <string name="context_menu_edit"> Редактировать </string>
+    <string name="context_menu_delete"> Удалить </string>
+
 
 
 </resources>
