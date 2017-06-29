@@ -58,6 +58,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
     TextView mDisplayName;
     ImageView mDisplayCallType;
     SimpleDraweeView mDisplayAvatar;
+    Button mCancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
         mDisplayAvatar = (SimpleDraweeView) findViewById(R.id.id_user_avatar);
         mNoteButton = (Button) findViewById(R.id.id_dialog_button_note);
         mReminderButton = (Button) findViewById(R.id.id_dialog_button_reminder);
-        Button mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
+        mCancelButton = (Button) findViewById(R.id.id_dialog_button_cancel);
         mNote = (EditText) findViewById(R.id.id_dialog_note);
 
         // Get call data
@@ -86,6 +87,7 @@ public class CallMemoDialogActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mNoteButton.setVisibility(View.GONE);
                 mReminderButton.setVisibility(View.GONE);
+                mCancelButton.setText(R.string.new_note_done);
                 isNoAction = false;
                 mNote.setVisibility(View.VISIBLE);
             }
