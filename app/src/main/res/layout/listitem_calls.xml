@@ -21,7 +21,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:paddingLeft="72dp">
@@ -37,6 +37,7 @@
             android:scrollHorizontally="true"
             android:ellipsize="end"
             android:hint="Person Name"
+            android:paddingRight="40dp"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -67,30 +68,18 @@
     </LinearLayout>
 
 
-    <ImageView
-        android:id="@+id/id_image_view_details"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:alpha="0.5"
-        android:clickable="true"
-        android:padding="4dp"
-        android:src="@drawable/ic_comment_black_48dp"
-        android:visibility="invisible"/>
+
 
 
     <ImageView
         android:id="@+id/id_image_view_comment"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/id_image_view_details"
-        android:alpha="0.5"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:alpha="0.3"
         android:clickable="false"
-        android:padding="8dp"
+        android:src="@drawable/ic_alarm_notif"
         android:visibility="visible" />
 
 
