@@ -95,9 +95,9 @@ public class CallDetailsFragment extends Fragment {
 
         if (mAlarmRecordsList != null && mAlarmRecordsList.size() > 0) {
             mAlarmLayout.setVisibility(View.VISIBLE);
-            String date = String.valueOf(mAlarmRecordsList.get(0).year);
+            String convertedTime = new SimpleDateFormat("dd MMM yyyy  HH:mm").format(mAlarmRecordsList.get(0).alarmDateInMillis);
             String memo = mAlarmRecordsList.get(0).memoText;
-            mDisplayAlarmTime.setText(date);
+            mDisplayAlarmTime.setText(convertedTime);
             mDisplayAlarmMemo.setText(memo);
         }
 
