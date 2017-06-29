@@ -54,8 +54,8 @@ public class NewReminderActivity extends AppCompatActivity {
     private ImageView mDisplayCallType;
     private SimpleDraweeView mDisplayAvatar;
     private TabLayout mTabLayout;
-    private static Calendar mCalendar = Calendar.getInstance();
-    private static Date mDate = new Date();
+    private Calendar mCalendar = Calendar.getInstance();
+    private Date mDate = new Date();
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private AlarmHolder alarmHolder = new AlarmHolder();
@@ -260,7 +260,7 @@ public class NewReminderActivity extends AppCompatActivity {
         alarmHolder.dayOfMonth = event.getDayOfMonth();
 
         // Setup tab header
-        String dateStr = event.getMonth() + "/" + event.getDayOfMonth() + "/" + event.getYear();
+        String dateStr = (event.getMonth()+1) + "/" + event.getDayOfMonth() + "/" + event.getYear();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             mDate = sdf.parse(dateStr);
