@@ -45,7 +45,6 @@
         android:gravity="center|start"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
-        android:hint="Note"
         android:lines="1"
         android:scrollHorizontally="true"
         android:textSize="14sp" />
@@ -62,7 +61,6 @@
         android:gravity="center|start"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
-        android:hint="Note"
         android:scrollHorizontally="true"
         android:textSize="14sp"
         android:visibility="gone" />

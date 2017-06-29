@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/alarm_image"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:hint="time"
         android:textSize="18sp" />
 
     <TextView
@@ -34,7 +33,6 @@
         android:layout_toRightOf="@id/alarm_image"
         android:layout_below="@id/id_detail_time"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:hint="text"
         android:textSize="18sp" />
 
 

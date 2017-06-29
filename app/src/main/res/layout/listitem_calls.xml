@@ -63,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
                 android:fontFamily="sans-serif"
-                android:hint="12:00"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
