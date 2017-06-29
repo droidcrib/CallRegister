@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.blogspot.droidcrib.callregister.receivers.AlarmsReceiver;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,6 +74,33 @@ public class AlarmRecord extends Model {
         alarmRecord.save();
 
         return alarmRecord.getId();
+    }
+
+    public static void update(long recordId, int year, int month, int dayOfMonth, int hourOfDay, int minute, CallRecord callRecord, String memoText) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+
+        AlarmRecord alarmRecord = AlarmRecord.load(AlarmRecord.class, recordId);
+        alarmRecord.year = year;
+        alarmRecord.month = month;
+        alarmRecord.dayOfMonth = dayOfMonth;
+        alarmRecord.hourOfDay = hourOfDay;
+        alarmRecord.minute = minute;
+        alarmRecord.memoText = memoText;
+        alarmRecord.callRecord = callRecord;
+        if (callRecord != null) {
+            alarmRecord.callRecord.name = callRecord.name;
+            alarmRecord.callRecord.phone = callRecord.phone;
+            alarmRecord.callRecord.avatarUri = callRecord.avatarUri;
+        }
+        alarmRecord.alarmDateInMillis = calendar.getTimeInMillis();
+        alarmRecord.save();
     }
 
     public static AlarmRecord getRecordById(long id) {

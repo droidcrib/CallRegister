@@ -1,5 +1,6 @@
 package com.blogspot.droidcrib.callregister.ui.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -22,6 +23,7 @@ import com.blogspot.droidcrib.callregister.eventbus.NewCallEvent;
 import com.blogspot.droidcrib.callregister.loaders.AlarmRecordsLoader;
 import com.blogspot.droidcrib.callregister.model.AlarmRecord;
 import com.blogspot.droidcrib.callregister.ui.activities.MainActivity;
+import com.blogspot.droidcrib.callregister.ui.activities.NewReminderActivity;
 import com.blogspot.droidcrib.callregister.ui.adapters.AlarmsListAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,6 +32,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
+import static com.blogspot.droidcrib.callregister.contract.Constants.EXTRA_ALARM_RECORD_ID;
 
 /**
  * Created by BulanovA on 21.06.2017.
@@ -141,6 +145,11 @@ public class AlarmsListFragment extends Fragment implements LoaderManager.Loader
             case R.id.context_menu_item_delete_alarm:
                 new RemoveRecordTask().execute(mRecordId);
                 getLoaderManager().restartLoader(0, null, this);
+                return true;
+            case R.id.context_menu_item_edit_alarm:
+                Intent i = new Intent(getActivity(), NewReminderActivity.class);
+                i.putExtra(EXTRA_ALARM_RECORD_ID, mRecordId);
+                startActivity(i);
                 return true;
         }
         return super.onContextItemSelected(item);

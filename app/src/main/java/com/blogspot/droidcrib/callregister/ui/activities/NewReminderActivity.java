@@ -60,6 +60,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private PendingIntent alarmIntent;
     private AlarmHolder alarmHolder = new AlarmHolder();
     private RelativeLayout idCallInfo;
+    private long mAlarmRecordId;
 
 
     @Override
@@ -69,6 +70,7 @@ public class NewReminderActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
+        mAlarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
         mCallRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, -1);
         CallRecord callRecord = CallRecord.getRecordById(mCallRecordId);
 
@@ -130,6 +132,10 @@ public class NewReminderActivity extends AppCompatActivity {
                 if (position == 1) {
                     // do something with content
                 }
+                if (position == 1) {
+                    // do something with content
+//                    mViewPager.get
+                }
             }
         });
 
@@ -175,7 +181,6 @@ public class NewReminderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (mCallRecordId == -1 && alarmHolder.memoText.length() == 0) {
-
                     mViewPager.setCurrentItem(2);
                     Snackbar.make(view, R.string.new_note_add_comment, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -183,24 +188,37 @@ public class NewReminderActivity extends AppCompatActivity {
                 }
 
                 // TODO: do this in asynctask
-                long recId = AlarmRecord.insert(
-                        alarmHolder.year,
-                        alarmHolder.month,
-                        alarmHolder.dayOfMonth,
-                        alarmHolder.hourOfDay,
-                        alarmHolder.minute,
-                        alarmHolder.callRecord,
-                        alarmHolder.memoText
-                );
+                if(mAlarmRecordId == -1) {
+                    mAlarmRecordId = AlarmRecord.insert(
+                            alarmHolder.year,
+                            alarmHolder.month,
+                            alarmHolder.dayOfMonth,
+                            alarmHolder.hourOfDay,
+                            alarmHolder.minute,
+                            alarmHolder.callRecord,
+                            alarmHolder.memoText
+                    );
+                } else {
+                    AlarmRecord.update(
+                            mAlarmRecordId,
+                            alarmHolder.year,
+                            alarmHolder.month,
+                            alarmHolder.dayOfMonth,
+                            alarmHolder.hourOfDay,
+                            alarmHolder.minute,
+                            alarmHolder.callRecord,
+                            alarmHolder.memoText
+                    );
+                }
 
                 // Set new AlarmManager here
                 alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
                 // Set intent with notification message
                 Intent intent = new Intent();
-                intent.putExtra(EXTRA_ALARM_RECORD_ID, recId);
+                intent.putExtra(EXTRA_ALARM_RECORD_ID, mAlarmRecordId);
                 intent.setAction(ACTION_CREATE_NOTIFICATION);
-                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) recId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) mAlarmRecordId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Set alarm date and time
                 mCalendar.setTimeInMillis(System.currentTimeMillis());
