@@ -24,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:orientation="vertical"
+        android:layout_marginBottom="8dp"
         android:paddingLeft="72dp">
 
         <TextView
@@ -79,10 +80,5 @@
         android:layout_alignParentRight="true"
         android:alpha="0.3"
         android:clickable="false"
-        android:src="@drawable/ic_alarm_notif"
-        android:visibility="visible" />
-
-
-
-
+        android:visibility="invisible" />
 </RelativeLayout>
