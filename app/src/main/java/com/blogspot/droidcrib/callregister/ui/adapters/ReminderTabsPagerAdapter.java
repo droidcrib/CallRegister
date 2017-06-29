@@ -40,6 +40,11 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
     int mNumOfTabs;
+    EditText editText;
+
+    public void setEditText(String text) {
+        this.editText.setText(text);
+    }
 
 
     public ReminderTabsPagerAdapter(Context context, int numOfTabs) {
@@ -101,7 +106,7 @@ public class ReminderTabsPagerAdapter extends PagerAdapter {
 
             case 2:
                 final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT); // Width , height
-                EditText editText = new EditText(mContext);
+                editText = new EditText(mContext);
                 editText.setLayoutParams(lparams);
                 frameLayout.addView(editText, 0);
                 editText.addTextChangedListener(new TextWatcher() {

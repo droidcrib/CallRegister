@@ -71,6 +71,7 @@ public class NewReminderActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         mAlarmRecordId = getIntent().getLongExtra(EXTRA_ALARM_RECORD_ID, -1);
+        final AlarmRecord alarmRecord = AlarmRecord.load(AlarmRecord.class, mAlarmRecordId);
         mCallRecordId = getIntent().getLongExtra(EXTRA_CALL_RECORD_ID, -1);
         CallRecord callRecord = CallRecord.getRecordById(mCallRecordId);
 
@@ -132,9 +133,9 @@ public class NewReminderActivity extends AppCompatActivity {
                 if (position == 1) {
                     // do something with content
                 }
-                if (position == 1) {
+                if (position == 2) {
                     // do something with content
-//                    mViewPager.get
+                    ((ReminderTabsPagerAdapter)mViewPager.getAdapter()).setEditText(alarmRecord.memoText);
                 }
             }
         });
