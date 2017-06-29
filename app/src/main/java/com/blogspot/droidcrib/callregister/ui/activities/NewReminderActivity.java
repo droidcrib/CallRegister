@@ -135,7 +135,9 @@ public class NewReminderActivity extends AppCompatActivity {
                 }
                 if (position == 2) {
                     // do something with content
-                    ((ReminderTabsPagerAdapter)mViewPager.getAdapter()).setEditText(alarmRecord.memoText);
+                    if(mAlarmRecordId != -1 && alarmRecord.memoText.length() > 0) {
+                        ((ReminderTabsPagerAdapter) mViewPager.getAdapter()).setEditText(alarmRecord.memoText);
+                    }
                 }
             }
         });

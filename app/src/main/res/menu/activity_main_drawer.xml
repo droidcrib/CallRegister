@@ -5,35 +5,35 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_incoming"
-            android:title="Incoming"
+            android:title="@string/incoming"
             android:icon="@drawable/ic_call_received_black_48dp"
             app:actionLayout="@layout/widget_check" />
 
         <item
             android:id="@+id/nav_outgoing"
-            android:title="Outgoing"
+            android:title="@string/outgoing"
             android:icon="@drawable/ic_call_made_black_48dp"
             app:actionLayout="@layout/widget_check" />
 
         <item
             android:id="@+id/nav_missed"
-            android:title="Missed"
+            android:title="@string/missed"
             android:icon="@drawable/ic_call_missed_black_48dp"
             app:actionLayout="@layout/widget_check" />
 
 
     </group>
 
-    <item android:title="Action">
+    <item android:title="@string/action_create">
         <menu>
             <item
                 android:id="@+id/nav_note"
                 android:icon="@drawable/ic_comment_black_48dp"
-                android:title="Note" />
+                android:title="@string/create_new_note" />
             <item
                 android:id="@+id/nav_alarm"
                 android:icon="@drawable/ic_alarm_black_48dp"
-                android:title="Alarm" />
+                android:title="@string/create_new_reminder" />
         </menu>
     </item>
 </menu>

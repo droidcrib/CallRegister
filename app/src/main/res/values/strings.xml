@@ -9,6 +9,10 @@
     <string name="create_new_reminder">Reminder</string>
     <string name="create_new_note">Note</string>
 
+    <string name="button_note"> Note </string>
+    <string name="button_reminder"> Reminder </string>
+    <string name="button_cancel"> Cancel </string>
+
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
 

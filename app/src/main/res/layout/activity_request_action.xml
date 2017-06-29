@@ -81,7 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="1"
-            android:text="Note" />
+            android:textSize="12sp"
+            android:text="@string/button_note" />
 
         <Button
             android:id="@+id/id_dialog_button_reminder"
@@ -89,20 +90,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:focusable="true"
-            android:text="Reminder" />
+            android:textSize="12sp"
+            android:text="@string/button_reminder" />
 
         <Button
             android:id="@+id/id_dialog_button_cancel"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:focusable="true"
-            android:text="Close" />
+            android:textSize="12sp"
+            android:text="@string/button_cancel" />
     </LinearLayout>
 </LinearLayout>
