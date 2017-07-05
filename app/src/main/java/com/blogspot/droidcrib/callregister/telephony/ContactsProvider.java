@@ -119,7 +119,14 @@ public class ContactsProvider {
 
     private static String parseLastTenDigits(String phoneNumber) {
         //Remove all non numeric symbols in number
-        String nospaceNumber = phoneNumber.replaceAll("\\D+", "");
+        String nospaceNumber = "0";
+        try {
+            nospaceNumber = phoneNumber.replaceAll("\\D+", "");
+        } catch (NullPointerException e) {
+            Log.e("noPhoneNumber", e.toString());
+        } finally {
+
+        }
         // Get last 10 digits of phone number
         return nospaceNumber.length() > 10
                 ? nospaceNumber.substring(nospaceNumber.length() - 10)
